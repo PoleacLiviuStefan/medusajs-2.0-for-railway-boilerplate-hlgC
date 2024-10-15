@@ -3,7 +3,7 @@ import { getCollectionsList } from "@lib/data/collections"
 import { Text, clx } from "@medusajs/ui"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import InteractiveList from "./InteractiveList"; 
+import InteractiveList from "./interactiveList"; 
 import Image from 'next/image' // Importă componenta Image
 import SAL from '../../../../../public/Imagini/SAL.svg'
 import SOL from '../../../../../public/Imagini/SOL.svg'
