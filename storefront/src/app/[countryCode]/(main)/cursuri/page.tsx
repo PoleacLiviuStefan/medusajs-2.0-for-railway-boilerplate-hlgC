@@ -1,8 +1,8 @@
 import React from 'react'
-import cursDeBaza from '../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg'
-import cursDePerfectionare from '../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg'
-import cursVip from '../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg'
-import CursMainPreview from '../../(components)/Courses/CursMainPreview'
+import cursDeBaza from '../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg'
+import cursDePerfectionare from '../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg'
+import cursVip from '../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg'
+import CursMainPreview from '../../../(components)/Courses/CursMainPreview'
 
 const page = () => {
   return (

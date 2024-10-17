@@ -1,12 +1,8 @@
-"use client"; // Adaugă această linie pentru a marca componenta ca Client Component
-
+"use client"; 
 import React, { useState } from 'react';
-
 
 const AboutMain = () => {
   const [activateAbout, setActivateAbout] = useState(false);
-
-
   return (
     <div name="DespreNoi" className='relative text-white shadow-xl'>
       <div className='bg-[#0b2a24] flex font-montSerrat flex-col items-center justify-center h-full w-full py-[5rem]'>

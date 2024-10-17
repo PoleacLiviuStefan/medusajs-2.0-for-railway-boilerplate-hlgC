@@ -3,7 +3,7 @@ import LocalizedClientLink from '@modules/common/components/localized-client-lin
 import React from 'react';
 import Image from 'next/image'; // Importă componenta Image
 
-const CursMainPreview = ({ imagine, subTitlu, titlu, descriere, redirectionare, secondTitle, baza }) => {
+const CursMainPreview = ({ imagine, subTitlu, titlu, descriere, redirectionare, secondTitle="", baza }) => {
   return (
     <div className="relative my-[5rem] w-[20rem] lg:w-[60rem] h-full lg:py-0 lg:h-[30rem] bg-white flex flex-col lg:flex-row lg:justify-between items-center border-[1px] border-yellow-400 font-montSerrat shadow-xl">
       {/* Folosește Image din next/image */}
