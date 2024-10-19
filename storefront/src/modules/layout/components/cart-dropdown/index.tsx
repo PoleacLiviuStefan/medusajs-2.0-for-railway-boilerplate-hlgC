@@ -1,14 +1,13 @@
-"use client"
+'use client'
 
 import { Popover, Transition } from "@headlessui/react"
 import { Button } from "@medusajs/ui"
 import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
-
+import { MdOutlineShoppingCart } from "react-icons/md" // Importăm iconul coșului de cumpărături
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 import DeleteButton from "@modules/common/components/delete-button"
-import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
@@ -77,12 +76,15 @@ const CartDropdown = ({
     >
       <Popover className="relative h-full">
         <Popover.Button className="h-full">
-          <LocalizedClientLink
-            className="hover:text-ui-fg-base text-lg "
-            href="/cart"
-            data-testid="nav-cart-link"
-          >{`Cos (${totalItems})`}</LocalizedClientLink>
+          {/* Flex pentru a afișa iconița coșului de cumpărături */}
+          <div className="flex items-center">
+            <MdOutlineShoppingCart className="text-2xl" />
+            {/* Afișează textul doar pe desktop */}
+            <span className="hidden lg:inline-block ml-1 text-lg">{`Cos (${totalItems})`}</span>
+          </div>
         </Popover.Button>
+
+        {/* Afișează dropdown-ul pe mobil și desktop */}
         <Transition
           show={cartDropdownOpen}
           as={Fragment}
@@ -95,15 +97,22 @@ const CartDropdown = ({
         >
           <Popover.Panel
             static
-            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
+            className="absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 text-ui-fg-base z-50 w-full sm:w-[420px]" // Dimensiuni mai mici pe mobil
             data-testid="nav-cart-dropdown"
           >
-            <div className="p-4 flex items-center justify-center">
+            <div className="p-4 flex items-center justify-between">
               <h3 className="text-large-semi">Cos</h3>
+              {/* Buton de închidere vizibil doar pe telefon */}
+              <button
+                onClick={close}
+                className="sm:hidden text-gray-500 hover:text-black"
+              >
+                Inchide
+              </button>
             </div>
             {cartState && cartState.items?.length ? (
               <>
-                <div className="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
+                <div className="overflow-y-scroll max-h-[200px] sm:max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
                   {cartState.items
                     .sort((a, b) => {
                       return (a.created_at ?? "") > (b.created_at ?? "")
@@ -198,11 +207,8 @@ const CartDropdown = ({
                   </div>
                   <span>Cosul este gol</span>
                   <div>
-                    <LocalizedClientLink href="/store">
-                      <>
-                        <span className="sr-only">Spre pagina de produse</span>
-                        <Button onClick={close}>Exploreaza produse</Button>
-                      </>
+                    <LocalizedClientLink href="/magazin">
+                      <Button onClick={close}>Exploreaza produse</Button>
                     </LocalizedClientLink>
                   </div>
                 </div>

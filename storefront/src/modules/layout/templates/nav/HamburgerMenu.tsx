@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react"
-import { FiMenu, FiX } from "react-icons/fi"
+import { FiMenu, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 // Definim tipul pentru SideMenuItems
@@ -9,8 +9,22 @@ type SideMenuItemsType = {
   [key: string]: string
 }
 
-export default function HamburgerMenu({ SideMenuItems }: { SideMenuItems: SideMenuItemsType }) {
+type CollectionType = {
+  id: string
+  title: string
+  handle: string
+}
+
+export default function HamburgerMenu({
+  SideMenuItems,
+  collections,
+}: {
+  SideMenuItems: SideMenuItemsType
+  collections: CollectionType[]
+}) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false) // Stare pentru dropdown-ul colecțiilor
+  const [cursuriDropdownOpen, setCursuriDropdownOpen] = useState(false) // Stare pentru dropdown-ul cursurilor
 
   return (
     <>
@@ -49,13 +63,103 @@ export default function HamburgerMenu({ SideMenuItems }: { SideMenuItems: SideMe
         <ul className="p-4 mt-[20px]">
           {Object.entries(SideMenuItems).map(([name, href]) => (
             <li key={name} className="relative py-2 text-black">
-              <LocalizedClientLink
-                href={href}
-                className="text-[16px] leading-10 hover:text-ui-fg-base"
-                onClick={() => setMenuOpen(false)} // Închide meniul după click
-              >
-                {name}
-              </LocalizedClientLink>
+              {/* Verificăm dacă este "Magazin" sau "Cursuri Profesionale" pentru a afișa dropdown-ul */}
+              {name === "Magazin" || name === "Cursuri Profesionale" ? (
+                <div className="flex justify-between items-center">
+                  {/* Link către pagina "Magazin" sau "Cursuri Profesionale" */}
+                  <LocalizedClientLink
+                    href={href}
+                    className="text-[16px] leading-10 hover:text-ui-fg-base"
+                    onClick={() => setMenuOpen(false)} // Închide meniul după click
+                  >
+                    {name}
+                  </LocalizedClientLink>
+                  {/* Buton pentru deschiderea dropdown-ului */}
+                  <button
+                    onClick={() =>
+                      name === "Magazin"
+                        ? setDropdownOpen(!dropdownOpen)
+                        : setCursuriDropdownOpen(!cursuriDropdownOpen)
+                    }
+                    className="ml-2"
+                  >
+                    {name === "Magazin" ? (
+                      dropdownOpen ? <FiChevronUp /> : <FiChevronDown />
+                    ) : cursuriDropdownOpen ? (
+                      <FiChevronUp />
+                    ) : (
+                      <FiChevronDown />
+                    )}
+                  </button>
+                </div>
+              ) : (
+                <LocalizedClientLink
+                  href={href}
+                  className="text-[16px] leading-10 hover:text-ui-fg-base"
+                  onClick={() => setMenuOpen(false)} // Închide meniul după click
+                >
+                  {name}
+                </LocalizedClientLink>
+              )}
+
+              {/* Dropdown pentru colecții din "Magazin" */}
+              {name === "Magazin" && dropdownOpen && (
+                <ul className="pl-4">
+                  <li className="py-2">
+                    <LocalizedClientLink
+                      href={`/magazin`}
+                      className="text-[14px] hover:text-ui-fg-base"
+                      onClick={() => setMenuOpen(false)} // Închide meniul după click
+                    >
+                      Toate Produsele
+                    </LocalizedClientLink>
+                  </li>
+                  {collections.map((collection) => (
+                    <li key={collection.id} className="py-2">
+                      <LocalizedClientLink
+                        href={`/collections/${collection.handle}`}
+                        className="text-[14px] hover:text-ui-fg-base"
+                        onClick={() => setMenuOpen(false)} // Închide meniul după click
+                      >
+                        {collection.title}
+                      </LocalizedClientLink>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* Dropdown pentru "Cursuri Profesionale" */}
+              {name === "Cursuri Profesionale" && cursuriDropdownOpen && (
+                <ul className="pl-4">
+                  <li className="py-2">
+                    <LocalizedClientLink
+                      href={`/cursuri/curs-de-baza`}
+                      className="text-[14px] hover:text-ui-fg-base"
+                      onClick={() => setMenuOpen(false)} // Închide meniul după click
+                    >
+                      Curs de Bază
+                    </LocalizedClientLink>
+                  </li>
+                  <li className="py-2">
+                    <LocalizedClientLink
+                      href={`/cursuri/curs-de-efecte-speciale`}
+                      className="text-[14px] hover:text-ui-fg-base"
+                      onClick={() => setMenuOpen(false)} // Închide meniul după click
+                    >
+                      Curs de Efecte Speciale
+                    </LocalizedClientLink>
+                  </li>
+                  <li className="py-2">
+                    <LocalizedClientLink
+                      href={`/cursuri/curs-vip`}
+                      className="text-[14px] hover:text-ui-fg-base"
+                      onClick={() => setMenuOpen(false)} // Închide meniul după click
+                    >
+                      Curs VIP
+                    </LocalizedClientLink>
+                  </li>
+                </ul>
+              )}
               <span className="absolute left-0 bottom-0 w-full h-[1px] bg-gray-200 " />
             </li>
           ))}

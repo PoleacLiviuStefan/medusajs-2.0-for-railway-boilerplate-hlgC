@@ -102,6 +102,7 @@ if (sendgridConfigured) {
 
 /** @type {import('@medusajs/medusa').ConfigModule['projectConfig']} */
 const projectConfig = {
+  redis_url: process.env.REDIS_URL,
   http: {
     adminCors: process.env.ADMIN_CORS,
     authCors: process.env.AUTH_CORS,
