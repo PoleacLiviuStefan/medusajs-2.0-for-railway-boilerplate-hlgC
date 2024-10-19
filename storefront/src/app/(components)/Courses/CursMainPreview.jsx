@@ -19,7 +19,7 @@ const CursMainPreview = ({ imagine, subTitlu, titlu, descriere, redirectionare, 
         <h2 className="text-[18px] lg:text-[32px] font-oswald font-extrabold text-center">{titlu}</h2>
         <h3 className="lg:text-[22px] font-norican">{secondTitle}</h3>
         <p className="w-[80%] text-[14px] lg:text-[16px] text-justify mt-[1rem]">{descriere}</p>
-        <LocalizedClientLink to={`/${redirectionare}`}>
+        <LocalizedClientLink href={`/${redirectionare}`}>
           <button
             onClick={() => {
               window.scrollTo({ top: 0, left: 0 });

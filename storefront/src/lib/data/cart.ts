@@ -11,61 +11,60 @@ import { getProductsById } from "./products"
 import { getRegion } from "./regions"
 
 export async function retrieveCart() {
-  const cartId = getCartId()
+  const cartId = getCartId();
 
   if (!cartId) {
-    return null
+    return null;
   }
 
-  return await sdk.store.cart
-    .retrieve(cartId, {}, { next: { tags: ["cart"] }, ...getAuthHeaders() })
-    .then(({ cart }) => cart)
-    .catch(() => {
-      return null
-    })
+  try {
+    const { cart } = await sdk.store.cart.retrieve(
+      cartId,
+      {},
+      { next: { tags: ["cart"] }, ...getAuthHeaders() }
+    );
+    return cart;
+  } catch (error) {
+    return null;
+  }
 }
 
 export async function getOrSetCart(countryCode: string) {
-  let cart = await retrieveCart()
-  const region = await getRegion(countryCode)
+  let cart = await retrieveCart();
+  const region = await getRegion(countryCode);
 
   if (!region) {
-    throw new Error(`Region not found for country code: ${countryCode}`)
+    throw new Error(`Region not found for country code: ${countryCode}`);
   }
 
   if (!cart) {
-    const cartResp = await sdk.store.cart.create({ region_id: region.id })
-    cart = cartResp.cart
-    setCartId(cart.id)
-    revalidateTag("cart")
+    const cartResp = await sdk.store.cart.create({ region_id: region.id });
+    cart = cartResp.cart;
+    setCartId(cart.id);
+    revalidateTag("cart");
   }
 
-  if (cart && cart?.region_id !== region.id) {
-    await sdk.store.cart.update(
-      cart.id,
-      { region_id: region.id },
-      {},
-      getAuthHeaders()
-    )
-    revalidateTag("cart")
+  if (cart && cart.region_id !== region.id) {
+    await sdk.store.cart.update(cart.id, { region_id: region.id }, {}, getAuthHeaders());
+    revalidateTag("cart");
   }
 
-  return cart
+  return cart;
 }
 
 export async function updateCart(data: HttpTypes.StoreUpdateCart) {
-  const cartId = getCartId()
+  const cartId = getCartId();
   if (!cartId) {
-    throw new Error("No existing cart found, please create one before updating")
+    throw new Error("No existing cart found, please create one before updating");
   }
 
-  return sdk.store.cart
-    .update(cartId, data, {}, getAuthHeaders())
-    .then(({ cart }) => {
-      revalidateTag("cart")
-      return cart
-    })
-    .catch(medusaError)
+  try {
+    const { cart } = await sdk.store.cart.update(cartId, data, {}, getAuthHeaders());
+    revalidateTag("cart");
+    return cart;
+  } catch (error) {
+    medusaError(error);
+  }
 }
 
 export async function addToCart({
@@ -111,7 +110,7 @@ export async function addToCart({
   }
 
   // Calculează valoarea totală a coșului actualizat
-  const totalCartValue = updatedCart.items.reduce(
+  const totalCartValue = updatedCart?.items?.reduce(
     (total, item) => total + item.unit_price * item.quantity,
     0
   )
@@ -119,9 +118,9 @@ export async function addToCart({
   console.log("totalCartValue", totalCartValue)
 
   // Dacă valoarea totală depășește 1000 RON, aplică reducerea automat
-  if (totalCartValue > 100) { // 1000 RON în subunități
-    const discountCode = "Lorena12" // Codul discountului
-    await applyPromotions([discountCode]) // Aplică automat discountul
+  if ((totalCartValue ?? 0) > 100) { // 1000 RON în subunități
+    const discountCode = "Lorena12"; // Codul discountului
+    await applyPromotions([discountCode]); // Aplică automat discountul
   }
 }
 

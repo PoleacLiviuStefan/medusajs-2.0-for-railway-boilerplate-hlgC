@@ -18,7 +18,8 @@ export default async function TopSellingProducts({
     return null
   }
 
-  const { products = [], count } = await getTopSellingProducts({
+  // Extragem 'response' din rezultatul lui getTopSellingProducts
+  const { response: { products = [], count } } = await getTopSellingProducts({
     page,
     countryCode,
     queryParams: { limit: PRODUCT_LIMIT },

@@ -23,6 +23,7 @@ export default async function Profile() {
     notFound()
   }
 
+  console.log(customer)
   return (
     <div className="w-full" data-testid="profile-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">

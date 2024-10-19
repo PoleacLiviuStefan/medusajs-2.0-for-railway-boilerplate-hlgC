@@ -23,6 +23,7 @@
     "@types/react": "17.0.40"
   },
   "dependencies": {
+    "@babel/runtime": "^7.25.7",
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
     "@medusajs/js-sdk": "preview",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "@babel/plugin-transform-runtime": "^7.25.7",
     "@medusajs/client-types": "preview",
     "@medusajs/ui-preset": "preview",
     "@playwright/test": "^1.41.1",

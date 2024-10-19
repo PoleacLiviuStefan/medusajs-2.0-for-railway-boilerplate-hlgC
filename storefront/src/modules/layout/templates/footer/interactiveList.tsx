@@ -8,11 +8,7 @@ export default function InteractiveList() {
       <li className='mt-[1rem] cursor-pointer text-[14px]'>
         <LocalizedClientLink
           activeClass="active"
-          to="Hero"
-          spy={true}
-          smooth={true}
-          offset={-50}
-          duration={500}
+          href="/acasa"
         >
           ACASA
         </LocalizedClientLink>
@@ -20,12 +16,7 @@ export default function InteractiveList() {
       <li className='cursor-pointer text-[14px]'>
         <LocalizedClientLink
           activeClass="active"
-          to="DespreNoi"
-          spy={true}
-          smooth={true}
-          offset={-50}
-          delay={200}
-          duration={500}
+          href="despre-noi"
         >
           DESPRE NOI
         </LocalizedClientLink>
@@ -36,11 +27,7 @@ export default function InteractiveList() {
       <li className='cursor-pointer text-[14px]'>
         <LocalizedClientLink
           activeClass="active"
-          to="Contact"
-          spy={true}
-          smooth={true}
-          offset={-50}
-          duration={500}
+          href="/contact"
         >
           CONTACT
         </LocalizedClientLink>

@@ -5,6 +5,7 @@ import { getRegion } from "./regions"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { sortProducts } from "@lib/util/sort-products"
 
+// Funcție pentru a obține produsele după ID-uri
 export const getProductsById = cache(async function ({
   ids,
   regionId,
@@ -24,6 +25,7 @@ export const getProductsById = cache(async function ({
     .then(({ products }) => products)
 })
 
+// Funcție pentru a obține un produs după handle
 export const getProductByHandle = cache(async function (
   handle: string,
   regionId: string
@@ -40,6 +42,7 @@ export const getProductByHandle = cache(async function (
     .then(({ products }) => products[0])
 })
 
+// Funcție pentru a obține lista de produse cu paginare
 export const getProductsList = cache(async function ({
   pageParam = 1,
   queryParams,
@@ -54,7 +57,7 @@ export const getProductsList = cache(async function ({
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
 }> {
   const limit = queryParams?.limit || 12
-  const offset = Math.max(0, (pageParam - 1) * limit);
+  const offset = Math.max(0, (pageParam - 1) * limit)
 
   const region = await getRegion(countryCode)
 
@@ -83,20 +86,15 @@ export const getProductsList = cache(async function ({
           products,
           count,
         },
-        nextPage: nextPage,
+        nextPage,
         queryParams,
       }
     })
 })
 
-/**
- * This will fetch 100 products to the Next.js cache and sort them based on the sortBy parameter.
- * It will then return the paginated products based on the page and limit parameters.
- * 
- */
-
+// Funcție pentru a obține produsele cele mai vândute
 export const getTopSellingProducts = cache(async function ({
-  page = 0,
+  page = 1,
   queryParams,
   countryCode,
 }: {
@@ -122,14 +120,15 @@ export const getTopSellingProducts = cache(async function ({
     countryCode,
   })
 
-  // Sortează produsele pe baza unui criteriu de vânzări, cum ar fi `sold_quantity`
+  // Sortează produsele pe baza unui criteriu existent sau utilizează alt criteriu
   const sortedProducts = products.sort((a, b) => {
-    // Presupunem că produsele au un câmp `sold_quantity`
-    return (b.sold_quantity || 0) - (a.sold_quantity || 0)
+    // Verificăm dacă `sold_quantity` există, altfel folosim un criteriu alternativ (ex.: preț)
+    const soldA = (a as any).sold_quantity || 0
+    const soldB = (b as any).sold_quantity || 0
+    return soldB - soldA
   })
 
   const pageParam = (page - 1) * limit
-
   const nextPage = count > pageParam + limit ? pageParam + limit : null
 
   // Returnează produsele sortate, paginându-le
@@ -145,8 +144,10 @@ export const getTopSellingProducts = cache(async function ({
   }
 })
 
+
+// Funcție pentru a obține lista de produse cu opțiuni de sortare
 export const getProductsListWithSort = cache(async function ({
-  page = 0,
+  page = 1,
   queryParams,
   sortBy = "created_at",
   countryCode,
@@ -162,6 +163,7 @@ export const getProductsListWithSort = cache(async function ({
 }> {
   const limit = queryParams?.limit || 12
 
+  // Obține lista de produse
   const {
     response: { products, count },
   } = await getProductsList({
@@ -173,12 +175,13 @@ export const getProductsListWithSort = cache(async function ({
     countryCode,
   })
 
+  // Sortează produsele în funcție de criteriul sortBy
   const sortedProducts = sortProducts(products, sortBy)
 
   const pageParam = (page - 1) * limit
-
   const nextPage = count > pageParam + limit ? pageParam + limit : null
 
+  // Returnează produsele sortate și paginarea
   const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
 
   return {

@@ -4,7 +4,12 @@ import React, { useState } from "react"
 import { FiMenu, FiX } from "react-icons/fi"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
-export default function HamburgerMenu({ SideMenuItems }) {
+// Definim tipul pentru SideMenuItems
+type SideMenuItemsType = {
+  [key: string]: string
+}
+
+export default function HamburgerMenu({ SideMenuItems }: { SideMenuItems: SideMenuItemsType }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
