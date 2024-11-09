@@ -1,4 +1,5 @@
 import { loadEnv, Modules, defineConfig } from '@medusajs/utils';
+import corsMiddleware from "./src/plugins/cors-middleware";
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -41,7 +42,7 @@ const modules = {
 };
 
 // Redis configuration
-
+/*
  if (process.env.REDIS_URL) {
   console.log('Redis url found, enabling event bus with redis');
   modules[Modules.EVENT_BUS] = {
@@ -51,6 +52,7 @@ const modules = {
     }
   };
 } 
+  */
   
 
 // Stripe payment provider
@@ -102,17 +104,17 @@ if (sendgridConfigured) {
 
 /** @type {import('@medusajs/medusa').ConfigModule['projectConfig']} */
 const projectConfig = {
-  redis_url: process.env.REDIS_URL,
   http: {
+    storeCors: process.env.STORE_CORS,
     adminCors: process.env.ADMIN_CORS,
     authCors: process.env.AUTH_CORS,
-    storeCors: process.env.STORE_CORS,
     jwtSecret: process.env.JWT_SECRET,
-    cookieSecret: process.env.COOKIE_SECRET
+    cookieSecret: process.env.COOKIE_SECRET,
   },
   database_url: process.env.DATABASE_URL,
   database_type: 'postgres',
-   ...(process.env.REDIS_URL && { redisUrl: process.env.REDIS_URL }) 
+
+   //...(process.env.REDIS_URL && { redisUrl: process.env.REDIS_URL }) 
 };
 
 const completeConfig = {
@@ -121,7 +123,21 @@ const completeConfig = {
   modules,
   admin: {
     ...!isDev && { backendUrl }
-  }
+  },
+  middlewares: [
+    corsMiddleware,
+    
+  ],
+  server: {
+    proxy: {
+      '/external': {
+        target: 'http://localhost:9000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/external/, ''), // elimină prefixul /external
+      },
+    },
+  },
+  
 };
 
 export default defineConfig(completeConfig);

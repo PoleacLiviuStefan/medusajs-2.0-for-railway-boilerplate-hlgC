@@ -5,6 +5,7 @@ import cursDePerfectionare from '../../../../public/Imagini/cursuri/cursDePerfec
 import cursVip from '../../../../public/Imagini/cursuri/cursVip_preview.jpg';
 import CursMainPreview from '../../(components)/Courses/CursMainPreview'
 
+
 const Cursuri = () => {
   return (
     <div className='flex flex-col justify-center items-center w-full h-full py-[5rem] lg:py-[10rem]'>

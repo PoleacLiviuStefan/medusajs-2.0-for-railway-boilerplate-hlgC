@@ -80,7 +80,7 @@ const CartDropdown = ({
           <div className="flex items-center">
             <MdOutlineShoppingCart className="text-2xl" />
             {/* Afișează textul doar pe desktop */}
-            <span className="hidden lg:inline-block ml-1 text-lg">{`Cos (${totalItems})`}</span>
+            <span className="hidden lg:inline-block ml-1 text-sm">{`COS (${totalItems})`}</span>
           </div>
         </Popover.Button>
 

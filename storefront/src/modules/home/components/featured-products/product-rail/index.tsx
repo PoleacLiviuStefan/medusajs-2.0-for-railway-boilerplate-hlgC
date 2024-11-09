@@ -20,7 +20,7 @@ export default function ProductRail({
   }
 
 
-
+ 
   return (
     <div className="content-container py-12 small:py-24">
       <div className="flex justify-between mb-8 text-red-400">
@@ -29,7 +29,7 @@ export default function ProductRail({
           Vezi mai multe
         </InteractiveLink>
       </div>
-      <ul className="grid grid-cols-2 small:grid-cols-3 gap-x-6 gap-y-24 small:gap-y-36">
+      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-24 small:gap-y-36">
         {products &&
           products.map((product) => (
             <li key={product.id}>

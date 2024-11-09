@@ -1,4 +1,4 @@
-
+'use client'
 
 import React, { Suspense, useState } from "react"
 
@@ -26,6 +26,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   region,
   countryCode,
 }) => {
+
+  const [shownSection,setShownSection] = useState(0);
+
+
   if (!product || !product.id) {
     return notFound()
   }
@@ -63,10 +67,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           <ProductInfo product={product} />
         </div>
       </div>
-      <ul className="flex flex-col lg:flex-row justify-between lg:w-[500px]">
-              <li className="flex flex-col items-center"><button >Descriere</button><span className="bg-[--primary-color] h-[2px] w-[70px]" /></li>
-              <li className="flex flex-col items-center"><button>Informatii suplimentare</button><span className="bg-black h-[2px] w-[165px]" /></li>
-              <li className="flex flex-col items-center"><button>Recenzii</button><span className="bg-black h-[2px] w-[55px]" /></li>
+      <ul className="flex justify-between w-full px-4 lg:w-[500px] font-bold">
+              <li className="flex flex-col items-center"><button onClick={()=>setShownSection(1)}>Descriere</button> {shownSection===1 && <span className="bg-black h-[2px] w-full" />}</li>
+              <li className="flex flex-col items-center"><button onClick={()=>setShownSection(2)}>Informatii suplimentare</button>{shownSection===2 && <span className="bg-black h-[2px] w-full" />}</li>
+              <li className="flex flex-col items-center"><button onClick={()=>setShownSection(3)}>Recenzii</button>{shownSection===3 && <span className="bg-black h-[2px] w-full" />}</li>
       </ul>
       <span className="my-[20px] w-full bg-gray-300 h-[1px]" />
       <Text

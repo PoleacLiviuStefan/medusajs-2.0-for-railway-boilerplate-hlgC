@@ -1,42 +1,51 @@
-import { Metadata } from "next"
-
 import SearchResultsTemplate from "@modules/search/templates/search-results-template"
+import { getProductsList } from "@lib/data/products"
+import { getRegion } from "@lib/data/regions"
 
-import { search } from "@modules/search/actions"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-
-export const metadata: Metadata = {
-  title: "Search",
-  description: "Explore all of our products.",
-}
-
-type Params = {
+export default async function SearchResultsPage({
+  params,
+}: {
   params: { query: string; countryCode: string }
-  searchParams: {
-    sortBy?: SortOptions
-    page?: string
-  }
-}
+}) {
+  const { query, countryCode } = params
 
-export default async function SearchResults({ params, searchParams }: Params) {
-  const { query } = params
-  const { sortBy, page } = searchParams
+  let products = []
+  let region = null
+  let error: string | null = null
 
-  const hits = await search(query).then((data) => data)
+  try {
+    // Obține regiunea pentru codul țării
+    region = await getRegion(countryCode)
+    if (!region) {
+      throw new Error("Region not found")
+    }
 
-  const ids = hits
-    .map((h) => h.objectID || h.id)
-    .filter((id): id is string => {
-      return typeof id === "string"
+    // Obține produsele pe baza query-ului de căutare
+    const { response } = await getProductsList({
+      queryParams: { q: query, limit: 12 }, // Asigură-te că trimiti query-ul pentru filtrare
+      countryCode: countryCode,
     })
 
+    products = response.products
+  } catch (err) {
+    error = "No products found or an error occurred."
+  }
+
+  if (error) {
+    return <p>{error}</p>
+  }
+
   return (
-    <SearchResultsTemplate
-      query={query}
-      ids={ids}
-      sortBy={sortBy}
-      page={page}
-      countryCode={params.countryCode}
-    />
+    <div>
+      {/* Render the search results */}
+      <SearchResultsTemplate
+        query={query}
+        products={products}
+        region={countryCode}
+        sortBy="created_at"
+        page={1}
+        countryCode={countryCode}
+      />
+    </div>
   )
 }

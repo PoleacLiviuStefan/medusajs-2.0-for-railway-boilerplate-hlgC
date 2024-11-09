@@ -42,8 +42,35 @@ export const getProductByHandle = cache(async function (
     .then(({ products }) => products[0])
 })
 
-// Funcție pentru a obține lista de produse cu paginare
-export const getProductsList = cache(async function ({
+// Funcție pentru a obține lista de produse cu paginare și filtrare pe baza queryParams
+export const getProductsList = async function ({
+  queryParams,
+  countryCode,
+}: {
+  queryParams?: { q?: string; id?: string[] }
+  countryCode: string
+}) {
+  const region = await getRegion(countryCode)
+
+  if (!region) {
+    return { response: { products: [], count: 0 } }
+  }
+
+  return sdk.store.product
+    .list(
+      {
+        q: queryParams?.q,
+        id: queryParams?.id, // Filtrare pe baza ID-urilor dacă sunt furnizate
+        region_id: region.id,
+      },
+      { next: { tags: ["products"] } }
+    )
+    .then(({ products, count }) => ({
+      response: { products, count },
+    }))
+}
+
+export const getRelatedProducts = cache(async function ({
   pageParam = 1,
   queryParams,
   countryCode,
@@ -57,10 +84,9 @@ export const getProductsList = cache(async function ({
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
 }> {
   const limit = queryParams?.limit || 12
-  const offset = Math.max(0, (pageParam - 1) * limit)
-
+  const validPageParam = Math.max(pageParam, 1);
+  const offset = (validPageParam - 1) * limit
   const region = await getRegion(countryCode)
-
   if (!region) {
     return {
       response: { products: [], count: 0 },
@@ -80,18 +106,16 @@ export const getProductsList = cache(async function ({
     )
     .then(({ products, count }) => {
       const nextPage = count > offset + limit ? pageParam + 1 : null
-
       return {
         response: {
           products,
           count,
         },
-        nextPage,
+        nextPage: nextPage,
         queryParams,
       }
     })
 })
-
 // Funcție pentru a obține produsele cele mai vândute
 export const getTopSellingProducts = cache(async function ({
   page = 1,
@@ -108,11 +132,9 @@ export const getTopSellingProducts = cache(async function ({
 }> {
   const limit = queryParams?.limit || 12
 
-  // Obține toate produsele (100 pentru sortare)
   const {
     response: { products, count },
   } = await getProductsList({
-    pageParam: 0,
     queryParams: {
       ...queryParams,
       limit: 100, // Fetch 100 products for sorting purposes
@@ -120,19 +142,15 @@ export const getTopSellingProducts = cache(async function ({
     countryCode,
   })
 
-  // Sortează produsele pe baza unui criteriu existent sau utilizează alt criteriu
   const sortedProducts = products.sort((a, b) => {
-    // Verificăm dacă `sold_quantity` există, altfel folosim un criteriu alternativ (ex.: preț)
     const soldA = (a as any).sold_quantity || 0
     const soldB = (b as any).sold_quantity || 0
     return soldB - soldA
   })
 
-  const pageParam = (page - 1) * limit
-  const nextPage = count > pageParam + limit ? pageParam + limit : null
-
-  // Returnează produsele sortate, paginându-le
-  const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+  const offset = (page - 1) * limit
+  const nextPage = count > offset + limit ? page + 1 : null
+  const paginatedProducts = sortedProducts.slice(offset, offset + limit)
 
   return {
     response: {
@@ -144,8 +162,7 @@ export const getTopSellingProducts = cache(async function ({
   }
 })
 
-
-// Funcție pentru a obține lista de produse cu opțiuni de sortare
+// Funcție pentru a obține lista de produse cu opțiuni de sortare și filtrare pe ID-uri
 export const getProductsListWithSort = cache(async function ({
   page = 1,
   queryParams,
@@ -162,34 +179,45 @@ export const getProductsListWithSort = cache(async function ({
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
 }> {
   const limit = queryParams?.limit || 12
+  const offset = (page - 1) * limit
 
-  // Obține lista de produse
+  if (queryParams?.id) {
+    console.log("Filtering products by ID:", queryParams.id)
+  }
+
   const {
     response: { products, count },
   } = await getProductsList({
-    pageParam: 0,
     queryParams: {
       ...queryParams,
-      limit: 100,
+      limit,
+      offset,
     },
     countryCode,
   })
 
-  // Sortează produsele în funcție de criteriul sortBy
   const sortedProducts = sortProducts(products, sortBy)
-
-  const pageParam = (page - 1) * limit
-  const nextPage = count > pageParam + limit ? pageParam + limit : null
-
-  // Returnează produsele sortate și paginarea
-  const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+  const nextPage = count > offset + limit ? page + 1 : null
 
   return {
     response: {
-      products: paginatedProducts,
+      products: sortedProducts,
       count,
     },
     nextPage,
     queryParams,
   }
 })
+
+// Funcție pentru a cauta produsele după query (cuvinte cheie)
+export async function searchProducts(query: string, countryCode: string) {
+  const region = await getRegion(countryCode)
+  if (!region) return []
+
+  const { products } = await sdk.store.product.list({
+    q: query,
+    region_id: region.id,
+  })
+
+  return products
+}

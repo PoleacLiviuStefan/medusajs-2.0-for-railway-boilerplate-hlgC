@@ -29,7 +29,6 @@ export default async function ProductPreview({
     product: pricedProduct,
   })
 
-  console.log("produs",product);
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">

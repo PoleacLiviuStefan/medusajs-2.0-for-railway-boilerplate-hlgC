@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { FiMenu, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
+
 // Definim tipul pentru SideMenuItems
 type SideMenuItemsType = {
   [key: string]: string
@@ -28,6 +29,7 @@ export default function HamburgerMenu({
 
   return (
     <>
+   
       {/* Buton hamburger pentru mobil */}
       <button
         className="lg:hidden text-2xl z-50 fixed top-4 left-4" // Setăm z-index mare și poziționăm butonul astfel încât să fie deasupra overlay-ului
@@ -142,7 +144,7 @@ export default function HamburgerMenu({
                   </li>
                   <li className="py-2">
                     <LocalizedClientLink
-                      href={`/cursuri/curs-de-efecte-speciale`}
+                      href={`/cursuri/curs-de-perfectionare`}
                       className="text-[14px] hover:text-ui-fg-base"
                       onClick={() => setMenuOpen(false)} // Închide meniul după click
                     >
