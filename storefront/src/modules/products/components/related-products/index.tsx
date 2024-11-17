@@ -1,6 +1,6 @@
 import Product from "../product-preview"
 import { getRegion } from "@lib/data/regions"
-import { getProductsList } from "@lib/data/products"
+import { getRelatedProducts } from "@lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 
 type RelatedProductsProps = {
@@ -18,29 +18,32 @@ export default async function RelatedProducts({
     return null
   }
 
-  // Verifică dacă produsul are o colecție
-  if (!product.collection_id) {
+  // Verificăm dacă produsul are o colecție asociată
+  if (!product.collection.id) {
     return null
   }
 
-  // Pregătește parametrii pentru obținerea produselor din aceeași colecție
+  // Pregătește parametrii pentru a obține produsele din aceeași colecție, excludem giftcards
+
+  console.log("produsCurent",product)
   const queryParams: HttpTypes.StoreProductParams = {
     region_id: region.id,
-    collection_id: [product.collection_id],
+    collection_id: [product.collection_id], // Căutăm doar produse din aceeași colecție
     is_giftcard: false,
   }
 
-  // Obține lista produselor din aceeași colecție
-  const products = await getProductsList({
+  // Obținem lista produselor din colecția respectivă
+  const products = await getRelatedProducts({
     queryParams,
     countryCode,
   }).then(({ response }) => {
+    // Filtrăm pentru a exclude produsul curent
     return response.products.filter(
       (responseProduct) => responseProduct.id !== product.id
     )
   })
 
-  // Dacă nu există produse în colecție (altele decât produsul curent), returnează null
+  // Dacă nu există alte produse în colecție, returnăm null pentru a nu afișa secțiunea
   if (!products.length) {
     return null
   }
@@ -56,6 +59,7 @@ export default async function RelatedProducts({
         </p>
       </div>
 
+      {/* Listăm produsele similare */}
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8">
         {products.map((relatedProduct) => (
           <li key={relatedProduct.id}>

@@ -131,7 +131,7 @@ const CursDeBaza = () => {
                     </p>
                     <div className='flex flex-col items-center'>
                     <p className='mt-[1rem] font-bold text-[18px] leading-[17px] lg:leading-[23px]  lg:text-[24px]'>Ai finalizat deja un curs de baza? Avem si un curs de perfectionare pregatit pentru tine.   </p>
-                    <Link to={`/curs-de-perfectionare`}>
+                    <Link to={`/curs-de-efecte-speciale`}>
                     <button onClick={()=>{window.scrollTo({top:0,left:0})}} className='border-[1px] border-yellow-400 font-bold px-[4rem] py-[.5rem] mt-[1rem] transition ease-in-out duration-300 hover:bg-yellow-400 hover:text-white'>Afla mai multe </button>
                     </Link>
                     </div>

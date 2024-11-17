@@ -9,11 +9,11 @@ const SignInPrompt = () => {
           Ai deja un cont?
         </Heading>
         <Text className="txt-medium text-ui-fg-subtle mt-2">
-          logheaza-te pentru a putea cumpara produse
+          Logheaza-te pentru a putea cumpara produse
         </Text>
       </div>
       <div>
-        <LocalizedClientLink href="/account">
+        <LocalizedClientLink href="/cont">
           <Button variant="secondary" className="h-10" data-testid="sign-in-button">
             Autentificare
           </Button>

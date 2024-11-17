@@ -109,7 +109,7 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
+      <div className="flex flex-col " ref={actionsRef}>
         <div>
           {(product.variants?.length ?? 0) > 1 && (
             <div className="flex flex-col gap-y-4">
@@ -133,10 +133,17 @@ export default function ProductActions({
         </div>
         <Heading
           level="h2"
-          className="text-3xl leading-10 text-ui-fg-base"
+          className="text-3xl leading-10 text-ui-fg-base mt-[16px] lg:mt-[48px]"
           data-testid="product-title"
         >
           {product.title.toUpperCase()}
+        </Heading>
+        <Heading
+          level="h3"
+          className="text-xl leading-5 text-ui-fg-base"
+          data-testid="product-title"
+        >
+          {product.subtitle}
         </Heading>
         <ProductPrice product={product} variant={selectedVariant} />
           <div className="flex items-center gap-[16px]">
@@ -167,9 +174,7 @@ export default function ProductActions({
           isLoading={isAdding}
           data-testid="add-product-button"
         >
-          {!selectedVariant
-            ? "Select variant"
-            : !inStock
+          { !inStock
             ? "Produsul nu mai este in stoc"
             : "Adauga in Cos"}
         </Button>

@@ -69,7 +69,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="add-discount-button"
             >
-              Add Promotion Code(s)
+              Adauga cod promotional
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">

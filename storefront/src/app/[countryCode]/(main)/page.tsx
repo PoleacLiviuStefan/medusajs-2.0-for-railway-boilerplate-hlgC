@@ -29,8 +29,8 @@ export default async function Home({
   return (
     <>
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
+      <div className="flex justify-center w-full lpy-12">
+        <ul className="flex flex-col gap-x-6 lg:w-[900px]">
           <FeaturedProducts collections={collections} region={region} />
      
         </ul>

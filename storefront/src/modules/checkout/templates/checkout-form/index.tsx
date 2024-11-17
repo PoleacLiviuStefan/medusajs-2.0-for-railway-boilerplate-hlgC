@@ -13,16 +13,22 @@ export default async function CheckoutForm({
   cart: HttpTypes.StoreCart | null
   customer: HttpTypes.StoreCustomer | null
 }) {
+
   if (!cart) {
     return null
   }
-
+ 
   const shippingMethods = await listCartShippingMethods(cart.id)
   const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
 
+  console.log("cart.id",cart.id)
+  console.log("shippingMethods",shippingMethods)
+  console.log("paymentMethods",paymentMethods)
+  /*
   if (!shippingMethods || !paymentMethods) {
     return null
   }
+    */
 
   return (
     <div>
