@@ -9,8 +9,10 @@ const ModifyCoursesDates = () => {
   const [changeInput, setChangeInput] = useState({
     courseName: "",
     dateIndex: -1,
-    dateType: "",
+    
+    duration: null, // Noua proprietate pentru durata
   });
+
   const [addDateInput, setAddDateInput] = useState(-1);
   const [sureDeleteModal, setSureDeleteModal] = useState(false);
   const [courseToDelete, setCourseToDelete] = useState(-1);
@@ -21,7 +23,7 @@ const ModifyCoursesDates = () => {
   const [isModified, setIsModified] = useState(false);
   const editCourseNameRef = useRef();
   const courseNameRef = useRef();
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,6 +38,16 @@ const ModifyCoursesDates = () => {
     };
     fetchData();
   }, []);
+
+  const handleDurationChange = (e, courseId) => {
+    setIsModified(true);
+    const newDuration = e.target.value;
+    setChangeInput((prev) => ({
+      ...prev,
+      courseName: data.find((course) => course.id === courseId).name,
+      duration: newDuration,
+    }));
+  };
 
   const handleEditCourseName = async () => {
     const newName = editCourseNameRef.current.value;
@@ -68,31 +80,28 @@ const ModifyCoursesDates = () => {
     console.log("dateCurrent", date);
     console.log("changeInput", changeInput);
     console.log("data", data);
+
     if (changeInput.courseName && changeInput.dateIndex >= 0) {
       setData((prevData) =>
         prevData.map((course) => {
           if (course.name === changeInput.courseName) {
-            // Facem o copie profundă a cursului, cu start_dates/end_dates copiate
+            // Facem o copie profundă a cursului, cu start_dates copiate
             const updatedCourse = {
               ...course,
               start_dates: course.start_dates ? [...course.start_dates] : [],
-              end_dates: course.end_dates ? [...course.end_dates] : [],
             };
 
-            // Actualizăm fie `start_dates`, fie `end_dates` pe indexul dorit
-            if (changeInput.dateType === "dateStart") {
-              updatedCourse.start_dates[changeInput.dateIndex] = date;
-            } else if (changeInput.dateType === "dateEnd") {
-              updatedCourse.end_dates[changeInput.dateIndex] = date;
-            }
+            // Salvăm data în format ISO în `start_dates`
+            updatedCourse.start_dates[changeInput.dateIndex] =
+              date.toISOString();
 
             return updatedCourse; // Returnăm cursul modificat
           }
-          return course; // Returnăm cursurile nemodificate
+          return course; // Returnăm cursul nemodificat
         })
       );
 
-      setChangeInput({ courseName: "", dateIndex: -1, dateType: "" });
+      setChangeInput({ courseName: "", dateIndex: -1 });
     }
   };
 
@@ -107,7 +116,6 @@ const ModifyCoursesDates = () => {
         body: JSON.stringify({
           name: newCourseName,
           start_date: null,
-          end_date: null,
         }),
       });
       if (!response.ok) throw new Error("Eroare la adăugarea cursului");
@@ -140,7 +148,7 @@ const ModifyCoursesDates = () => {
                 ...course,
                 available_dates: [
                   ...course.available_dates,
-                  { dateStart: date, dateEnd: date },
+                  { dateStart: date },
                 ],
               }
             : course
@@ -154,26 +162,42 @@ const ModifyCoursesDates = () => {
 
   const handleSave = async (course) => {
     try {
-      const formattedDates = course.available_dates.map(
-        ({ dateStart, dateEnd }) => ({
-          dateStart: dateStart ? dateStart.toISOString().split("T")[0] : null,
-          dateEnd: dateEnd ? dateEnd.toISOString().split("T")[0] : null,
-        })
-      );
+      const formattedDates = course.start_dates.map((date) => {
+        if (!date) return null;
+
+        const localDate = new Date(date);
+        localDate.setMinutes(
+          localDate.getMinutes() - localDate.getTimezoneOffset()
+        );
+
+        return localDate.toISOString().split("T")[0];
+      });
+
+      // Verificăm dacă există o modificare a duratei în `changeInput`
+      const duration =
+           changeInput.duration!==null ? changeInput.duration : course.duration  ;
 
       const response = await fetch("/external", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: course.id,
-          available_dates: formattedDates,
+          start_dates: formattedDates,
+          duration,
         }),
       });
+
       if (!response.ok) throw new Error("Failed to save course dates");
 
       alert("Datele cursului au fost actualizate cu succes!");
     } catch (err) {
       alert("Eroare la actualizarea datelor cursului: " + err.message);
+    } finally {
+      setChangeInput({
+        courseName: "",
+        dateIndex: -1,
+        duration: null,
+      });
     }
   };
 
@@ -195,27 +219,30 @@ const ModifyCoursesDates = () => {
     }
   };
 
-  const handleDeleteDate = async (courseId, dateToDelete) => {
+  const handleDeleteDate = async (courseId, dateIndex) => {
     try {
       const response = await fetch("/external", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           courseId,
-          dateToDelete,
+          dateIndex,
         }),
       });
-
-      if (!response.ok) throw new Error("Eroare la ștergerea datei");
-
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Eroare necunoscută la ștergerea datei");
+      }
+  
       alert("Data a fost ștearsă cu succes!");
       setData((prevData) =>
         prevData.map((course) =>
           course.id === courseId
             ? {
                 ...course,
-                available_dates: course.available_dates.filter(
-                  ({ dateStart }) => dateStart !== dateToDelete
+                start_dates: course.start_dates.filter(
+                  (_, index) => index !== dateIndex
                 ),
               }
             : course
@@ -223,9 +250,11 @@ const ModifyCoursesDates = () => {
       );
     } catch (error) {
       console.error("Eroare:", error.message);
+      alert(`Eroare la ștergerea datei: ${error.message}`);
     }
   };
-
+  
+  
   const formatDate = (date) => {
     const parsedDate = date instanceof Date ? date : new Date(date);
     if (isNaN(parsedDate.getTime())) {
@@ -339,40 +368,37 @@ const ModifyCoursesDates = () => {
                             key={dateIndex}
                             className={`flex flex-col items-center justify-center gap-[4px] p-[4px] w-full `}
                           >
-                            {course.name === "Curs de Baza" ? (
-                              <div className="flex flex-col gap-[8px]">
-                                <div>
-                                  <label>Data incepere</label>
-                                  <input
-                                    value={formatDate(
-                                      course?.start_dates[dateIndex]
-                                    )}
-                                    className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
-                                    disabled
-                                  />
-                                  <button
-                                    className="bg-blue-500 p-2 w-full"
-                                    onClick={() => {
-                                      console.log(course);
-                                      setChangeInput({
-                                        courseName: course.name,
-                                        dateIndex,
-                                        dateType: "dateStart",
-                                      });
-                                    }}
-                                  >
-                                    Schimba
-                                  </button>
-                                </div>
+                            <div className="flex flex-col gap-[8px]">
+                              <div>
+                                <label>Data incepere</label>
+                                <input
+                                  value={formatDate(
+                                    course?.start_dates[dateIndex]
+                                  )}
+                                  className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
+                                  disabled
+                                />
+                                                              {course.duration!==1 && (
                                 <div>
                                   <label>Data Sfarsit</label>
                                   <input
                                     value={formatDate(
-                                      course?.end_dates[dateIndex]
+                                      new Date(
+                                        new Date(
+                                          course?.start_dates[dateIndex]
+                                        ).getTime() +
+                                          (course?.duration - 1) *
+                                            24 *
+                                            60 *
+                                            60 *
+                                            1000
+                                      )
                                     )}
                                     className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
                                     disabled
                                   />
+
+                                  {/*
                                   <button
                                     className="bg-blue-500 p-2 w-full"
                                     onClick={() =>
@@ -385,37 +411,40 @@ const ModifyCoursesDates = () => {
                                   >
                                     Schimba
                                   </button>
+                                  */}
                                 </div>
-                              </div>
-                            ) : (
-                              <div>
-                                <input
-                                  value={formatDate(course?.start_dates[dateIndex])}
-                                  className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
-                                  disabled
-                                />
+                              )}
+                                <button
+        className="bg-red-500 p-2 w-full mt-1"
+        onClick={() => handleDeleteDate(course.id, dateIndex)}
+      >Sterge Data</button>
                                 <button
                                   className="bg-blue-500 p-2 w-full"
-                                  onClick={() =>
+                                  onClick={() => {
+                                    console.log(course);
                                     setChangeInput({
                                       courseName: course.name,
                                       dateIndex,
-                                      dateType: "dateStart",
-                                    })
-                                  }
+                                    });
+                                  }}
                                 >
                                   Schimba
                                 </button>
-                                <button
-                                  className="bg-red-500 p-2 w-full mt-1"
-                                  onClick={() =>
-                                    handleDeleteDate(course.id, date)
-                                  }
-                                >
-                                  Șterge Data
-                                </button>
                               </div>
-                            )}
+
+                              <div className="flex justify-center  w-full">
+                                <label>Durata curs</label>
+                                <input
+                                  type="number"
+                                  defaultValue={course.duration}
+                                  onChange={(e) =>
+                                    handleDurationChange(e, course.id)
+                                  }
+                                  className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
+                                />{" "}
+                                zile
+                              </div>
+                            </div>
                           </li>
                         );
                       }
@@ -455,8 +484,7 @@ const ModifyCoursesDates = () => {
             </div>
           )}
           {(changeInput.courseName &&
-            changeInput.dateIndex >= 0 &&
-            changeInput.dateType) ||
+            changeInput.dateIndex >= 0) ||
           addDateInput >= 0 ? (
             <div className="fixed flex items-center justify-center w-full h-full bg-black bg-opacity-50 top-0 left-0 z-50">
               <div className="bg-black p-6 rounded-md text-center z-50">
@@ -466,7 +494,6 @@ const ModifyCoursesDates = () => {
                     setChangeInput({
                       courseName: "",
                       dateIndex: -1,
-                      dateType: "",
                     })
                   }
                   className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4"

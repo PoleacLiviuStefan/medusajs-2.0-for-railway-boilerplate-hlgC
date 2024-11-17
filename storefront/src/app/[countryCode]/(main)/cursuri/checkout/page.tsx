@@ -67,39 +67,77 @@ const Buy = () => {
   )
   const [selectedDate, setSelectedDate] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [pret, setPret] = useState(
-    curs === "Curs De Baza (Integral)"
-      ? "2000"
-      : "Curs De Baza + Kit Inclus (Integral)"
-      ? "2500"
-      : "Curs De Efecte Speciale 1 Zi (Integral)"
-      ? "1500"
-      : "Curs De Perfectionare 2 Zile (Integral)"
-      ? "2500"
-      : "Curs VIP De Baza 2 Zile Fara Kit (Integral)"
-      ? "3000"
-      : "Curs VIP De Baza 2 Zile (Integral)"
-      ? "3500"
-      : "Curs VIP De Baza 3 Zile Fara Kit (Integral)"
-      ? "3500"
-      : "Curs VIP De Baza 3 Zile + Kit Inclus (Integral)"
-      ? "4000"
-      : "Curs Efecte Speciale 1 Zi (Integral)" && "950"
-  )
+  const [pret, setPret] = useState(() => {
+    switch (curs) {
+      case "Curs De Baza (Integral)":
+        return "2000";
+      case "Curs De Baza + Kit Inclus (Integral)":
+        return "2500";
+      case "Curs De Efecte Speciale 1 Zi (Integral)":
+        return "1500";
+      case "Curs De Perfectionare 2 Zile (Integral)":
+        return "2500";
+      case "Curs VIP De Baza 2 Zile Fara Kit (Integral)":
+        return "3000";
+      case "Curs VIP De Baza 2 Zile (Integral)":
+        return "3500";
+      case "Curs VIP De Baza 3 Zile Fara Kit (Integral)":
+        return "3500";
+      case "Curs VIP De Baza 3 Zile + Kit Inclus (Integral)":
+        return "4000";
+      case "Curs Efecte Speciale 1 Zi (Integral)":
+        return "950";
+      default:
+        return "0";
+    }
+  });
+  
+  
 
   const [pretCursSelectat, setPretCursSelectat] = useState(
     localStorage.getItem("cumparaCurs")
   )
   
   const perioadeCurs = [
-    coursesInfo[0]?.available_dates.length
-      ? coursesInfo[0].available_dates.map((date) => getDateInfo(date))
+    coursesInfo[0]?.start_dates && coursesInfo[0].start_dates.length > 0
+      ? coursesInfo[0].start_dates.map((startDate, i) => {
+          const duration = coursesInfo[0].duration;
+          const endDate = new Date(new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000);
+          const startDay = new Date(startDate).getDate();
+          const endDay = endDate.getDate();
+          const month = endDate.toLocaleString("ro-RO", { month: "long" });
+  
+          // Dacă durata este 1, afișăm doar data de început
+          return duration === 1 
+            ? `${startDay} ${month}` 
+            : `${startDay}-${endDay} ${month}`;
+        })
       : [],
-    coursesInfo[1]?.available_dates.length
-      ? coursesInfo[1].available_dates.map((date) => getDateInfo(date))
+    coursesInfo[1]?.start_dates && coursesInfo[1].start_dates.length > 0
+      ? coursesInfo[1].start_dates.map((startDate, i) => {
+          const duration = coursesInfo[1].duration;
+          const endDate = new Date(new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000);
+          const startDay = new Date(startDate).getDate();
+          const endDay = endDate.getDate();
+          const month = endDate.toLocaleString("ro-RO", { month: "long" });
+  
+          return duration === 1 
+            ? `${startDay} ${month}` 
+            : `${startDay}-${endDay} ${month}`;
+        })
       : [],
-      coursesInfo[2]?.available_dates.length
-      ? coursesInfo[2].available_dates.map((date) => getDateInfo(date))
+    coursesInfo[2]?.start_dates && coursesInfo[2].start_dates.length > 0
+      ? coursesInfo[2].start_dates.map((startDate, i) => {
+          const duration = coursesInfo[2].duration;
+          const endDate = new Date(new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000);
+          const startDay = new Date(startDate).getDate();
+          const endDay = endDate.getDate();
+          const month = endDate.toLocaleString("ro-RO", { month: "long" });
+  
+          return duration === 1 
+            ? `${startDay} ${month}` 
+            : `${startDay}-${endDay} ${month}`;
+        })
       : [],
   ];
   
@@ -146,78 +184,60 @@ const Buy = () => {
   useEffect(() => {
     switch (curs) {
       case "Curs De Baza (Avans)":
-        setPretCursSelectat("price_1OvQTLCV1XqGrlRbSm2Z4L2u") //live price_1OvQTLCV1XqGrlRbSm2Z4L2u" price_1Q2JKwCV1XqGrlRbDah4SZmL
-        break
+        setPretCursSelectat("price_1OvQTLCV1XqGrlRbSm2Z4L2u");
+        setPret("500");
+        break;
       case "Curs De Baza (Integral)":
-        setPretCursSelectat("price_1NLYDyCV1XqGrlRb5rvUy2mg")
-        break
+        setPretCursSelectat("price_1NLYDyCV1XqGrlRb5rvUy2mg");
+        setPret("2000");
+        break;
+      case "Curs De Baza + Kit Inclus (Integral)":
+        setPretCursSelectat("price_1NLYDyCV1XqGrlRb5rvUy2mg"); // Adaugă ID-ul corect pentru cursul respectiv
+        setPret("2500");
+        break;
       case "Curs De Efecte Speciale 1 Zi (Avans)":
-        setPretCursSelectat("price_1OvQFxCV1XqGrlRbqdtyocuT")
-        break
+        setPretCursSelectat("price_1OvQFxCV1XqGrlRbqdtyocuT");
+        setPret("500");
+        break;
       case "Curs De Efecte Speciale 1 Zi (Integral)":
-        setPretCursSelectat("price_1OK4WBCV1XqGrlRb9wvbpoGI")
-        break
+        setPretCursSelectat("price_1OK4WBCV1XqGrlRb9wvbpoGI");
+        setPret("1500");
+        break;
       case "Curs De Perfectionare 2 Zile (Avans)":
-        setPretCursSelectat("price_1MsiOmCV1XqGrlRbcY0edoc9")
-        break
+        setPretCursSelectat("price_1MsiOmCV1XqGrlRbcY0edoc9");
+        setPret("500");
+        break;
       case "Curs De Perfectionare 2 Zile (Integral)":
-        setPretCursSelectat("price_1MsWpOCV1XqGrlRb0dtRQlWZ")
-        break
+        setPretCursSelectat("price_1MsWpOCV1XqGrlRb0dtRQlWZ");
+        setPret("2500");
+        break;
       case "Curs VIP De Baza 2 Zile (Avans)":
-        setPretCursSelectat("price_1MsB5TCV1XqGrlRbX7G01gnH")
-        break
-      case "Curs VIP De Efecte Speciale 1 Zi (Avans)":
-        setPretCursSelectat("price_1PON4hCV1XqGrlRbhe1NfJfj")
-        break
-      case "Curs VIP De Efecte Speciale 2 Zile (Avans)":
-        setPretCursSelectat("price_1PONJoCV1XqGrlRbby33L4hZ")
-        break
+        setPretCursSelectat("price_1MsB5TCV1XqGrlRbX7G01gnH");
+        setPret("500");
+        break;
       case "Curs VIP De Baza 2 Zile (Integral)":
-        setPretCursSelectat("price_1MsWtECV1XqGrlRbgsXhEIve")
-        break
-      case "Curs VIP Efecte Speciale 1 Zi (Avans)":
-        setPretCursSelectat("price_1PON4hCV1XqGrlRbhe1NfJfj")
-        break
-      case "Curs VIP De Baza 3 Zile (Integral)":
-        setPretCursSelectat("price_1MsWv7CV1XqGrlRb4eSCbORv")
-        break
-      case "Curs Efecte Speciale 1 Zi (Avans)":
-        setPretCursSelectat("price_1O8l4zCV1XqGrlRb5l5x0BNp")
-        break
-      case "Curs Efecte Speciale 1 Zi (Integral)":
-        setPretCursSelectat("price_1MsWwhCV1XqGrlRbdhr200nv")
-        break
-      default:
-        break
-    }
-
-    switch (curs) {
-      case "Curs De Baza (Integral)":
-        setPret(1500)
-        break
-      case "Curs De Efecte Speciale 1 Zi (Integral)":
-        setPret(1500)
-        break
-      case "Curs De Perfectionare 2 Zile (Integral)":
-        setPret(2500)
-        break
-      case "Curs VIP De Baza 2 Zile Fara Kit (Integral)":
-        setPret(3000)
-        break
-      case "Curs VIP De Baza 2 Zile (Integral)":
-        setPret(3000)
-        break
+        setPretCursSelectat("price_1MsWtECV1XqGrlRbgsXhEIve");
+        setPret("3500");
+        break;
       case "Curs VIP De Baza 3 Zile Fara Kit (Integral)":
-        setPret(3500)
-        break
+        setPretCursSelectat("price_1MsWv7CV1XqGrlRb4eSCbORv");
+        setPret("3500");
+        break;
+      case "Curs VIP De Baza 3 Zile + Kit Inclus (Integral)":
+        setPretCursSelectat("price_1MsWv7CV1XqGrlRb4eSCbORv"); // Adaugă ID-ul corect pentru curs
+        setPret("4000");
+        break;
       case "Curs Efecte Speciale 1 Zi (Integral)":
-        setPret(950)
-        break
+        setPretCursSelectat("price_1MsWwhCV1XqGrlRbdhr200nv");
+        setPret("950");
+        break;
       default:
-        setPret(0)
-        break
+        setPretCursSelectat("");
+        setPret("0");
+        break;
     }
-  }, [curs])
+  }, [curs]);
+  
 
   const item = {
     price: pretCursSelectat,
@@ -235,9 +255,12 @@ const Buy = () => {
     e.preventDefault()
     //localStorage.setItem("user_email", new FormData(e.target).get("user_email"));
     //console.log(new FormData(e.target).get("user_email"))
-    for (let [name, value] of new FormData(e.target).entries()) {
-      localStorage.setItem(name, value)
-    }
+  const formData = new FormData(e.target);
+
+formData.forEach((value, name) => {
+  localStorage.setItem(name, value.toString());
+});
+  
     try {
       await redirectToChekout()
     } catch (error) {
@@ -352,16 +375,14 @@ const Buy = () => {
               }}
               className="border-[#0b2a24]  border-[1px] w-full lg:w-[15rem] h-[2rem] text-[14px]"
             >
-              <option
-                value="Curs De Baza (Avans)"
-                onClick={() => setCurs("Curs De Baza (Avans)")}
-                selected={
-                  localStorage.getItem("cumparaCurs") ===
-                    "Curs De Baza (Avans)" && "selected"
-                }
-              >
-                CURS DE BAZA (AVANS)
-              </option>
+<option
+  value="Curs De Baza (Avans)"
+  onClick={() => setCurs("Curs De Baza (Avans)")}
+  selected={localStorage.getItem("cumparaCurs") === "Curs De Baza (Avans)"}
+>
+  CURS DE BAZA (AVANS)
+</option>
+
 
               {/*
               <option
@@ -377,7 +398,7 @@ const Buy = () => {
                 onClick={() => setCurs("Curs De Efecte Speciale 1 Zi (Avans)")}
                 selected={
                   localStorage.getItem("cumparaCurs") ===
-                    "Curs De Perfectionare" && "selected"
+                    "Curs De Perfectionare" 
                 }
               >
                 CURS DE EFECTE SPECIALE 1 ZI (AVANS)
@@ -396,8 +417,7 @@ const Buy = () => {
                 value="Curs VIP De Baza 2 Zile (Avans)"
                 onClick={() => setCurs("Curs VIP De Baza 2 Zile (Avans)")}
                 selected={
-                  localStorage.getItem("cumparaCurs") === "Curs VIP De Baza" &&
-                  "selected"
+                  localStorage.getItem("cumparaCurs") === "Curs VIP De Baza" 
                 }
               >
                 CURS VIP DE BAZA 2 ZILE (AVANS)
@@ -493,21 +513,23 @@ const Buy = () => {
                 "hidden"
               }`}
             >
-              <DatePicker
-                className={`border-[#0b2a24] p-2  border-[1px] w-full lg:w-[15rem] h-[2rem] text-[14px] `}
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                formatDate="yyyy/MM/dd"
-                minDate={new Date()}
-                filterDate={(date) => date.getDay() !== 0}
-              />
+<DatePicker
+  className="border-[#0b2a24] p-2  border-[1px] w-full lg:w-[15rem] h-[2rem] text-[14px]"
+  selected={selectedDate}
+  onChange={(date: Date) => setSelectedDate(date)}
+  dateFormat="yyyy/MM/dd"
+  minDate={new Date()}
+  filterDate={(date) => date.getDay() !== 0}
+/>
+
+
             </div>
           </div>
           <div className="flex flex-col w-full  my-[.5rem]">
             <label>Mentiuni Speciale</label>
             <textarea
               name="mentiuni_speciale"
-              type="text"
+
               className="border-[#0b2a24] border-[1px] p-2 w-full lg:w-[36rem] h-[10rem]"
             />
           </div>

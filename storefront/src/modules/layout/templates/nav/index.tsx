@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -8,6 +8,7 @@ import { RxAvatar } from "react-icons/rx"
 import HamburgerMenu from "./HamburgerMenu"
 import MovingText from "./MovingText"
 import SearchForm from "./searchForm" // Import the client-side search form component
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
@@ -27,13 +28,16 @@ export default async function Nav() {
       <header className="flex flex-col justify-center relative h-[50px] lg:h-[90px] mx-auto border-b duration-200 py-8 bg-white border-ui-border-base">
         <nav className="flex justify-center lg:justify-between content-container txt-xsmall-plus text-ui-fg-subtle items-center w-full mt-[8px] gap-[32px] px-4  lg:w-[900px] lg:px-0">
           {/* Adăugăm componenta HamburgerMenu pentru partea interactivă */}
+          <div className=" absolute flex left-2 gap-[16px] lg:hidden">
+          
           <HamburgerMenu SideMenuItems={SideMenuItems} collections={collections} />
-
+           {/*baga in hamburgerMenu*/}
+          </div>
           {/* Logo-ul site-ului */}
           <div className="text-center">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-gray-500 uppercase text-center ml-4 lg:ml-0"
+              className="txt-compact-xlarge-plus hover:text-gray-500 uppercase text-center "
               data-testid="nav-store-link"
             >
               LorenaLash
@@ -41,13 +45,13 @@ export default async function Nav() {
           </div>
 
           {/* Render the search form */}
-          <SearchForm />
+          <SearchForm /> 
 
           {/* Elemente de navigare pentru cont și coș */}
           <div className="flex absolute lg:relative right-4 lg:right-0 items-center gap-x-6 w-[100px] whitespace-nowrap inline">
             <LocalizedClientLink
               className="flex flex-row items-center gap-1 text-sm hover:text-gray-500"
-              href="/account"
+              href="/cont"
               data-testid="nav-account-link"
             >
               <span className="text-[24px]">
@@ -62,7 +66,7 @@ export default async function Nav() {
                   href="/cos"
                   data-testid="nav-cart-link"
                 >
-                  <span className="hidden lg:block">Cos (0)</span>
+                  <span className="hidden lg:block"><CartButton /></span>
                 </LocalizedClientLink>
               }
             >
@@ -75,7 +79,7 @@ export default async function Nav() {
         </nav>
 
         {/* Elemente de navigare pentru desktop */}
-        <ul className="hidden lg:flex gap-[16px] items-center justify-center gap-[48px] z-50 ">
+        <ul className="hidden lg:flex gap-[16px] items-center justify-center gap-[48px]  ">
           {/* Renderizare dinamică pentru meniul lateral */}
           {Object.entries(SideMenuItems).map(([name, href]) => {
             // Dropdown pentru Produse
@@ -83,9 +87,14 @@ export default async function Nav() {
               return (
                 <li key={name} className="relative group">
                   {/* Numai "Magazin" va activa dropdown-ul */}
-                  <span className="text-sm leading-10 hover:text-ui-fg-disabled cursor-pointer">
+                  <LocalizedClientLink
+                        href={`/magazin`}
+                       className="text-sm leading-10 hover:text-ui-fg-disabled cursor-pointer"
+                      >
+                 
                     {name}
-                  </span>
+                
+                  </LocalizedClientLink>
                   {/* Dropdown pentru colecții */}
                   <ul className="absolute hidden text-sm group-hover:block bg-white border w-[200px] py-4 shadow-lg z-999">
                       <LocalizedClientLink
@@ -96,16 +105,18 @@ export default async function Nav() {
                         TOATE PRODUSELE
                     </li>
                       </LocalizedClientLink>
-                    {collections?.map((collection) => (
-                        <LocalizedClientLink
-                          href={`/collections/${collection.handle}`}
-                          className="text-sm text-gray-700 w-full"
-                        >
-                      <li key={collection.id} className="py-2 hover:bg-gray-100 w-full px-2">
-                          {collection.title.toUpperCase()}
-                      </li>
-                        </LocalizedClientLink>
-                    ))}
+                      {collections?.map((collection) => (
+  <LocalizedClientLink
+    key={collection.id} // Cheia trebuie adăugată aici
+    href={`/colectii/${collection.handle}`}
+    className="text-sm text-gray-700 w-full"
+  >
+    <li className="py-2 hover:bg-gray-100 w-full px-2">
+      {collection.title.toUpperCase()}
+    </li>
+  </LocalizedClientLink>
+))}
+
                   </ul>
                 </li>
               )
@@ -135,7 +146,7 @@ export default async function Nav() {
                     </li>
                     </LocalizedClientLink>
                     <LocalizedClientLink
-                        href={`/cursuri/curs-de-baza`}
+                        href={`/cursuri/curs-de-baza-premium`}
                         className="text-sm text-gray-700 w-full "
                       >
                     <li className="py-2 hover:bg-gray-100 w-full px-2">
@@ -145,7 +156,7 @@ export default async function Nav() {
                     </li>
                     </LocalizedClientLink>
                       <LocalizedClientLink
-                        href={`/cursuri/curs-de-perfectionare`}
+                        href={`/cursuri/curs-de-efecte-speciale`}
                         className="text-sm text-gray-700 w-full"
                       >
                          <li className="py-2 hover:bg-gray-100 w-full px-2">
@@ -180,7 +191,7 @@ export default async function Nav() {
           })}
         </ul>
       </header>
-      <MovingText />
+      {/*<MovingText />*/}
     </div>
   )
 }

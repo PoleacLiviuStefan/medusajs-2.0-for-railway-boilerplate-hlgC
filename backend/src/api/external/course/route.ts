@@ -35,18 +35,18 @@ export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
   }
 };
 
-// Endpoint POST - Adaugă o dată de start și o dată de sfârșit pentru un curs
+// Endpoint POST - Adaugă o dată de start și durata unui curs
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   setCorsHeaders(res);
 
-  const { courseId, startDate, endDate } = req.body;
+  const { courseId, startDate, duration } = req.body;
 
   try {
     await pool.query(
-      `UPDATE course SET start_dates = array_append(start_dates, $1::date), end_dates = array_append(end_dates, $2::date) WHERE id = $3`,
-      [startDate, endDate, courseId]
+      `UPDATE course SET start_dates = array_append(start_dates, $1::date), duration = $2 WHERE id = $3`,
+      [startDate, duration, courseId]
     );
-    res.status(200).json({ message: "Datele au fost adăugate cu succes" });
+    res.status(200).json({ message: "Data de start și durata au fost adăugate cu succes" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -66,12 +66,12 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
   }
 };
 
-// Endpoint GET - Obține toate cursurile cu datele de start și sfârșit
+// Endpoint GET - Obține toate cursurile cu datele de start și durata
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   setCorsHeaders(res);
 
   try {
-    const result = await pool.query(`SELECT id, name, start_dates, end_dates FROM course`);
+    const result = await pool.query(`SELECT id, name, start_dates, duration FROM course`);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Nu există cursuri disponibile" });

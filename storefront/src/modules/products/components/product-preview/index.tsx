@@ -31,7 +31,7 @@ export default async function ProductPreview({
 
 
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group">
+    <LocalizedClientLink href={`/produse/${product.handle}`} className="group">
       <div data-testid="product-wrapper">
         <Thumbnail
           thumbnail={product.thumbnail}
@@ -40,11 +40,11 @@ export default async function ProductPreview({
           isFeatured={isFeatured}
         />
         <div className="flex flex-col txt-compact-medium mt-4 justify-between">
-        <span className=" text-yellow-500">{product.collection?.title.toUpperCase()}</span>
-          <Text className="text-ui-fg-subtle font-bold text-[18px]" data-testid="product-title">
+        <span className=" text-yellow-500 text-[13px] lg:text-[15px]">{product.collection?.title.toUpperCase()}</span>
+          <Text className="text-ui-fg-subtle font-bold text-[14px] lg:text-[18px]" data-testid="product-title">
             {product.title} 
           </Text>
-         
+      
             {cheapestPrice && <div className="flex items-center gap-2"><PreviewPrice price={cheapestPrice} /> <span className="text-[11px]">TVA inclus</span></div>}
          
         </div>

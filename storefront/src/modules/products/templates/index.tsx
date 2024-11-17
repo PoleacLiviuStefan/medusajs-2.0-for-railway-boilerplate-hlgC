@@ -27,13 +27,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   countryCode,
 }) => {
 
-  const [shownSection,setShownSection] = useState(0);
+  const [shownSection,setShownSection] = useState(1);
 
 
   if (!product || !product.id) {
     return notFound()
   }
 
+  console.log(product)
 
 
   return (
@@ -46,12 +47,19 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       >
 
         <div className="block w-full relative">
-          <ImageGallery images={product?.images || []} />
+        <ImageGallery 
+  images={(product?.images || []).map((img) => ({
+    id: Number(img.id), // Convertim `id` din string în number
+    url: img.url,
+  }))} 
+/>
+
         </div>
         
-        <div className="flex flex-col  small:top-48 small:py-0 small:max-w-[500px] w-full py-8 gap-y-12">
+        <div className="flex flex-col  small:top-48 small:py-0 small:max-w-[500px] w-full py-8 gap-y-2">
        
-          <ProductOnboardingCta />
+        <ProductOnboardingCta isOnboarding={false} />
+
           <Suspense
             fallback={
               <ProductActions
@@ -67,18 +75,21 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           <ProductInfo product={product} />
         </div>
       </div>
-      <ul className="flex justify-between w-full px-4 lg:w-[500px] font-bold">
+      <ul className="flex justify-between  px-4 w-[200px] font-bold">
               <li className="flex flex-col items-center"><button onClick={()=>setShownSection(1)}>Descriere</button> {shownSection===1 && <span className="bg-black h-[2px] w-full" />}</li>
-              <li className="flex flex-col items-center"><button onClick={()=>setShownSection(2)}>Informatii suplimentare</button>{shownSection===2 && <span className="bg-black h-[2px] w-full" />}</li>
-              <li className="flex flex-col items-center"><button onClick={()=>setShownSection(3)}>Recenzii</button>{shownSection===3 && <span className="bg-black h-[2px] w-full" />}</li>
+             {/*} <li className="flex flex-col items-center"><button onClick={()=>setShownSection(2)}>Informatii suplimentare</button>{shownSection===2 && <span className="bg-black h-[2px] w-full" />}</li> */}
+              <li className="flex flex-col items-center"><button onClick={()=>setShownSection(2)}>Recenzii</button>{shownSection===2 && <span className="bg-black h-[2px] w-full" />}</li>
       </ul>
       <span className="my-[20px] w-full bg-gray-300 h-[1px]" />
+      {
+        shownSection===1 && 
       <Text
           className="text-medium text-ui-fg-subtle px-[24px] whitespace-pre-line"
           data-testid="product-description"
         >
           {product.description}
         </Text>
+}
       </div>
       </div>
       <div

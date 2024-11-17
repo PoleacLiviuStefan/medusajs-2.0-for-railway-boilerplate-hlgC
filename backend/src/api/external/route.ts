@@ -14,7 +14,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
   res.setHeader('Access-Control-Allow-Credentials', 'true'); // dacă trimiți cookie-uri/sesiuni
   try {
-    const result = await pool.query(`SELECT id, name, start_dates, end_dates FROM course`);
+    const result = await pool.query(`SELECT id, name, start_dates, duration FROM course`);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Nu s-au găsit cursuri" });
     }
@@ -24,13 +24,13 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   }
 };
 
-// Endpoint pentru a actualiza datele de start și de sfârșit ale unui curs
+// Endpoint pentru a actualiza datele de start și durata unui curs
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
-  const { id, start_dates, end_dates } = req.body;
+  const { id, start_dates, duration } = req.body;
   try {
     await pool.query(
-      `UPDATE course SET start_dates = $1::date[], end_dates = $2::date[] WHERE id = $3`,
-      [start_dates, end_dates, id]
+      `UPDATE course SET start_dates = $1::date[], duration = $2 WHERE id = $3`,
+      [start_dates, duration, id]
     );
     res.status(200).json({ message: "Cursul a fost actualizat" });
   } catch (error) {
@@ -38,33 +38,36 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   }
 };
 
-// Endpoint pentru a șterge o anumită dată de start și de sfârșit dintr-un curs
-export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
-  const { courseId, startDateToDelete, endDateToDelete } = req.body;
+// Endpoint pentru a șterge o anumită dată de start dintr-un curs
+export const DELETE = async (req, res) => {
+  const { courseId, dateIndex } = req.body;
+
+  if (!courseId || dateIndex === undefined) {
+    return res.status(400).json({ error: "ID-ul cursului și indexul datei sunt necesare" });
+  }
 
   try {
-    // Verificăm dacă `courseId`, `startDateToDelete`, și `endDateToDelete` sunt furnizate
-    if (!courseId || !startDateToDelete || !endDateToDelete) {
-      return res.status(400).json({ error: "ID-ul cursului, data de start și data de sfârșit sunt necesare" });
+    // Selectează `start_dates` pentru a prelucra array-ul în memorie
+    const courseResult = await pool.query(`SELECT start_dates FROM course WHERE id = $1`, [courseId]);
+    if (courseResult.rows.length === 0) {
+      return res.status(404).json({ error: "Cursul nu a fost găsit" });
     }
 
-    // Ștergem `startDateToDelete` și `endDateToDelete` din array-urile `start_dates` și `end_dates`
-    const result = await pool.query(
-      `UPDATE course
-      SET start_dates = array_remove(start_dates, $2::date),
-          end_dates = array_remove(end_dates, $3::date)
-      WHERE id = $1
-      RETURNING *`, // Returnează linia actualizată pentru confirmare
-      [courseId, startDateToDelete, endDateToDelete]
+    // Scoate elementul de la `dateIndex` din `start_dates`
+    const start_dates = courseResult.rows[0].start_dates;
+    start_dates.splice(dateIndex, 1);
+
+    // Actualizează array-ul `start_dates` în baza de date
+    await pool.query(
+      `UPDATE course SET start_dates = $1::date[] WHERE id = $2`,
+      [start_dates, courseId]
     );
 
-    // Verificăm dacă ștergerea a avut loc cu succes
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Cursul nu a fost găsit sau datele nu au existat" });
-    }
-
-    res.status(200).json({ message: "Datele de start și sfârșit au fost șterse cu succes" });
+    res.status(200).json({ message: "Data a fost ștearsă cu succes" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+

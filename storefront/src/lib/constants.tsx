@@ -66,3 +66,30 @@ export const noDivisionCurrencies = [
   "xdr",
   "xau",
 ]
+
+export const FAQ=[
+  {
+    question:"Intrebare1",
+    answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat sollicitudin mauris. Fusce in libero turpis. Nunc venenatis orci quis felis molestie imperdiet. Curabitur risus tellus, molestie et posuere nec."
+  },
+{
+    question:"Intrebare1",
+    answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat sollicitudin mauris. Fusce in libero turpis. Nunc venenatis orci quis felis molestie imperdiet. Curabitur risus tellus, molestie et posuere nec."
+
+  },
+  {
+    question:"Intrebare1",
+    answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat sollicitudin mauris. Fusce in libero turpis. Nunc venenatis orci quis felis molestie imperdiet. Curabitur risus tellus, molestie et posuere nec."
+
+  },  
+  {
+    question:"Intrebare1",
+    answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat sollicitudin mauris. Fusce in libero turpis. Nunc venenatis orci quis felis molestie imperdiet. Curabitur risus tellus, molestie et posuere nec."
+
+  },
+  {
+    question:"Intrebare1",
+    answer:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat sollicitudin mauris. Fusce in libero turpis. Nunc venenatis orci quis felis molestie imperdiet. Curabitur risus tellus, molestie et posuere nec."
+
+  },
+]

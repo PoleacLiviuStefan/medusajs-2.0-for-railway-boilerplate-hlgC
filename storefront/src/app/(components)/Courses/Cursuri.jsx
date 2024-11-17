@@ -18,7 +18,7 @@ const Cursuri = () => {
             <CursMainPreview imagine={cursDePerfectionare} titlu="Curs de Efecte Speciale Bucuresti" subTitlu="Curs de efecte special" secondTitle="Cui i se adreseaza?"  descriere=" 
 
 Tehnicienilor care au finalizat un curs de baza, au experienta minim 3 luni si doresc sa-si imbunatateasca tehnica, de asemenea, pot invata sa aplice noi curburi, tehnici si metode!
-Vom rezolva problemele fiecarui cursant si vom adapta totul in functie de acestia! " redirectionare="curs-de-perfectionare" baza={false} />
+Vom rezolva problemele fiecarui cursant si vom adapta totul in functie de acestia! " redirectionare="curs-de-efecte-speciale" baza={false} />
           <CursMainPreview imagine={cursVip} subTitlu="Doar tu si trainerul" secondTitle="*Posibilitate cu translator & alegerea datelor 
 " titlu="Curs VIP de baza Bucuresti"  descriere="Te-ai gandit vreodata ca iti doresti sa participi la un curs de baza unde toata atentia trainerului sa fie indreptata asupra ta? Atunci cursul VIP este alegerea perfcta pentru tine! 
 

@@ -12,12 +12,12 @@ const page = () => {
   return (
     <>
           <Hero gradient={true} bgPrimary="primary" bgSecond="white">
-        <Image src={LorenaHero} className="h-[350px] lg:h-[600px] w-auto" />
+        <Image alt="Cursuri" src={LorenaHero} className="h-[350px] lg:h-[600px] w-auto" />
         <div className="w-full px-4 lg:w-[700px] -mt-[32px] lg:mt-0">
-        <h2 className="text-[18px] lg:text-[24px] w-full font-bold text-center leading-4 lg:leading-6 ">
+        <h2 className="text-[18px] lg:text-[24px] w-full font-bold text-center leading-5 lg:leading-7 ">
         Transformă-ți Pasiunea în Carieră cu Academia Noastră de Extensii de Gene din București!
         </h2>
-        <p className="text-center text-[13px] lg:text-[16px] w-full   px-4 leading-4 lg:leading-5 mt-[8px]">
+        <p className="text-center text-[13px] lg:text-[16px] w-full text-gray-600  px-4 leading-4 lg:leading-5 mt-[8px]">
         Ești gata să îți duci abilitățile la nivelul următor? La academia noastră, oferim cursuri profesionale de extensii de gene care te vor ajuta să devii expert în domeniu. 
         </p>
         </div>
@@ -25,8 +25,8 @@ const page = () => {
 
   
     <div className="flex flex-col justify-center items-center w-full h-full py-[5rem] lg:py-[10rem]">
-    <InfoContainer description="" title="" display="flex" flexDirection="col" >
-    <div className="flex flex-col justify-between  p-4 lg:grid lg:grid-cols-3 justify-items-center mx-auto items-center w-[80%] h-full">
+    <InfoContainer description="" title="" display="flex" flexDirection="col" height="300" >
+    <div className="flex flex-col justify-between  p-4 lg:grid lg:grid-cols-3 justify-items-center leading-4 mx-auto items-center w-[80%] h-full">
           <div className=" w-full px-4 lg:w-[300px]">
             <p>Cursuri Practice și Teoretice: Îmbină cunoștințele teoretice cu practica intensivă. </p>
           </div>
@@ -37,7 +37,7 @@ const page = () => {
             <p>Suport și Îndrumare: Continuăm să te sprijinim și după finalizarea cursului.  </p>
           </div>
           </div>
-          <p className="w-full lg:w-[700px] leading-4">Fie că ești la început de drum sau vrei să îți perfecționezi tehnica, cursurile noastre sunt concepute să îți ofere tot ce ai nevoie pentru a avea succes. Alătură-te sutelor de absolvenți mulțumiți și începe-ți cariera de succes în extensiile de gene!</p>
+          <p className="w-full lg:w-[700px] leading-4 font-bold">Fie că ești la început de drum sau vrei să îți perfecționezi tehnica, cursurile noastre sunt concepute să îți ofere tot ce ai nevoie pentru a avea succes. Alătură-te sutelor de absolvenți mulțumiți și începe-ți cariera de succes în extensiile de gene!</p>
         </InfoContainer>
 
 
@@ -55,7 +55,7 @@ const page = () => {
           titlu="Curs de baza PREMIUM (Baza&Efecte)"
           subTitlu="Curs de baza"
           descriere="Iti doresti sa ai propria ta AFACERE si sa-ti urmezi visul in domeniul BEAUTY? Acum este momentul sa CREZI in tine si sa FACI primul pas catre o noua CARIERA! Ne vom asigura ca drumul tau in lumea extensiilor de gene va duce catre SUCCES"
-          redirectionare="curs-de-baza"
+          redirectionare="curs-de-baza-premium"
           baza={true}
         />
         <CursMainPreview
@@ -67,7 +67,7 @@ const page = () => {
 
 Tehnicienilor care au finalizat un curs de baza, au experienta minim 3 luni si doresc sa-si imbunatateasca tehnica, de asemenea, pot invata sa aplice noi curburi, tehnici si metode!
 Vom rezolva problemele fiecarui cursant si vom adapta totul in functie de acestia! "
-          redirectionare="curs-de-perfectionare"
+          redirectionare="curs-de-efecte-speciale"
           baza={false}
         />
         <CursMainPreview

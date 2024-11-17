@@ -36,10 +36,10 @@ export default async function Page() {
         ))}
       </div>
       <BenefitsList />
-      <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-     
-        </ul>
+      <ul className="flex flex-row gap-x-6 lg:w-[900px] ">
+  <FeaturedProducts collections={collections} region={region} main={true}/>
+</ul>
+
     </div>
   )
 }

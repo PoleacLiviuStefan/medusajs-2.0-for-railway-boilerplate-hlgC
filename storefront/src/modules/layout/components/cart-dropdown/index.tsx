@@ -97,7 +97,7 @@ const CartDropdown = ({
         >
           <Popover.Panel
             static
-            className="absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 text-ui-fg-base z-50 w-full sm:w-[420px]" // Dimensiuni mai mici pe mobil
+            className="absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 text-ui-fg-base z-50 w-[350px] sm:w-[420px]" // Dimensiuni mai mici pe mobil
             data-testid="nav-cart-dropdown"
           >
             <div className="p-4 flex items-center justify-between">
@@ -121,12 +121,12 @@ const CartDropdown = ({
                     })
                     .map((item) => (
                       <div
-                        className="grid grid-cols-[122px_1fr] gap-x-4"
+                        className="grid grid-cols-[110px_1fr] gap-x-4"
                         key={item.id}
                         data-testid="cart-item"
                       >
                         <LocalizedClientLink
-                          href={`/products/${item.variant?.product?.handle}`}
+                          href={`/produse/${item.variant?.product?.handle}`}
                           className="w-24"
                         >
                           <Thumbnail
@@ -138,15 +138,16 @@ const CartDropdown = ({
                         <div className="flex flex-col justify-between flex-1">
                           <div className="flex flex-col flex-1">
                             <div className="flex items-start justify-between">
-                              <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
+                              <div className="flex flex-col overflow-ellipsis whitespace-nowrap  w-[100px] lg:w-[150px]">
+                                {/*
                                 <h3 className="text-base-regular overflow-hidden text-ellipsis">
                                   <LocalizedClientLink
-                                    href={`/products/${item.variant?.product?.handle}`}
+                                    href={`/produse/${item.variant?.product?.handle}`}
                                     data-testid="product-link"
                                   >
                                     {item.title}
                                   </LocalizedClientLink>
-                                </h3>
+                                </h3> */}
         
                                 <span
                                   data-testid="cart-item-quantity"
@@ -154,19 +155,20 @@ const CartDropdown = ({
                                 >
                                   Bucati: {item.quantity}
                                 </span>
-                              </div>
-                              <div className="flex justify-end">
-                                <LineItemPrice item={item} style="tight" />
-                              </div>
-                            </div>
-                          </div>
-                          <DeleteButton
+                                <DeleteButton
                             id={item.id}
                             className="mt-1"
                             data-testid="cart-item-remove-button"
                           >
                             Sterge
                           </DeleteButton>
+                              </div>
+                              <div className="flex justify-end ">
+                                <LineItemPrice item={item} style="tight" />
+                              </div>
+                            </div>
+                          </div>
+              
                         </div>
                       </div>
                     ))}
@@ -188,7 +190,7 @@ const CartDropdown = ({
                       })}
                     </span>
                   </div>
-                  <LocalizedClientLink href="/cart" passHref>
+                  <LocalizedClientLink href="/cos" passHref>
                     <Button
                       className="w-full"
                       size="large"

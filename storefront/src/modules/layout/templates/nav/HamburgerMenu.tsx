@@ -3,7 +3,9 @@
 import React, { useState } from "react"
 import { FiMenu, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-
+import SearchForm from "./searchForm"
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import SearchModalMobile from "./SearchModalMobile"
 
 // Definim tipul pentru SideMenuItems
 type SideMenuItemsType = {
@@ -26,18 +28,21 @@ export default function HamburgerMenu({
   const [menuOpen, setMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false) // Stare pentru dropdown-ul colecțiilor
   const [cursuriDropdownOpen, setCursuriDropdownOpen] = useState(false) // Stare pentru dropdown-ul cursurilor
+  const [showSearchModal, setShowSearchModal] = useState<boolean>(false)
 
   return (
     <>
    
       {/* Buton hamburger pentru mobil */}
       <button
-        className="lg:hidden text-2xl z-50 fixed top-4 left-4" // Setăm z-index mare și poziționăm butonul astfel încât să fie deasupra overlay-ului
+        className="text-2xl z-50 " // Setăm z-index mare și poziționăm butonul astfel încât să fie deasupra overlay-ului
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? <FiX /> : <FiMenu />}
       </button>
-
+      <button onClick={()=>setShowSearchModal(true)}>
+      <FaMagnifyingGlass  className="  text-lg mt-1" />
+      </button>
       {/* Overlay negru cu opacitate */}
       {menuOpen && (
         <div
@@ -45,10 +50,13 @@ export default function HamburgerMenu({
           onClick={() => setMenuOpen(false)}
         />
       )}
-
+      {
+        showSearchModal && 
+      <SearchModalMobile setShowSearchModal={(value)=>setShowSearchModal(value)} />
+}
       {/* Meniu lateral pentru mobil */}
       <div
-        className={`lg:hidden fixed top-0 left-0 h-full w-[300px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        className={` fixed top-0 left-0 h-full w-[300px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -56,17 +64,18 @@ export default function HamburgerMenu({
           <span className="text-[24px] font-bold">Lorena Lash</span>
           <button
             onClick={() => setMenuOpen(false)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[16px] border-[1px] border-gray-400 p-[4px]"
+            className="absolute right-4  text-[16px] border-[1px] border-gray-400 p-[4px]"
           >
             <FiX />
           </button>
         </div>
-
+        {/*<SearchForm mobile={true}/>*/}
         <ul className="p-4 mt-[20px]">
+
           {Object.entries(SideMenuItems).map(([name, href]) => (
             <li key={name} className="relative py-2 text-black">
               {/* Verificăm dacă este "Magazin" sau "Cursuri Profesionale" pentru a afișa dropdown-ul */}
-              {name === "Magazin" || name === "Cursuri Profesionale" ? (
+              {name === "MAGAZIN" || name === "CURSURI PROFESIONALE" ? (
                 <div className="flex justify-between items-center">
                   {/* Link către pagina "Magazin" sau "Cursuri Profesionale" */}
                   <LocalizedClientLink
@@ -79,13 +88,13 @@ export default function HamburgerMenu({
                   {/* Buton pentru deschiderea dropdown-ului */}
                   <button
                     onClick={() =>
-                      name === "Magazin"
+                      name === "MAGAZIN"
                         ? setDropdownOpen(!dropdownOpen)
                         : setCursuriDropdownOpen(!cursuriDropdownOpen)
                     }
-                    className="ml-2"
+                    className="ml-2 px-[16px] h-full text-[20px]"
                   >
-                    {name === "Magazin" ? (
+                    {name === "MAGAZIN" ? (
                       dropdownOpen ? <FiChevronUp /> : <FiChevronDown />
                     ) : cursuriDropdownOpen ? (
                       <FiChevronUp />
@@ -105,7 +114,7 @@ export default function HamburgerMenu({
               )}
 
               {/* Dropdown pentru colecții din "Magazin" */}
-              {name === "Magazin" && dropdownOpen && (
+              {name === "MAGAZIN" && dropdownOpen && (
                 <ul className="pl-4">
                   <li className="py-2">
                     <LocalizedClientLink
@@ -113,14 +122,14 @@ export default function HamburgerMenu({
                       className="text-[14px] hover:text-ui-fg-base"
                       onClick={() => setMenuOpen(false)} // Închide meniul după click
                     >
-                      Toate Produsele
+                      TOATE PRODUSELE
                     </LocalizedClientLink>
                   </li>
                   {collections.map((collection) => (
                     <li key={collection.id} className="py-2">
                       <LocalizedClientLink
-                        href={`/collections/${collection.handle}`}
-                        className="text-[14px] hover:text-ui-fg-base"
+                        href={`/colectii/${collection.handle}`}
+                        className="text-[14px] hover:text-ui-fg-base uppercase"
                         onClick={() => setMenuOpen(false)} // Închide meniul după click
                       >
                         {collection.title}
@@ -131,7 +140,7 @@ export default function HamburgerMenu({
               )}
 
               {/* Dropdown pentru "Cursuri Profesionale" */}
-              {name === "Cursuri Profesionale" && cursuriDropdownOpen && (
+              {name === "CURSURI PROFESIONALE" && cursuriDropdownOpen && (
                 <ul className="pl-4">
                   <li className="py-2">
                     <LocalizedClientLink
@@ -139,16 +148,26 @@ export default function HamburgerMenu({
                       className="text-[14px] hover:text-ui-fg-base"
                       onClick={() => setMenuOpen(false)} // Închide meniul după click
                     >
-                      Curs de Bază
+                      CURS DE BAZA 1D-3D & FOXY
+                    </LocalizedClientLink>
+                  </li>
+                  
+                  <li className="py-2">
+                    <LocalizedClientLink
+                      href={`/cursuri/curs-de-baza-premium`}
+                      className="text-[14px] hover:text-ui-fg-base"
+                      onClick={() => setMenuOpen(false)} // Închide meniul după click
+                    >
+                      CURS DE BAZA PREMIUM (BAZA&EFECTE)
                     </LocalizedClientLink>
                   </li>
                   <li className="py-2">
                     <LocalizedClientLink
-                      href={`/cursuri/curs-de-perfectionare`}
+                      href={`/cursuri/curs-de-efecte-speciale`}
                       className="text-[14px] hover:text-ui-fg-base"
                       onClick={() => setMenuOpen(false)} // Închide meniul după click
                     >
-                      Curs de Efecte Speciale
+                      CURS DE EFECTE SPECIALE
                     </LocalizedClientLink>
                   </li>
                   <li className="py-2">
@@ -157,7 +176,7 @@ export default function HamburgerMenu({
                       className="text-[14px] hover:text-ui-fg-base"
                       onClick={() => setMenuOpen(false)} // Închide meniul după click
                     >
-                      Curs VIP
+                      CURS VIP
                     </LocalizedClientLink>
                   </li>
                 </ul>

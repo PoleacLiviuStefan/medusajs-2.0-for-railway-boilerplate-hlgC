@@ -1,6 +1,7 @@
 import SearchResultsTemplate from "@modules/search/templates/search-results-template"
 import { getProductsList } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
+import { StoreRegion } from "@medusajs/types"
 
 export default async function SearchResultsPage({
   params,
@@ -10,7 +11,7 @@ export default async function SearchResultsPage({
   const { query, countryCode } = params
 
   let products = []
-  let region = null
+  let region: StoreRegion | null = null
   let error: string | null = null
 
   try {
@@ -22,7 +23,7 @@ export default async function SearchResultsPage({
 
     // Obține produsele pe baza query-ului de căutare
     const { response } = await getProductsList({
-      queryParams: { q: query, limit: 12 }, // Asigură-te că trimiti query-ul pentru filtrare
+      queryParams: { q: query }, // Elimină 'limit' dacă nu este suportat
       countryCode: countryCode,
     })
 
@@ -37,11 +38,11 @@ export default async function SearchResultsPage({
 
   return (
     <div>
-      {/* Render the search results */}
+      {/* Renderizarea rezultatelor de căutare */}
       <SearchResultsTemplate
         query={query}
         products={products}
-        region={countryCode}
+        region={region} // Transmiterea obiectului de tip StoreRegion
         sortBy="created_at"
         page={1}
         countryCode={countryCode}

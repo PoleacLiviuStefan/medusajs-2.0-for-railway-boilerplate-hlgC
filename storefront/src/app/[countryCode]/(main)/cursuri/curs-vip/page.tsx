@@ -31,7 +31,7 @@ const CursVipDeBaza = () => {
                 <h2 className='text-[24px] font-bold mt-[2rem] w-full text-center' >EFECTE SPECIALE</h2>
                 <h3 className='text-[24px] font-thin mt-[1rem]'>1 ZI :<span className='absolute right-2 font-extrabold text-[#DAA520]'> 2500 lei </span></h3>
                 <h3 className='text-[24px] font-thin mt-[1rem]'>2 ZILE :<span className='absolute right-2  font-extrabold text-[#DAA520]'> 3800 lei </span></h3>
-                <div className='h-[40rem] mt-[5rem]'>
+                {/*<div className='h-[40rem] mt-[5rem]'>
                             <video
                                 style={{ maxWidth: "100%", width: "100%",height:"100%", margin: "100 auto",objectFit:"cover"}}
                                 playsInline
@@ -42,7 +42,7 @@ const CursVipDeBaza = () => {
                                 src="Imagini/cursVipVideo.mp4"
                                 ref={videoEl}
                                 />
-                </div>
+                </div>*/}
             </div>
             </div>
             <div className='relative lg:ml-[4rem] mt-[2rem] lg:mt-0  flex flex-col items-center w-[90%] lg:w-[40rem]'>

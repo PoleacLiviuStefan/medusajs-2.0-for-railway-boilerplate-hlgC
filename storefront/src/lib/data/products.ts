@@ -47,28 +47,39 @@ export const getProductsList = async function ({
   queryParams,
   countryCode,
 }: {
-  queryParams?: { q?: string; id?: string[] }
-  countryCode: string
+  queryParams?: {
+    q?: string;
+    id?: string[]; // Confirmare că `id` este `string[]`
+    collection_id?: string[]; // Confirmare că `collection_id` este `string[]`
+    limit?: number;
+    offset?: number;
+    order?: string;
+    fields?: string;
+    tag_id?: string | string[];
+    region_id?: string;
+    currency_code?: string;
+    category_id?: string | string[];
+  };
+  countryCode: string;
 }) {
-  const region = await getRegion(countryCode)
+  const region = await getRegion(countryCode);
 
   if (!region) {
-    return { response: { products: [], count: 0 } }
+    return { response: { products: [], count: 0 } };
   }
 
   return sdk.store.product
     .list(
       {
-        q: queryParams?.q,
-        id: queryParams?.id, // Filtrare pe baza ID-urilor dacă sunt furnizate
+        ...queryParams,
         region_id: region.id,
       },
       { next: { tags: ["products"] } }
     )
     .then(({ products, count }) => ({
       response: { products, count },
-    }))
-}
+    }));
+};
 
 export const getRelatedProducts = cache(async function ({
   pageParam = 1,
@@ -132,15 +143,29 @@ export const getTopSellingProducts = cache(async function ({
 }> {
   const limit = queryParams?.limit || 12
 
-  const {
-    response: { products, count },
-  } = await getProductsList({
-    queryParams: {
-      ...queryParams,
-      limit: 100, // Fetch 100 products for sorting purposes
-    },
-    countryCode,
-  })
+  const collectionIds = Array.isArray(queryParams?.collection_id)
+  ? queryParams.collection_id
+  : queryParams?.collection_id
+  ? [queryParams.collection_id]
+  : undefined;
+
+const ids = Array.isArray(queryParams?.id)
+  ? queryParams.id
+  : queryParams?.id
+  ? [queryParams.id]
+  : undefined;
+
+const { response: { products, count } } = await getProductsList({
+  queryParams: {
+    ...queryParams,
+    id: ids, // Asigurare că `id` este `string[]`
+    collection_id: collectionIds, // Asigurare că `collection_id` este `string[]`
+  },
+  countryCode,
+});
+
+
+
 
   const sortedProducts = products.sort((a, b) => {
     const soldA = (a as any).sold_quantity || 0
@@ -184,17 +209,28 @@ export const getProductsListWithSort = cache(async function ({
   if (queryParams?.id) {
     console.log("Filtering products by ID:", queryParams.id)
   }
+  const ids = Array.isArray(queryParams?.id)
+  ? queryParams.id
+  : queryParams?.id
+  ? [queryParams.id]
+  : undefined;
+  const collectionIds = Array.isArray(queryParams?.collection_id)
+  ? queryParams.collection_id
+  : queryParams?.collection_id
+  ? [queryParams.collection_id] // Convertim string-ul într-un array
+  : undefined;
 
-  const {
-    response: { products, count },
-  } = await getProductsList({
-    queryParams: {
-      ...queryParams,
-      limit,
-      offset,
-    },
-    countryCode,
-  })
+const { response: { products, count } } = await getProductsList({
+  queryParams: {
+    ...queryParams,
+    id: ids, // Asigurăm că `id` este un `string[]`
+    collection_id: collectionIds, // Asigurăm că `collection_id` este un `string[]`
+    limit,
+    offset,
+  },
+  countryCode,
+});
+
 
   const sortedProducts = sortProducts(products, sortBy)
   const nextPage = count > offset + limit ? page + 1 : null

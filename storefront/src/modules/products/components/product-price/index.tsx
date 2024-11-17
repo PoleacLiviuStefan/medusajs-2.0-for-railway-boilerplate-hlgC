@@ -23,7 +23,7 @@ export default function ProductPrice({
 
   console.log("selectedPrice",selectedPrice);
   return (
-    <div className="flex flex-col text-ui-fg-base">
+    <div className="flex flex-col text-ui-fg-base my-2 font-montSerrat">
       <span
         className={clx("text-xl-semi", {
           "text-ui-fg-interactive": selectedPrice.price_type === "sale",

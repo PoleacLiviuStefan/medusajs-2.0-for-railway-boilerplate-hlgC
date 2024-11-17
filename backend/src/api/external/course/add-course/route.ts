@@ -8,7 +8,7 @@ const pool = new Pool({
 });
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
-  const { name } = req.body;
+  const { name, duration } = req.body;
 
   if (!name) {
     return res.status(400).json({ error: "Numele cursului este necesar" });
@@ -16,8 +16,8 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 
   try {
     const result = await pool.query(
-      `INSERT INTO course (name, start_dates, end_dates) VALUES ($1, $2, $3) RETURNING *`,
-      [name, [], []]
+      `INSERT INTO course (name, start_dates, duration) VALUES ($1, $2, $3) RETURNING *`,
+      [name, [], duration || null]
     );
 
     res.status(201).json(result.rows[0]);
