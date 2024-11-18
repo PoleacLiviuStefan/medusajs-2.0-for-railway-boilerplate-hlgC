@@ -20,6 +20,7 @@ export default async function Nav() {
     "CURSURI PROFESIONALE": "/cursuri",
     //"DESPRE NOI": "/despre-noi",
     CONTACT: "/contact",
+    SUPORT: "/suport"
   }
 
   return (
@@ -66,11 +67,11 @@ export default async function Nav() {
                   href="/cos"
                   data-testid="nav-cart-link"
                 >
-                  <span className="hidden lg:block"><CartButton /></span>
+                  <span className="hidden lg:block "><CartButton /></span>
                 </LocalizedClientLink>
               }
             >
-              <div className="flex text-md items-center gap-1">
+              <div className="flex text-md items-center gap-1 mt-1">
                 <CartButton />
                 {/* Ascunde textul pe mobil */}
               </div>
