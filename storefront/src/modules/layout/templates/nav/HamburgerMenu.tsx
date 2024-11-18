@@ -41,14 +41,14 @@ export default function HamburgerMenu({
         {menuOpen ? <FiX /> : <FiMenu />}
       </button>
       <button onClick={()=>setShowSearchModal(true)}>
-      <FaMagnifyingGlass  className="  text-lg mt-1" />
+      <FaMagnifyingGlass  className="  text-lg " />
       </button>
       {/* Overlay negru cu opacitate */}
       {menuOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
           onClick={() => setMenuOpen(false)}
-        />
+        />  
       )}
       {
         showSearchModal && 

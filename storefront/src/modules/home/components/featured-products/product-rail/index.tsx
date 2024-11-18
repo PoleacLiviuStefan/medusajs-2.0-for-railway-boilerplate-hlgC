@@ -26,7 +26,7 @@ export default function ProductRail({
       {!main && (
         <div className="flex justify-between mb-8 text-red-400">
           <Text className="txt-xlarge">{collection.title}</Text>
-          <InteractiveLink href={`/collections/${collection.handle}`}>
+          <InteractiveLink href={`/colectii/${collection.handle}`}>
             Vezi mai multe
           </InteractiveLink>
         </div>
