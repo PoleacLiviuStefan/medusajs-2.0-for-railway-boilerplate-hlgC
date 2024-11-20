@@ -28,7 +28,7 @@ const StoreTemplate = ({
       <div className="flex flex-col items-center justify-center w-full min-h-[150px]">
         <div className="mb-8 text-2xl-semi w-full text-center bg-primary min-h-[200px] flex flex-col justify-center items-center ">
           <h1 data-testid="store-page-title">Magazin</h1>
-          <p className="text-lg   t ">
+          <p className="text-[14px] lg:text-[18px] ">
             Aici poti gasi toate produsele de care ai nevoie
           </p>
         </div>

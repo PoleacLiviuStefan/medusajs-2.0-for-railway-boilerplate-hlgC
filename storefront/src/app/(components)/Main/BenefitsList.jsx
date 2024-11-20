@@ -28,7 +28,7 @@ const BenefitList = () => {
   }, []);
 
   return (
-    <div className='w-full h-[300px] flex flex-col items-center justify-center overflow-hidden my-[32px] z-10'>
+    <div className='w-full h-[300px] flex flex-col items-center justify-center overflow-hidden  z-10'>
       <div
         ref={sliderRef}
         className='flex justify-center items-center overflow-x-scroll no-scrollbar w-full gap-[32px] whitespace-nowrap max-w-[980px] h-full' // Folosim gap-2 pentru un spațiu mic între elemente

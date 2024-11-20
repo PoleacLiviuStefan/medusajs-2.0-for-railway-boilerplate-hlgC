@@ -9,6 +9,9 @@ import HamburgerMenu from "./HamburgerMenu"
 import MovingText from "./MovingText"
 import SearchForm from "./searchForm" // Import the client-side search form component
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import logo from '../../../../../public/Imagini/logo.png'
+import Image from "next/image"
+
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
@@ -24,12 +27,12 @@ export default async function Nav() {
   }
 
   return (
-    <div className="sticky top-0 inset-x-0 z-50 font-sans">
+    <header className="fixed top-0 inset-x-0 z-50 font-sans">
       
-      <header className="flex flex-col justify-center relative h-[50px] lg:h-[90px] mx-auto border-b duration-200 py-8 bg-white border-ui-border-base">
+      <div className="flex flex-col justify-center relative h-[50px] lg:h-[90px] mx-auto border-b duration-200 py-8 bg-white border-ui-border-base">
         <nav className="flex justify-center lg:justify-between content-container txt-xsmall-plus text-ui-fg-subtle items-center w-full mt-[8px] gap-[32px] px-4  lg:w-[900px] lg:px-0">
           {/* Adăugăm componenta HamburgerMenu pentru partea interactivă */}
-          <div className=" absolute flex left-2 gap-[16px] lg:hidden">
+          <div className=" flex absolute  left-6 items-center gap-x-6 w-[100px] whitespace-nowrap inline lg:hidden">
           
           <HamburgerMenu SideMenuItems={SideMenuItems} collections={collections} />
            {/*baga in hamburgerMenu*/}
@@ -41,7 +44,7 @@ export default async function Nav() {
               className="txt-compact-xlarge-plus hover:text-gray-500 uppercase text-center "
               data-testid="nav-store-link"
             >
-              LorenaLash
+              <Image alt="logo" src={logo} className="h-[50px] lg:h-[60px] w-auto lg:mt-[16px]" />
             </LocalizedClientLink>
           </div>
 
@@ -49,7 +52,7 @@ export default async function Nav() {
           <SearchForm /> 
 
           {/* Elemente de navigare pentru cont și coș */}
-          <div className="flex absolute lg:relative right-4 lg:right-0 items-center gap-x-6 w-[100px] whitespace-nowrap inline">
+          <div className="flex absolute lg:relative right-0 items-center gap-x-6 w-[100px] whitespace-nowrap inline">
             <LocalizedClientLink
               className="flex flex-row items-center gap-1 text-sm hover:text-gray-500"
               href="/cont"
@@ -80,7 +83,7 @@ export default async function Nav() {
         </nav>
 
         {/* Elemente de navigare pentru desktop */}
-        <ul className="hidden lg:flex gap-[16px] items-center justify-center gap-[48px]  ">
+        <ul className="hidden lg:flex gap-[16px] items-center justify-center gap-[48px] -mt-[20px]  ">
           {/* Renderizare dinamică pentru meniul lateral */}
           {Object.entries(SideMenuItems).map(([name, href]) => {
             // Dropdown pentru Produse
@@ -90,7 +93,7 @@ export default async function Nav() {
                   {/* Numai "Magazin" va activa dropdown-ul */}
                   <LocalizedClientLink
                         href={`/magazin`}
-                       className="text-sm leading-10 hover:text-ui-fg-disabled cursor-pointer"
+                       className="text-sm leading-10 hover:text-gray-500 cursor-pointer"
                       >
                  
                     {name}
@@ -129,7 +132,7 @@ export default async function Nav() {
                 <li key={name} className="relative group">
                   <LocalizedClientLink
                     href={href}
-                    className="text-md leading-10 hover:text-ui-fg-disabled cursor-pointer"
+                    className="text-md leading-10 hover:text-gray-500 cursor-pointer"
                   >
                     {name}
                   </LocalizedClientLink>
@@ -140,7 +143,7 @@ export default async function Nav() {
                         href={`/cursuri/curs-de-baza`}
                         className="text-sm text-gray-700 w-full "
                       >
-                    <li className="py-2 hover:bg-gray-100 w-full px-2">
+                    <li className="py-2  hover:text-gray-500 w-full px-2">
                    
                         CURS DE BAZA 1D-3D & FOXY
                    
@@ -150,7 +153,7 @@ export default async function Nav() {
                         href={`/cursuri/curs-de-baza-premium`}
                         className="text-sm text-gray-700 w-full "
                       >
-                    <li className="py-2 hover:bg-gray-100 w-full px-2">
+                    <li className="py-2  hover:text-gray-500 w-full px-2">
                    
                         CURS DE BAZA PREMIUM (BAZA&EFECTE)
                    
@@ -160,7 +163,7 @@ export default async function Nav() {
                         href={`/cursuri/curs-de-efecte-speciale`}
                         className="text-sm text-gray-700 w-full"
                       >
-                         <li className="py-2 hover:bg-gray-100 w-full px-2">
+                         <li className="py-2  hover:text-gray-500 w-full px-2">
                         CURS DE EFECTE SPECIALE
                     </li>
                       </LocalizedClientLink>
@@ -168,7 +171,7 @@ export default async function Nav() {
                         href={`/cursuri/curs-vip`}
                         className="text-sm text-gray-700 w-full"
                       >
-                          <li className="py-2 hover:bg-gray-100 w-full px-2">
+                          <li className="py-2  hover:text-gray-500 w-full px-2">
                         CURS VIP
                     </li>
                       </LocalizedClientLink>
@@ -191,8 +194,8 @@ export default async function Nav() {
             )
           })}
         </ul>
-      </header>
+      </div>
       {/*<MovingText />*/}
-    </div>
+    </header>
   )
 }

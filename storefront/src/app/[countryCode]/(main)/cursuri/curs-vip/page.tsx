@@ -3,6 +3,7 @@ import React,{useRef,useEffect} from 'react'
 import cursVipDeBaza from '../../../../../../public/Imagini/cursuri/cursVip.jpeg'
 import LocalizedClientLink from '@modules/common/components/localized-client-link';
 import Image from 'next/image';
+import { KitBaza, KitEfecte } from 'app/constants';
 
 const CursVipDeBaza = () => {
     const videoEl = useRef(null);
@@ -22,15 +23,33 @@ const CursVipDeBaza = () => {
         <div className=' lg:ml-[2rem] flex flex-col items-center w-[90%] lg:w-[25rem]'>           
             <Image alt="Curs Vip de Baza" src={cursVipDeBaza} className=" w-[21rem] lg:w-[25rem] " />
             <LocalizedClientLink href="/checkout" className='w-full'>
-            <button onClick={()=>{localStorage.setItem("cumparaCurs","Curs VIP De Baza 2 Zile (Avans)");window.scrollTo({top:0,left:0})}} className='mt-[2rem] border-[2px] border-black w-full text-[18px]  h-[3rem] rounded-[8px] tracking-[6px] font-bold animate-[buyBtnReverse_.3s_ease-in-out_forwards] hover:animate-[buyBtn_.3s_ease-in-out_forwards]'>CUMPARA ACUM</button>
+            <button onClick={()=>{localStorage.setItem("cumparaCurs","Curs VIP De Baza 2 Zile (Avans)");window.scrollTo({top:0,left:0})}}  className="mt-[2rem] border-[2px] border-black w-full text-[18px] font-bold h-[3rem] rounded-[8px] tracking-[6px] bg-transparent text-black hover:bg-black hover:text-white transition-all ease-in-out duration-200">CUMPARA ACUM</button>
             </LocalizedClientLink>
             <div className='relative flex flex-col items-left w-full mt-[2rem]'>
                 <h3 className='mb-[1rem] lg:text-[18px] text-justify'>Achiti   <span className='font-bold'>AVANSUL</span> de <span className='font-bold'>500 de lei </span> aici sau la locatie pentru a-ti rezerva locul, restul sumei se achita in prima zi de curs</h3>
+                <p className="relative flex flex-col justify-center items-center  font-extrabold ">
+                  {" "}
+                  KIT pentru acasa inclus in pret(690 lei)
+                </p>{" "}
                 <h2 className='text-[24px] font-bold mt-[2rem] w-full text-center' >BAZA</h2>
-                <h3 className='text-[24px] font-thin'>2 ZILE :<span className='absolute right-2 font-extrabold text-[#DAA520]'> 4000 lei </span></h3>
+
+                <div className="flex    justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
+                <span className='whitespace-nowrap'>2 ZILE:</span>
+              <div className="flex flex-col items-center ">
+                <h3 className="relative w-full flex justify-end text-right text-[24px] font-extrabold text-[#DAA520]">
+                  {" "}
+                  3000 lei
+                </h3>{" "}
+      
+                <div className="flex  flex-col items-center w-full font-thin mt-[1rem]">
+              <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Inclus contine:</h4>
+              <p>{KitBaza}</p>
+            </div>
+              </div>{" "}
+            </div>
                 <h2 className='text-[24px] font-bold mt-[2rem] w-full text-center' >EFECTE SPECIALE</h2>
-                <h3 className='text-[24px] font-thin mt-[1rem]'>1 ZI :<span className='absolute right-2 font-extrabold text-[#DAA520]'> 2500 lei </span></h3>
-                <h3 className='text-[24px] font-thin mt-[1rem]'>2 ZILE :<span className='absolute right-2  font-extrabold text-[#DAA520]'> 3800 lei </span></h3>
+        
+                <h3 className='text-[24px] font-thin mt-[1rem]'>2 ZILE :<span className='absolute right-2  font-extrabold text-[#DAA520]'> 3000 lei </span></h3>
                 {/*<div className='h-[40rem] mt-[5rem]'>
                             <video
                                 style={{ maxWidth: "100%", width: "100%",height:"100%", margin: "100 auto",objectFit:"cover"}}
@@ -43,6 +62,10 @@ const CursVipDeBaza = () => {
                                 ref={videoEl}
                                 />
                 </div>*/}
+                         <div className="flex  flex-col items-center w-full font-thin mt-[1rem]">
+              <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Inclus contine:</h4>
+              <p>{KitEfecte}</p>
+            </div>
             </div>
             </div>
             <div className='relative lg:ml-[4rem] mt-[2rem] lg:mt-0  flex flex-col items-center w-[90%] lg:w-[40rem]'>

@@ -4,7 +4,7 @@ import cursDeBaza from "../../../../../../public/Imagini/cursuri/cursDeBaza_prev
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Image from "next/image"
-
+import {KitBaza} from '../../../../constants';
 const CursDeBaza = () => {
   const videoEl = useRef(null)
   const attemptPlay = () => {
@@ -33,7 +33,8 @@ const CursDeBaza = () => {
                 localStorage.setItem("cumparaCurs", "Curs De Baza (Avans)")
                 window.scrollTo({ top: 0, left: 0 })
               }}
-              className="mt-[2rem] border-[2px] border-black w-full text-[18px] font-bold  h-[3rem] rounded-[8px] tracking-[6px] animate-[buyBtnReverse_.3s_ease-in-out_forwards] hover:animate-[buyBtn_.3s_ease-in-out_forwards]"
+ className="mt-[2rem] border-[2px] border-black w-full text-[18px] font-bold h-[3rem] rounded-[8px] tracking-[6px] bg-transparent text-black hover:bg-black hover:text-white transition-all ease-in-out duration-200"
+
             >
               CUMPARA ACUM
             </button>
@@ -45,7 +46,10 @@ const CursDeBaza = () => {
               pentru a-ti rezerva locul, restul sumei se achita in prima zi de
               curs
             </h3>
-
+            <p className="relative flex flex-col justify-center items-center  font-extrabold ">
+                  {" "}
+                  KIT pentru acasa inclus in pret(690 lei)
+                </p>{" "}
             <div className="flex    justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
               PRET TOTAL{" "}
               <div className="flex flex-col items-center ">
@@ -58,6 +62,10 @@ const CursDeBaza = () => {
                   <span>(500 Lei Reducere)</span> De la 2000 lei{" "}
                 </h3>{" "}
               </div>{" "}
+            </div>
+            <div className="flex  flex-col items-center w-full font-thin mt-[1rem]">
+              <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Inclus contine:</h4>
+              <p>{KitBaza}</p>
             </div>
           </div>
           {/*

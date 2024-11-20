@@ -51,13 +51,14 @@ const SearchModal = () => {
       {isLoading ? (
         <p>Se caută...</p>
       ) : results.length > 0 && region ? (
-        <ul className="search-results grid grid-cols-2 gap-6" data-testid="search-results">
-          {results.map((product) => (
-            <li key={product.id} data-testid="search-result">
-              <ProductPreview product={product} region={region} />
-            </li>
-          ))}
-        </ul>
+<ul className="search-results grid grid-cols-2 gap-6" data-testid="search-results">
+  {results.map((product) => (
+    <li key={product.id} data-testid="search-result">
+      <ProductPreview product={product} isFeatured={false} region={region} />
+    </li>
+  ))}
+</ul>
+
       ) : query.length > 2 ? (
         <div data-testid="no-search-results-container">
           <p>Nu au fost găsite produse pentru căutarea ta.</p>
