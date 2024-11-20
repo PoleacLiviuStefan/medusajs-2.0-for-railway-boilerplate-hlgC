@@ -15,7 +15,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
     <>
  
       <Nav />
-      {props.children}
+      <main className="mt-[65px] lg:mt-[90px]">{props.children}</main>
       <Footer />
     </>
   )

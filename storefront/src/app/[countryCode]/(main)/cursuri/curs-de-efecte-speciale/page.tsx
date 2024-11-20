@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import cursDePerfectionare from '../../../../../../public/Imagini/cursuri/cursEfecteSpeciale.jpeg'
 import LocalizedClientLink from '@modules/common/components/localized-client-link'
 import Image from 'next/image'
+import { KitEfecte } from 'app/constants'
 
 const Page = () => {
   const videoEl = useRef(null);
@@ -30,7 +31,7 @@ const Page = () => {
                 localStorage.setItem("cumparaCurs", "Curs De Efecte Speciale 1 Zi (Avans)");
                 window.scrollTo({ top: 0, left: 0 });
               }} 
-              className='mt-[2rem] border-[2px] border-black w-full text-[18px] h-[3rem] rounded-[8px] tracking-[6px] font-bold animate-[buyBtnReverse_.3s_ease-in-out_forwards] hover:animate-[buyBtn_.3s_ease-in-out_forwards]'
+ className="mt-[2rem] border-[2px] border-black w-full text-[18px] font-bold h-[3rem] rounded-[8px] tracking-[6px] bg-transparent text-black hover:bg-black hover:text-white transition-all ease-in-out duration-200"
             >
               CUMPARA ACUM
             </button>
@@ -39,7 +40,10 @@ const Page = () => {
             <p className=' lg:text-[18px] text-justify'>
               Achiti <span className='font-bold'>AVANSUL</span> de <span className='font-bold'>500 de lei </span> aici sau la locatie pentru a-ti rezerva locul, restul sumei se achita in prima zi de curs
             </p>
-          
+            <p className="relative flex flex-col justify-center items-center  font-extrabold ">
+                  {" "}
+                  KIT pentru acasa inclus in pret(690 lei)
+                </p>{" "}
             <span className='text-[24px] font-thin mt-[1rem]'>
               1 ZI<span className='absolute right-2 font-extrabold text-[#DAA520]'>2500 lei</span>
             </span>
@@ -48,6 +52,10 @@ const Page = () => {
             <p className=' lg:text-[18px] text-justify'>Avansul nu este retunabil, dar se poate modifica perioada cursului cu minim 2 saptamani înainte.</p>
             </div>
           </div>
+          <div className="flex  flex-col items-center w-full font-thin mt-[1rem]">
+              <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Inclus contine:</h4>
+              <p>{KitEfecte}</p>
+            </div>
         </div>
 
         <div className='relative lg:ml-[4rem] mt-[2rem] lg:mt-0 flex flex-col items-center w-[90%] lg:w-[40rem]'>

@@ -21,8 +21,8 @@ export default async function Page() {
   }
 
   return (
-    <div className="flex flex-col items-center w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-items-center py-4">
+    <div className="flex flex-col items-center w-full px-[16px] lg:px-0">
+      <div className="grid grid-cols-2 gap-6 justify-items-center py-4">
         {[...Array(4)].map((_, index) => (
           <Image
             key={index}
@@ -36,7 +36,7 @@ export default async function Page() {
         ))}
       </div>
       <BenefitsList />
-      <ul className="flex flex-row gap-x-6 lg:w-[900px] ">
+      <ul className="flex flex-row gap-x-6 w-full  lg:w-[900px] ">
   <FeaturedProducts collections={collections} region={region} main={true}/>
 </ul>
 

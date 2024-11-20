@@ -1,0 +1,2 @@
+export const KitBaza="1 adeziv Flawless 5g, 1 Primer, 1 Placuta Holograma, 2 Casete Extensii Gene - Flat & Foxy, 2 Pensete, Banda 3M, 1 Remover, 10 Patch-uri"
+export const KitEfecte="1 adeziv Rapid 5g, 1 Primer, 1 Placuta Holograma, 1 Caseta Mix Extensii Gene, 2 Pensete,1 Remover"

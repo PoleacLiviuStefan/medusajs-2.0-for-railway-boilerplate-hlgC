@@ -18,32 +18,25 @@ export default async function RelatedProducts({
     return null
   }
 
-  // Verificăm dacă produsul are o colecție asociată
   if (!product.collection.id) {
     return null
   }
 
-  // Pregătește parametrii pentru a obține produsele din aceeași colecție, excludem giftcards
-
-  console.log("produsCurent",product)
   const queryParams: HttpTypes.StoreProductParams = {
     region_id: region.id,
-    collection_id: [product.collection_id], // Căutăm doar produse din aceeași colecție
+    collection_id: [product.collection_id],
     is_giftcard: false,
   }
 
-  // Obținem lista produselor din colecția respectivă
   const products = await getRelatedProducts({
     queryParams,
     countryCode,
   }).then(({ response }) => {
-    // Filtrăm pentru a exclude produsul curent
     return response.products.filter(
       (responseProduct) => responseProduct.id !== product.id
     )
   })
 
-  // Dacă nu există alte produse în colecție, returnăm null pentru a nu afișa secțiunea
   if (!products.length) {
     return null
   }
@@ -51,21 +44,47 @@ export default async function RelatedProducts({
   return (
     <div className="product-page-constraint">
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="text-md lg:text-xl font-bold">
-          Produse Similare
-        </span>
+        <span className="text-md lg:text-xl font-bold">Produse Similare</span>
         <p className="text-lg-regular text-gray-600 text-ui-fg-base max-w-lg">
           Descoperă mai multe produse care te-ar interesa
         </p>
       </div>
 
-      {/* Listăm produsele similare */}
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8">
-        {products.map((relatedProduct) => (
-          <li key={relatedProduct.id}>
-            <Product region={region} product={relatedProduct} />
-          </li>
-        ))}
+      {products.map((relatedProduct) => {
+  const firstVariant = relatedProduct.variants?.[0];
+  const firstPriceRaw = firstVariant?.calculated_price;
+
+  // Conversie sigură a `firstPriceRaw` la un număr
+  const firstPrice = firstPriceRaw ? Number(firstPriceRaw) : undefined;
+
+  if (typeof firstPrice !== "number" || isNaN(firstPrice)) {
+    console.warn("Invalid firstPrice for product:", relatedProduct.id);
+    return null; // Sau gestionează altfel produsele cu prețuri invalide
+  }
+
+  const priceObject = {
+    price_type: "default",
+    calculated_price_number: firstPrice / 100,
+    calculated_price: `${(firstPrice / 100).toFixed(2)} lei`,
+    original_price_number: firstPrice / 100,
+    original_price: `${(firstPrice / 100).toFixed(2)} lei`,
+    percentage_diff: "0", // Ajustează dacă este necesar
+    currency_code: "RON", // Ajustează codul valutar dacă este necesar
+  };
+
+  return (
+    <li key={relatedProduct.id}>
+      <Product
+        product={relatedProduct}
+        isFeatured={false}
+        cheapestPrice={priceObject.calculated_price}
+        region={region}
+      />
+    </li>
+  );
+})}
+
       </ul>
     </div>
   )

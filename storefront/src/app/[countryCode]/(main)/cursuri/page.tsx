@@ -26,7 +26,7 @@ const page = () => {
   
     <div className="flex flex-col justify-center items-center w-full h-full py-[5rem] lg:py-[10rem]">
     <InfoContainer description="" title="" display="flex" flexDirection="col" height="300" >
-    <div className="flex flex-col justify-between  p-4 lg:grid lg:grid-cols-3 justify-items-center leading-4 mx-auto items-center w-[80%] h-full">
+    <div className="flex flex-col justify-between  p-4 lg:grid lg:grid-cols-3 justify-items-center leading-4 mx-auto items-center w-[80%] h-full gap-[16px] lg:gap-0">
           <div className=" w-full px-4 lg:w-[300px]">
             <p>Cursuri Practice și Teoretice: Îmbină cunoștințele teoretice cu practica intensivă. </p>
           </div>

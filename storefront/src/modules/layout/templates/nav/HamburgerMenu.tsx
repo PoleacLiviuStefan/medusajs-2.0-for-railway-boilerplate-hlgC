@@ -6,7 +6,8 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import SearchForm from "./searchForm"
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import SearchModalMobile from "./SearchModalMobile"
-
+import logo from '../../../../../public/Imagini/logo.png'
+import Image from "next/image"
 // Definim tipul pentru SideMenuItems
 type SideMenuItemsType = {
   [key: string]: string
@@ -56,12 +57,12 @@ export default function HamburgerMenu({
 }
       {/* Meniu lateral pentru mobil */}
       <div
-        className={` fixed top-0 left-0 h-full w-[300px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        className={` fixed top-0 left-0 h-full w-[280px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="relative w-full flex items-center justify-center p-8">
-          <span className="text-[24px] font-bold">Lorena Lash</span>
+          <Image src={logo} alt="logo" className="h-[120px] w-auto" />
           <button
             onClick={() => setMenuOpen(false)}
             className="absolute right-4  text-[16px] border-[1px] border-gray-400 p-[4px]"
@@ -80,7 +81,7 @@ export default function HamburgerMenu({
                   {/* Link către pagina "Magazin" sau "Cursuri Profesionale" */}
                   <LocalizedClientLink
                     href={href}
-                    className="text-[16px] leading-10 hover:text-ui-fg-base"
+                    className="text-[16px] leading-10 hover:text-ui-fg-base whitespace-nowrap"
                     onClick={() => setMenuOpen(false)} // Închide meniul după click
                   >
                     {name}
@@ -92,7 +93,7 @@ export default function HamburgerMenu({
                         ? setDropdownOpen(!dropdownOpen)
                         : setCursuriDropdownOpen(!cursuriDropdownOpen)
                     }
-                    className="ml-2 px-[16px] h-full text-[20px]"
+                    className="flex justify-end ml-2  w-full h-full text-[20px]"
                   >
                     {name === "MAGAZIN" ? (
                       dropdownOpen ? <FiChevronUp /> : <FiChevronDown />
