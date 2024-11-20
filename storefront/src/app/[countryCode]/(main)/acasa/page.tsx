@@ -6,6 +6,8 @@ import BenefitsList from "../../../(components)/Main/BenefitsList"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
+import Hero from "@modules/home/components/hero"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export const metadata: Metadata = {
   title: "Cursuri - Medusa Next.js",
@@ -21,19 +23,26 @@ export default async function Page() {
   }
 
   return (
+    <>
+    <Hero />
     <div className="flex flex-col items-center w-full px-[16px] lg:px-0">
+      
       <div className="grid grid-cols-2 gap-6 justify-items-center py-4">
         {[...Array(4)].map((_, index) => (
+          <LocalizedClientLink href="/curs-de-baza"  key={index}>
           <Image
             key={index}
             src={Curs}
-            width={500}
-            height={500}
+          
             alt="Curs de bază"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+
+
             className="w-full h-auto object-cover"
           />
+          </LocalizedClientLink>
         ))}
+        
       </div>
       <BenefitsList />
       <ul className="flex flex-row gap-x-6 w-full  lg:w-[900px] ">
@@ -41,5 +50,6 @@ export default async function Page() {
 </ul>
 
     </div>
+    </>
   )
 }
