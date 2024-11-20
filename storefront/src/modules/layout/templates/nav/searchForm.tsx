@@ -27,7 +27,7 @@ export default function SearchForm({
       onSubmit={handleSearch}
       className={`${
         !mobile && "hidden"
-      } lg:inline relative flex-1 w-[150px] lg:w-[450px] lg:mx-auto px-[8px] lg:px-0`}
+      } lg:inline relative flex-1 w-full  lg:w-[450px] lg:mx-auto px-[8px] lg:px-0`}
     >
       <input
         type="text"
