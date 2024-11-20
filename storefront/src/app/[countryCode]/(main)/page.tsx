@@ -28,7 +28,7 @@ export default async function Home({
 
   return (
     <>
-      <Hero />
+      {/*<Hero /> */}
       <div className="flex justify-center w-full lpy-12">
         <ul className="flex flex-col gap-x-6 lg:w-[900px]">
           <FeaturedProducts collections={collections} region={region} />
