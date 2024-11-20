@@ -21,7 +21,7 @@ const Slider: React.FC<SliderProps> = ({ products, region }) => {
       if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth) {
         scrollAmount = 0; // Reset scroll-ul la început
       } else {
-        scrollAmount += slider.offsetWidth / 2; // Mută scroll-ul cu jumătate din lățimea vizibilă
+        scrollAmount += slider.offsetWidth / 3; // Mută scroll-ul cu un sfert din lățimea vizibilă
       }
 
       slider.scrollTo({
@@ -41,7 +41,7 @@ const Slider: React.FC<SliderProps> = ({ products, region }) => {
       {products.map((product) => (
         <div
           key={product.id}
-          className="inline-block w-[5px] sm:w-[150px] md:w-[180px] lg:w-[200px] flex-shrink-0"
+          className="inline-block w-[150px] sm:w-[200px] md:w-[270px] flex-shrink-0"
         >
           {/* @ts-ignore */}
           <ProductPreview product={product} region={region} isFeatured />
