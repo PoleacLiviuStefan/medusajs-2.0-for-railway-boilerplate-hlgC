@@ -33,7 +33,10 @@ export default function HamburgerMenu({
 
   return (
     <>
-   
+         {
+        showSearchModal && 
+      <SearchModalMobile setShowSearchModal={(value)=>setShowSearchModal(value)} />
+}
       {/* Buton hamburger pentru mobil */}
       <button
         className="text-2xl z-50 " // Setăm z-index mare și poziționăm butonul astfel încât să fie deasupra overlay-ului
@@ -41,8 +44,8 @@ export default function HamburgerMenu({
       >
         {menuOpen ? <FiX /> : <FiMenu />}
       </button>
-      <button onClick={()=>setShowSearchModal(true)}>
-      <FaMagnifyingGlass  className="  text-lg " />
+      <button onClick={()=>setShowSearchModal((prev)=>!prev)} className={` z-50 ${!showSearchModal ? "text-[18px]" : "text-[24px]"}`}>
+      {!showSearchModal ? <FaMagnifyingGlass /> :  <FiX />}
       </button>
       {/* Overlay negru cu opacitate */}
       {menuOpen && (
@@ -51,10 +54,7 @@ export default function HamburgerMenu({
           onClick={() => setMenuOpen(false)}
         />  
       )}
-      {
-        showSearchModal && 
-      <SearchModalMobile setShowSearchModal={(value)=>setShowSearchModal(value)} />
-}
+
       {/* Meniu lateral pentru mobil */}
       <div
         className={` fixed top-0 left-0 h-full w-[310px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${

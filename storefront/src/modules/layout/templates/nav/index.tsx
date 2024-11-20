@@ -100,7 +100,7 @@ export default async function Nav() {
                 
                   </LocalizedClientLink>
                   {/* Dropdown pentru colecții */}
-                  <ul className="absolute hidden text-sm group-hover:block bg-white border w-[200px] py-4 shadow-lg z-999">
+                  <ul className="absolute hidden text-sm group-hover:block bg-white border w-[200px] py-4 mt-[-8px] shadow-lg z-999">
                       <LocalizedClientLink
                         href={`/magazin`}
                         className="text-sm text-gray-700 w-full"
@@ -136,7 +136,7 @@ export default async function Nav() {
                   >
                     {name}
                   </LocalizedClientLink>
-                  <ul className="absolute left-0 text-sm  opacity-0 invisible transition-opacity duration-300 ease-in-out group-hover:opacity-100 group-hover:visible group-hover:delay-0 delay-300 bg-white border w-[200px] py-4 shadow-lg z-50">
+                  <ul className="absolute left-0 text-sm  opacity-0 mt-[-8px] invisible transition-opacity duration-300 ease-in-out group-hover:opacity-100 group-hover:visible group-hover:delay-0 delay-300 bg-white border w-[200px] py-4 shadow-lg z-50">
 
 
                   <LocalizedClientLink
