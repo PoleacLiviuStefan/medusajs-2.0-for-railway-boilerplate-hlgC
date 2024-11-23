@@ -66,6 +66,7 @@ const Footer = () => {
           <li onClick={()=>{navigate("politica-de-returnare"); window.scrollTo({top:0,left:0})}} className='cursor-pointer text-[14px]'>Politica de returnare</li>
           <li onClick={()=>{navigate("termeni-si-conditii"); window.scrollTo({top:0,left:0})}} className='cursor-pointer text-[14px]'>Termeni si conditii</li>
         </ul>
+        {/*
         <ul className='w-[10rem] mt-[1rem] lg:mt-0'>
           <li className='font-bold '>Echipa</li>
           <li onClick={()=>{navigate("salon");window.scrollTo({top:600,left:0})}} className='mt-[1rem] cursor-pointer text-[14px]'>Lorena Danoiu (Trainer)</li>
@@ -74,6 +75,7 @@ const Footer = () => {
           <li onClick={()=>{navigate("salon");window.scrollTo({top:1200,left:0})}} className='cursor-pointer text-[14px]'>Catalina Trica (Brow Artist)</li>
       
         </ul>
+        */}
         </div>
         <div className='flex mt-[3rem]  flex-col-reverse   lg:flex-row justify-between  items-center lg:items-end w-full lg:w-[60rem]'> 
      

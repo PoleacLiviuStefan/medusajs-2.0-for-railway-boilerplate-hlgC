@@ -110,27 +110,7 @@ export default function ProductActions({
   return (
     <>
       <div className="flex flex-col " ref={actionsRef}>
-        <div>
-          {(product.variants?.length ?? 0) > 1 && (
-            <div className="flex flex-col gap-y-4">
-              {(product.options || []).map((option) => {
-                return (
-                  <div key={option.id}>
-                    <OptionSelect
-                      option={option}
-                      current={options[option.title ?? ""]}
-                      updateOption={setOptionValue}
-                      title={option.title ?? ""}
-                      data-testid="product-options"
-                      disabled={!!disabled || isAdding}
-                    />
-                  </div>
-                )
-              })}
-              <Divider />
-            </div>
-          )}
-        </div>
+
         <Heading
           level="h2"
           className="text-3xl leading-10 text-ui-fg-base mt-[16px] lg:mt-[48px]"
@@ -190,6 +170,37 @@ export default function ProductActions({
           show={!inView}
           optionsDisabled={!!disabled || isAdding}
         />
+                <div>
+          {(product.variants?.length ?? 0) > 1 && (
+            <div className="flex flex-col gap-y-4">
+              {(product.options || []).map((option) => {
+                return (
+                  <div key={option.id}>
+                    <OptionSelect
+                      option={option}
+                      current={options[option.title ?? ""]}
+                      updateOption={setOptionValue}
+                      title={option.title ?? ""}
+                      data-testid="product-options"
+                      disabled={!!disabled || isAdding}
+                    />
+                  </div>
+                )
+              })}
+              <Divider />
+            </div>
+          )}
+          <div className="mt-4">
+        <h4 className="text-lg font-semibold">Opțiuni selectate:</h4>
+        <ul className="list-disc list-inside">
+          {Object.entries(options).map(([optionTitle, selectedValue]) => (
+            <li key={optionTitle} className="text-md text-gray-700">
+              {optionTitle}: {selectedValue}
+            </li>
+          ))}
+        </ul>
+      </div>
+        </div>
       </div>
     </>
   )

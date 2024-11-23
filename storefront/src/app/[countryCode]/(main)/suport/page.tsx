@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AiOutlineWhatsApp } from "react-icons/ai";
 import { FAQ } from "@lib/constants";
 import FAQItem from "./FAQItem";
+import ReturnForm from "app/(components)/ReturnForm/ReturnForm";
 
 const Suport: React.FC = () => {
   const [showQuestion, setShowQuestion] = useState<number[]>([]);
@@ -49,6 +50,7 @@ const Suport: React.FC = () => {
             0764038271
           </a>
         </div>
+        <ReturnForm />
       </div>
     </div>
   );

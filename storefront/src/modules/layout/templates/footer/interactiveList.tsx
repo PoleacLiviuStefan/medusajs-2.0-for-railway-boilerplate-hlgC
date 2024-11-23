@@ -16,13 +16,18 @@ export default function InteractiveList() {
       <li className='cursor-pointer text-[14px]'>
         <LocalizedClientLink
           activeClass="active"
-          href="despre-noi"
+          href="/magazin"
         >
-          DESPRE NOI
+          MAGAZIN
         </LocalizedClientLink>
       </li>
-      <li onClick={() => { window.scrollTo({ top: 0, left: 0 }) }} className='cursor-pointer text-[14px]'>
-        ECHIPA
+      <li className='cursor-pointer text-[14px]'>
+        <LocalizedClientLink
+          activeClass="active"
+          href="/contact"
+        >
+          CURSURI PROFESIONALE
+        </LocalizedClientLink>
       </li>
       <li className='cursor-pointer text-[14px]'>
         <LocalizedClientLink
@@ -32,8 +37,13 @@ export default function InteractiveList() {
           CONTACT
         </LocalizedClientLink>
       </li>
-      <li className='cursor-pointer' onClick={() => { window.scrollTo({ top: 0, left: 0 }) }}>
-        ADMIN
+      <li className='cursor-pointer text-[14px]'>
+        <LocalizedClientLink
+          activeClass="active"
+          href="/suport"
+        >
+          SUPORT
+        </LocalizedClientLink>
       </li>
     </ul>
   );

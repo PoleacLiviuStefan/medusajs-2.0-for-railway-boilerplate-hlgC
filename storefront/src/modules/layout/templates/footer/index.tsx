@@ -29,6 +29,7 @@ export default async function Footer() {
           <li className='cursor-pointer text-[14px]'>Politica de returnare</li>
           <li className='cursor-pointer text-[14px]'>Termeni si conditii</li>
         </ul>
+        {/*
         <ul className='w-[10rem] mt-[1rem] lg:mt-0'>
           <li className='font-bold '>Echipa</li>
           <li className='mt-[1rem] cursor-pointer text-[14px]'>Lorena Danoiu (Trainer)</li>
@@ -36,6 +37,7 @@ export default async function Footer() {
           <li className='cursor-pointer text-[14px]'>Damian Denisa (Master)</li>
           <li className='cursor-pointer text-[14px]'>Catalina Trica (Brow Artist)</li>
         </ul>
+        */}
       </div>
       <div className='flex mt-[3rem] flex-col-reverse lg:flex-row justify-between items-center lg:items-end w-full lg:w-[60rem]'> 
         <a title="Firma creare site de prezentare" href="https://www.waygital.ro/" className='relative flex'>  Site creat de </a>
