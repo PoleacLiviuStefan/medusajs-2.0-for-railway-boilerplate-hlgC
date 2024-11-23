@@ -28,7 +28,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 }) => {
 
   const [shownSection,setShownSection] = useState(1);
-
+  const [selectedCurbura, setSelectedCurbura] = useState("");
+  const [selectedMarime,setSelectedMarime] = useState("")
 
   if (!product || !product.id) {
     return notFound()
@@ -60,6 +61,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
        
         <ProductOnboardingCta isOnboarding={false} />
 
+
+          <ProductInfo product={product} />
+          
           <Suspense
             fallback={
               <ProductActions
@@ -72,7 +76,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
              
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
-          <ProductInfo product={product} />
         </div>
       </div>
       <ul className="flex justify-between  px-4 w-[200px] font-bold">

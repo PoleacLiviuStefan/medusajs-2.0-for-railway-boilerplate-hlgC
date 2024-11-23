@@ -8,7 +8,7 @@ import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 import Hero from "@modules/home/components/hero"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-
+import Echipa  from '../../../../../public/Imagini/stiliste/echipa.png'
 export const metadata: Metadata = {
   title: "Cursuri - Medusa Next.js",
   description: "Pagina pentru cursuri, folosind Medusa și Next.js 14.",
@@ -24,7 +24,7 @@ export default async function Page() {
 
   return (
     <>
-    <Hero />
+    <Hero image={Echipa} />
     <div className="flex flex-col items-center w-full px-[16px] lg:px-0">
       
       <div className="grid grid-cols-2 gap-6 justify-items-center py-4">
