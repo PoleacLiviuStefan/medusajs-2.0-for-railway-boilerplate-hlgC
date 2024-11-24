@@ -10,11 +10,11 @@ const pool = new Pool({
 
 // Middleware pentru setările CORS
 const setCorsHeaders = (res: MedusaResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
 };
+
 
 // Funcție pentru a răspunde la cererile OPTIONS (preflight)
 export const OPTIONS = async (req: MedusaRequest, res: MedusaResponse) => {
