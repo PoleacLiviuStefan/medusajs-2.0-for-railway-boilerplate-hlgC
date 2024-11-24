@@ -35,7 +35,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     return notFound()
   }
 
-  console.log(product)
+ // console.log(product)
 
 
   return (
