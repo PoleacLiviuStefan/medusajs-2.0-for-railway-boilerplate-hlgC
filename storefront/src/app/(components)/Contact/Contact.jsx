@@ -8,10 +8,9 @@ const Contact = () => {
            <h2 className='relative  text-[28px] lg:text-[48px] font-bold  px-[10rem] py-[.5rem] rounded-[8px] text-white'>
           CONTACT
         </h2>
+    
         <div className='flex  mt-[2rem]'>
-            <a href='https://www.instagram.com/lorenalashstudio/' className='flex justify-center items-center  w-[50px] lg:w-[60px] h-[50px] lg:h-[60px] rounded-[50%] text-[28px] bg-white text-[#0b2a24]  mx-2'>
-                <BsInstagram/>
-            </a>
+       
             <a href="http://wa.me/+40764038271" className='text-[24px] lg:text-[32px] font-bold flex mx-2 mt-[.5rem]'  ><span className='text-[28px] lg:text-[36px] mt-1 lg:mt-2 mr-1 ' ><AiOutlineWhatsApp/></span>0764038271</a>
         
         

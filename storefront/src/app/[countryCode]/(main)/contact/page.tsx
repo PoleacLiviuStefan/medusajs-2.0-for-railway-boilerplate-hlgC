@@ -4,6 +4,7 @@ import { AiOutlineMail, AiOutlineWhatsApp } from "react-icons/ai";
 import LocalizedClientLink from "@modules/common/components/localized-client-link";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import ContactForm from "./contactForm";
+import InstagramWidget from "app/(components)/instagramWidget/InstagramWidget";
 
 const Page = () => {
   return (
@@ -23,14 +24,9 @@ const Page = () => {
           </p>
         </div>
       </div>
-
+      <InstagramWidget />
       <div className="flex mt-[2rem]">
-        <a
-          href="https://www.instagram.com/lorenalashstudio/"
-          className="flex justify-center items-center w-[50px] lg:w-[60px] h-[50px] lg:h-[60px] rounded-[50%] text-[28px] bg-black text-white mx-2"
-        >
-          <BsInstagram />
-        </a>
+ 
         <a
           href="http://wa.me/+40764038271"
           className="text-[24px] lg:text-[32px] font-bold flex mx-2 mt-[.5rem]"
