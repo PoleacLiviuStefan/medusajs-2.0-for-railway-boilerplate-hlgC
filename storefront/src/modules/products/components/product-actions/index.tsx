@@ -191,7 +191,7 @@ export default function ProductActions({
             </div>
           )}
           {
-            product.options.length>0 && 
+            product.options.length>1 && 
           <div className="mt-4">
         <h4 className="text-lg font-semibold">Opțiuni selectate:</h4>
         <ul className="list-disc list-inside">
