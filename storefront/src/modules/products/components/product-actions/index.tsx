@@ -190,6 +190,8 @@ export default function ProductActions({
               <Divider />
             </div>
           )}
+          {
+            product.options.length>0 && 
           <div className="mt-4">
         <h4 className="text-lg font-semibold">Opțiuni selectate:</h4>
         <ul className="list-disc list-inside">
@@ -200,6 +202,7 @@ export default function ProductActions({
           ))}
         </ul>
       </div>
+}
         </div>
       </div>
     </>

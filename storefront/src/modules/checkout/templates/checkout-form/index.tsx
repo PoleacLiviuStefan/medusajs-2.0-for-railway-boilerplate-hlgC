@@ -22,6 +22,7 @@ export default async function CheckoutForm({
   const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
 
   console.log("cart.id",cart.id)
+  console.log("cart",cart)
   console.log("shippingMethods",shippingMethods)
   console.log("paymentMethods",paymentMethods)
   /*

@@ -8,7 +8,7 @@ loadEnv(process.env.NODE_ENV, process.cwd());
 const backendUrl = process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'http://localhost:9000';
 
 const plugins = [
-  // 'medusa-fulfillment-manual'
+
 ];
 
 const modules = {
@@ -39,6 +39,23 @@ const modules = {
       ]
     }
   },
+
+  /*
+  [Modules.PAYMENT]: {
+    resolve: '@medusajs/payment',
+    options: {
+      providers: [
+        {
+          resolve: '@medusajs/payment-stripe',
+          id: 'stripe',
+          options: {
+            apiKey: process.env.STRIPE_API_KEY
+          }
+        }
+      ]
+    }
+  },
+  */
 };
 
  //Redis configuration
