@@ -3,9 +3,10 @@ import { Suspense } from "react"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-
+import LorenaBanner from '../../../../public/Imagini/stiliste/lorena-shop-banner.png'
 import PaginatedProducts from "./paginated-products"
 import TopSellingProducts from "./top-selling-products"
+import Hero from "@modules/home/components/hero"
 
 const StoreTemplate = ({
   sortBy,
@@ -20,18 +21,16 @@ const StoreTemplate = ({
   const sort = sortBy || "created_at"
 
   return (
+    <>
+         <Hero image={LorenaBanner} imageWidth="350" imageWidthMobile="300" backCircle={true} /> 
     <div
       className="flex flex-col small:flex-row small:items-start py-6 content-container"
       data-testid="category-container"
     >
+        
       <RefinementList sortBy={sort} />
       <div className="flex flex-col items-center justify-center w-full min-h-[150px]">
-        <div className="mb-8 text-2xl-semi w-full text-center bg-primary min-h-[200px] flex flex-col justify-center items-center ">
-          <h1 data-testid="store-page-title">Magazin</h1>
-          <p className="text-[14px] lg:text-[18px] ">
-            Aici poti gasi toate produsele de care ai nevoie
-          </p>
-        </div>
+ 
 
         <Suspense fallback={<SkeletonProductGrid />}>
           <PaginatedProducts
@@ -42,6 +41,7 @@ const StoreTemplate = ({
         </Suspense>
       </div>
     </div>
+    </>
   )
 }
 

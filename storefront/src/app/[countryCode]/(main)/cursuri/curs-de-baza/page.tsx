@@ -1,6 +1,6 @@
 "use client"
 import React, { useRef, useEffect } from "react"
-import cursDeBaza from "../../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg"
+import cursDeBaza from "../../../../../../public/Imagini/cursuri/curs_de_baza.jpg"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Image from "next/image"

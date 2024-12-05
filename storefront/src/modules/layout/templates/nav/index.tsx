@@ -40,7 +40,7 @@ export default async function Nav() {
           {/* Logo-ul site-ului */}
           <div className="text-center">
             <LocalizedClientLink
-              href="/"
+              href="/acasa"
               className="txt-compact-xlarge-plus hover:text-gray-500 uppercase text-center "
               data-testid="nav-store-link"
             >

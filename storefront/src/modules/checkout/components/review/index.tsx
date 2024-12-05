@@ -30,7 +30,7 @@ const Review = ({ cart }: { cart: any }) => {
             }
           )}
         >
-          Review
+          Revizuire
         </Heading>
       </div>
       {isOpen && previousStepsCompleted && (

@@ -1,12 +1,12 @@
 "use client"
 import React, { useRef, useEffect } from "react"
-import cursDeBaza from "../../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg"
+import cursDeBaza from "../../../../../../public/Imagini/cursuri/curs_de_baza_premium.jpg"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Image from "next/image"
 import { KitBaza } from "app/constants"
 
-const CursDeBaza = () => {
+const CursDeBazaPremium = () => {
   const videoEl = useRef(null)
   const attemptPlay = () => {
     videoEl &&
@@ -205,4 +205,4 @@ const CursDeBaza = () => {
   )
 }
 
-export default CursDeBaza
+export default CursDeBazaPremium

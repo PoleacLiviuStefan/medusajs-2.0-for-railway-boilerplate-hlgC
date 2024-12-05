@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image';
 import cursDeBaza from '../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg';
 import cursDePerfectionare from '../../../../public/Imagini/cursuri/cursDePerfectionare_preview.jpg';
-import cursVip from '../../../../public/Imagini/cursuri/cursVip_preview.jpg';
+import cursVip from '../../../../public/Imagini/cursuri/cursVip.jpeg';
 import CursMainPreview from '../../(components)/Courses/CursMainPreview'
 
 

@@ -39,8 +39,8 @@ export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   setCorsHeaders(res);
 
-  const { courseId, startDate, duration } = req.body;
-
+  const { courseId, startDate} = req.body;
+  let duration=1;
   try {
     await pool.query(
       `UPDATE course SET start_dates = array_append(start_dates, $1::date), duration = $2 WHERE id = $3`,

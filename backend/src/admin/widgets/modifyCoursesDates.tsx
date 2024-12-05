@@ -9,7 +9,7 @@ const ModifyCoursesDates = () => {
   const [changeInput, setChangeInput] = useState({
     courseName: "",
     dateIndex: -1,
-    
+
     duration: null, // Noua proprietate pentru durata
   });
 
@@ -23,7 +23,7 @@ const ModifyCoursesDates = () => {
   const [isModified, setIsModified] = useState(false);
   const editCourseNameRef = useRef();
   const courseNameRef = useRef();
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,7 +94,7 @@ const ModifyCoursesDates = () => {
             // Salvăm data în format ISO în `start_dates`
             updatedCourse.start_dates[changeInput.dateIndex] =
               date.toISOString();
-
+            console.log("updatedCourse ", updatedCourse);
             return updatedCourse; // Returnăm cursul modificat
           }
           return course; // Returnăm cursul nemodificat
@@ -128,14 +128,15 @@ const ModifyCoursesDates = () => {
     }
   };
 
-  const handleAddDate = async (courseIndex, date) => {
+  const handleAddDate = async (date) => {
+    console.log("handleAddDate: ",data[addDateInput])
     try {
       const formattedDate = date.toISOString().split("T")[0];
       const response = await fetch("/external/course", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          courseId: data[courseIndex].id,
+          courseId: data[addDateInput].id,
           newDate: formattedDate,
         }),
       });
@@ -143,11 +144,11 @@ const ModifyCoursesDates = () => {
 
       setData((prevData) =>
         prevData.map((course, index) =>
-          index === courseIndex
+          index === addDateInput
             ? {
                 ...course,
                 available_dates: [
-                  ...course.available_dates,
+                  ...course?.available_dates,
                   { dateStart: date },
                 ],
               }
@@ -175,7 +176,7 @@ const ModifyCoursesDates = () => {
 
       // Verificăm dacă există o modificare a duratei în `changeInput`
       const duration =
-           changeInput.duration!==null ? changeInput.duration : course.duration  ;
+        changeInput.duration !== null ? changeInput.duration : course.duration;
 
       const response = await fetch("/external", {
         method: "POST",
@@ -229,12 +230,14 @@ const ModifyCoursesDates = () => {
           dateIndex,
         }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Eroare necunoscută la ștergerea datei");
+        throw new Error(
+          errorData.error || "Eroare necunoscută la ștergerea datei"
+        );
       }
-  
+
       alert("Data a fost ștearsă cu succes!");
       setData((prevData) =>
         prevData.map((course) =>
@@ -253,8 +256,7 @@ const ModifyCoursesDates = () => {
       alert(`Eroare la ștergerea datei: ${error.message}`);
     }
   };
-  
-  
+
   const formatDate = (date) => {
     const parsedDate = date instanceof Date ? date : new Date(date);
     if (isNaN(parsedDate.getTime())) {
@@ -359,7 +361,7 @@ const ModifyCoursesDates = () => {
                       const elements = [];
                       for (
                         let dateIndex = 0;
-                        dateIndex < course.start_dates.length;
+                        dateIndex < course?.start_dates?.length;
                         dateIndex++
                       ) {
                         const date = course.start_dates[dateIndex];
@@ -378,27 +380,27 @@ const ModifyCoursesDates = () => {
                                   className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
                                   disabled
                                 />
-                                                              {course.duration!==1 && (
-                                <div>
-                                  <label>Data Sfarsit</label>
-                                  <input
-                                    value={formatDate(
-                                      new Date(
+                                {course.duration !== 1 && (
+                                  <div>
+                                    <label>Data Sfarsit</label>
+                                    <input
+                                      value={formatDate(
                                         new Date(
-                                          course?.start_dates[dateIndex]
-                                        ).getTime() +
-                                          (course?.duration - 1) *
-                                            24 *
-                                            60 *
-                                            60 *
-                                            1000
-                                      )
-                                    )}
-                                    className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
-                                    disabled
-                                  />
+                                          new Date(
+                                            course?.start_dates[dateIndex]
+                                          ).getTime() +
+                                            (course?.duration - 1) *
+                                              24 *
+                                              60 *
+                                              60 *
+                                              1000
+                                        )
+                                      )}
+                                      className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
+                                      disabled
+                                    />
 
-                                  {/*
+                                    {/*
                                   <button
                                     className="bg-blue-500 p-2 w-full"
                                     onClick={() =>
@@ -412,12 +414,16 @@ const ModifyCoursesDates = () => {
                                     Schimba
                                   </button>
                                   */}
-                                </div>
-                              )}
+                                  </div>
+                                )}
                                 <button
-        className="bg-red-500 p-2 w-full mt-1"
-        onClick={() => handleDeleteDate(course.id, dateIndex)}
-      >Sterge Data</button>
+                                  className="bg-red-500 p-2 w-full mt-1"
+                                  onClick={() =>
+                                    handleDeleteDate(course.id, dateIndex)
+                                  }
+                                >
+                                  Sterge Data
+                                </button>
                                 <button
                                   className="bg-blue-500 p-2 w-full"
                                   onClick={() => {
@@ -483,22 +489,32 @@ const ModifyCoursesDates = () => {
               ))}
             </div>
           )}
-          {(changeInput.courseName &&
-            changeInput.dateIndex >= 0) ||
-          addDateInput >= 0 ? (
+          {(changeInput.courseName !== "" && changeInput.dateIndex >= 0) ||
+          addDateInput !== -1 ? (
             <div className="fixed flex items-center justify-center w-full h-full bg-black bg-opacity-50 top-0 left-0 z-50">
               <div className="bg-black p-6 rounded-md text-center z-50">
-                <Calendar onChange={handleDateChange} />
+                <Calendar
+                  onChange={
+                    addDateInput !== -1 ? handleAddDate : handleDateChange
+                  }
+                />
+                {/*addDateInput !== -1 && (
+                  <div>
+                    <label>Durata</label>
+                    <input />
+                  </div>
+                )*/}
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     setChangeInput({
                       courseName: "",
                       dateIndex: -1,
-                    })
-                  }
+                    });
+                    setAddDateInput(-1);
+                  }}
                   className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4"
                 >
-                  Anulează
+                  Anulează {changeInput.courseName} {addDateInput}
                 </button>
               </div>
             </div>

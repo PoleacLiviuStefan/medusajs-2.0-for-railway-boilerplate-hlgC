@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
-import cursDePerfectionare from '../../../../../../public/Imagini/cursuri/cursEfecteSpeciale.jpeg'
+import cursDePerfectionare from '../../../../../../public/Imagini/cursuri/curs_de_efecte_speciale.jpg'
 import LocalizedClientLink from '@modules/common/components/localized-client-link'
 import Image from 'next/image'
 import { KitEfecte } from 'app/constants'
