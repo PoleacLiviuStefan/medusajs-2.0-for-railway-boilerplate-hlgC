@@ -32,18 +32,18 @@ export default async function Page() {
     <div className="flex flex-col items-center w-full px-[16px] lg:px-0 font-montSerrat">
       
       <div className="grid grid-cols-2 gap-6 justify-items-center py-4">
-      <LocalizedClientLink href="/curs-de-baza" className="relative flex flex-col items-center">
+      <LocalizedClientLink href="/cursuri/curs-de-baza" className="relative flex flex-col items-center">
           <Image
             src={CursDeBaza}
           
             alt="Curs de bază"
  className="w-[300px] h-auto"
           />
-          <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-50 w-full ">
+          <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-10 w-full ">
             <h2 className="text-[16px] lg:text-[24px] font-extrabold text-center ">Curs De Baza</h2>
             </div>
           </LocalizedClientLink>
-          <LocalizedClientLink href="/curs-de-baza-premium" className="relative"  >
+          <LocalizedClientLink href="/cursuri/curs-de-baza-premium" className="relative"  >
           <Image
          
             src={CursDeBazaPremium}
@@ -51,11 +51,11 @@ export default async function Page() {
             alt="Curs de bază premium"
           className="relative w-[300px] h-auto"
           />
-             <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-50 w-full ">
+             <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-10 w-full ">
             <h2 className="text-[16px] lg:text-[24px] font-extrabold text-center">Curs De Baza Premium</h2>
             </div>
           </LocalizedClientLink>
-          <LocalizedClientLink href="/curs-de-efecte-speciale" className="relative" >
+          <LocalizedClientLink href="/cursuri/curs-de-efecte-speciale" className="relative" >
           <Image
          
             src={CursDeEfecteSpeciale}
@@ -63,11 +63,11 @@ export default async function Page() {
             alt="Curs de efecte speciale"
  className="w-[300px] h-auto"
           />
-              <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-50 w-full ">
+              <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-10 w-full ">
               <h2 className="text-[16px] lg:text-[24px] font-extrabold text-center">Curs De Efecte Speciale</h2>
               </div>
           </LocalizedClientLink>
-          <LocalizedClientLink href="/curs-VIP" className="relative"  >
+          <LocalizedClientLink href="/cursuri/curs-VIP" className="relative"  >
           <Image
          
             src={CursVip}
@@ -76,7 +76,7 @@ export default async function Page() {
         
             className="w-[300px] h-auto"
           />
-             <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-50 w-full ">
+             <div className="flex items-center justify-center absolute bottom-0  bg-black text-white  h-[50px] z-10 w-full ">
           <h2 className="text-[16px] lg:text-[24px] font-extrabold text-center">Curs VIP</h2>
           </div>
           </LocalizedClientLink>

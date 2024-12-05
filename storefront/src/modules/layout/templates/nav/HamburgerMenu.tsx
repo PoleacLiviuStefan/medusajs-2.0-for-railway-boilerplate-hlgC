@@ -57,7 +57,7 @@ export default function HamburgerMenu({
 
       {/* Meniu lateral pentru mobil */}
       <div
-        className={` fixed top-0 left-0 h-full w-[310px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        className={` fixed top-0 left-0 h-full w-[320px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

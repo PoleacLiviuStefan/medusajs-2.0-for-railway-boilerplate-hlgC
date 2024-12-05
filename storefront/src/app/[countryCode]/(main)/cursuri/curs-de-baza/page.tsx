@@ -19,7 +19,7 @@ const CursDeBaza = () => {
   }, [])
 
   return (
-    <div className="flex justify-center items-center w-full h-full py-[5rem] lg:py-[10rem]">
+    <div className="flex justify-center items-center w-full h-full py-[5rem] lg:py-[10rem] font-montSerrat">
       <div className="flex lg:flex-row flex-col items-center lg:items-start">
         <div className="relative lg:ml-[2rem] flex flex-col items-center w-[90%] lg:w-[25rem]">
           <Image
@@ -46,10 +46,7 @@ const CursDeBaza = () => {
               pentru a-ti rezerva locul, restul sumei se achita in prima zi de
               curs
             </h3>
-            <p className="relative flex flex-col justify-center items-center  font-extrabold ">
-                  {" "}
-                  KIT pentru acasa inclus in pret(690 lei)
-                </p>{" "}
+     
             <div className="flex    justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
               PRET TOTAL{" "}
               <div className="flex flex-col items-center ">
@@ -64,7 +61,11 @@ const CursDeBaza = () => {
               </div>{" "}
             </div>
             <div className="flex  flex-col items-center w-full font-thin mt-[1rem]">
-              <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Inclus contine:</h4>
+            <p className="relative flex flex-col justify-center items-center  font-extrabold ">
+                  {" "}
+                  KIT Separat(690 lei) - NU este inclus in pret
+                </p>{" "}
+              <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Contine:</h4>
               <p>{KitBaza}</p>
             </div>
           </div>
@@ -90,8 +91,8 @@ const CursDeBaza = () => {
           */}
         </div>
         <div className="relative  lg:ml-[4rem] mt-[2rem] lg:mt-0 flex flex-col items-center w-[90%] lg:w-[40rem]">
-          <h2 className="text-[28px] font-norican">Curs de baza</h2>
-          <h1 className="text-[42px] font-oswald font-bold text-center">
+          <h2 className="text-[18px] lg:text-[28px] font-norican">Curs de baza</h2>
+          <h1 className="text-[28px] lg:text-[42px] font-oswald font-bold text-center leading-[24px] lg:leading-[40px]">
             Curs de baza 1D-3D & Foxy Intensiv
           </h1>
           <div className="w-[90%]  text-justify mt-[2rem] font-montSerrat">
@@ -144,26 +145,26 @@ const CursDeBaza = () => {
             <h4 className="mt-[.5rem]">Ziua 1 :</h4>
             <ul className="">
               <li className="py-2">09.00 &ndash; Coffe Break</li>
-              <li className="py-2">09.30&ndash;11.30 &ndash; Teorie</li>
+              <li className="py-2">09.30 &ndash; 11.30 &ndash; Teorie</li>
               <li className="py-2">
                 11.30&ndash;12.00 &ndash; Pauza de masa(Masa suportata de academie)
               </li>
-              <li className="py-2">12.00&ndash;16.00 &ndash; Practica 1D pe model</li>
-              <li className="py-2">16.00&ndash;17.00 &ndash; Intrebari si raspunsuri</li>
+              <li className="py-2">12.00 &ndash; 16.00 &ndash; Practica 1D pe model</li>
+              <li className="py-2">16.00 &ndash; 17.00 &ndash; Intrebari si raspunsuri</li>
             </ul>
             <p className="mt-[.5rem]">
               <span className="font-bold">Ziua 2 : </span>
             </p>
             <ul>
               <li>09.00 &ndash; Coffee Break</li>
-              <li>09.30&ndash;11.30 &ndash; Practica pe patch</li>
-              <li>11.30&ndash;12.00 &ndash; Pauza de masa(Masa suportata de academie)</li>
-              <li>12.00&ndash;16.00 &ndash; Practica Foxy pe model</li>
-              <li>16.00&ndash; 17.00 &ndash; Cum facem poze/video, Diplome, Poze </li>
+              <li>09.30 &ndash; 11.30 &ndash; Practica pe patch</li>
+              <li>11.30 &ndash; 12.00 &ndash; Pauza de masa(Masa suportata de academie)</li>
+              <li>12.00 &ndash; 16.00 &ndash; Practica Foxy pe model</li>
+              <li>16.00 &ndash; 17.00 &ndash; Cum facem poze/video, Diplome, Poze </li>
             </ul>
             <h3 className="py-[1rem] text-[20px] font-bold text-center">Informatii curs</h3>
             <ul>
-              <li className="py-2">PPentru inscriere se percepe un avans de 500 lei din suma totala, in cazul neprezentarii, avansul nu se returneaza, in schimb se poate reprograma grupa daca ne anunti cu 2 saptamana inainte.</li>
+              <li className="py-2">Pentru inscriere se percepe un avans de 500 lei din suma totala, in cazul neprezentarii, avansul nu se returneaza, in schimb se poate reprograma grupa daca ne anunti cu 2 saptamana inainte.</li>
               <li className="py-2">Diferenta de plata se face CASH/CARD la locatie in prima zi a cursului.</li>
               <li className="py-2">Pentru mai multe detalii: whatsapp +40764038271</li>
             </ul>

@@ -39,12 +39,14 @@ export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   setCorsHeaders(res);
 
-  const { courseId, startDate} = req.body;
-  let duration=1;
+  const { courseId, newDate} = req.body;
   try {
     await pool.query(
-      `UPDATE course SET start_dates = array_append(start_dates, $1::date), duration = $2 WHERE id = $3`,
-      [startDate, duration, courseId]
+      `UPDATE course
+SET start_dates = array_append(COALESCE(start_dates, '{}'), $1::date)
+WHERE id = $2;
+`,
+      [newDate,courseId]
     );
     res.status(200).json({ message: "Data de start și durata au fost adăugate cu succes" });
   } catch (error) {

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 
 const ModifyCoursesDates = () => {
   //const [selectedDate, setSelectedDate] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [changeInput, setChangeInput] = useState({
     courseName: "",
@@ -40,15 +40,43 @@ const ModifyCoursesDates = () => {
   }, []);
 
   const handleDurationChange = (e, courseId) => {
+    const newDuration = parseInt(e.target.value, 10);
+  
+    if (isNaN(newDuration) || newDuration < 1) {
+      console.error("Durata introdusă nu este validă");
+      return;
+    }
+  
     setIsModified(true);
-    const newDuration = e.target.value;
-    setChangeInput((prev) => ({
-      ...prev,
-      courseName: data.find((course) => course.id === courseId).name,
-      duration: newDuration,
-    }));
+  
+    setData((prevData) =>
+      prevData.map((course) => {
+        if (course.id === courseId) {
+          const updatedStartDates = course.start_dates.map((startDate) => {
+            const startDateObj = new Date(startDate);
+            const endDate = new Date(
+              startDateObj.getTime() + (newDuration - 1) * 24 * 60 * 60 * 1000
+            );
+            return {
+              startDate: startDateObj.toISOString(),
+              endDate: endDate.toISOString(),
+            };
+          });
+  
+          return {
+            ...course,
+            duration: newDuration,
+            start_dates: updatedStartDates.map((d) => d.startDate),
+            end_dates: updatedStartDates.map((d) => d.endDate),
+          };
+        }
+        return course;
+      })
+    );
+  
+    console.log("Durată schimbată pentru cursul cu id:", courseId);
   };
-
+  
   const handleEditCourseName = async () => {
     const newName = editCourseNameRef.current.value;
     if (!newName || !courseToEdit) return;
@@ -85,24 +113,27 @@ const ModifyCoursesDates = () => {
       setData((prevData) =>
         prevData.map((course) => {
           if (course.name === changeInput.courseName) {
-            // Facem o copie profundă a cursului, cu start_dates copiate
+            // Asigurăm că `start_dates` este întotdeauna un array
             const updatedCourse = {
               ...course,
-              start_dates: course.start_dates ? [...course.start_dates] : [],
+              start_dates: Array.isArray(course.start_dates)
+                ? [...course.start_dates]
+                : [],
             };
-
-            // Salvăm data în format ISO în `start_dates`
-            updatedCourse.start_dates[changeInput.dateIndex] =
-              date.toISOString();
+    
+            // Adăugăm sau actualizăm data
+            updatedCourse.start_dates[changeInput.dateIndex] = date.toISOString();
             console.log("updatedCourse ", updatedCourse);
             return updatedCourse; // Returnăm cursul modificat
           }
           return course; // Returnăm cursul nemodificat
         })
       );
-
+    
       setChangeInput({ courseName: "", dateIndex: -1 });
     }
+    
+    
   };
 
   const handleAddCourse = async () => {
@@ -129,7 +160,7 @@ const ModifyCoursesDates = () => {
   };
 
   const handleAddDate = async (date) => {
-    console.log("handleAddDate: ",data[addDateInput])
+    console.log("handleAddDate: ", data[addDateInput]);
     try {
       const formattedDate = date.toISOString().split("T")[0];
       const response = await fetch("/external/course", {
@@ -163,16 +194,18 @@ const ModifyCoursesDates = () => {
 
   const handleSave = async (course) => {
     try {
-      const formattedDates = course.start_dates.map((date) => {
-        if (!date) return null;
+      const formattedDates = Array.isArray(course.start_dates)
+        ? course.start_dates.map((date) => {
+            if (!date) return null;
 
-        const localDate = new Date(date);
-        localDate.setMinutes(
-          localDate.getMinutes() - localDate.getTimezoneOffset()
-        );
+            const localDate = new Date(date);
+            localDate.setMinutes(
+              localDate.getMinutes() - localDate.getTimezoneOffset()
+            );
 
-        return localDate.toISOString().split("T")[0];
-      });
+            return localDate.toISOString().split("T")[0];
+          })
+        : [];
 
       // Verificăm dacă există o modificare a duratei în `changeInput`
       const duration =
@@ -197,7 +230,6 @@ const ModifyCoursesDates = () => {
       setChangeInput({
         courseName: "",
         dateIndex: -1,
-        duration: null,
       });
     }
   };
@@ -271,7 +303,7 @@ const ModifyCoursesDates = () => {
   return (
     <Container className="relative divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
-        <Heading level="h2">Schimbare Data curs</Heading>
+        <h2>Schimbare Data curs</h2>
         <button
           className="border-[1px] border-white px-2 py-1 rounded-lg text-md hover:bg-white hover:border-black hover:text-black"
           onClick={() => setIsContentShow(!isContentShown)}
@@ -357,107 +389,76 @@ const ModifyCoursesDates = () => {
                     </h3>
                   </div>
                   <ul className="flex flex-col items-center gap-[8px]">
-                    {(() => {
-                      const elements = [];
-                      for (
-                        let dateIndex = 0;
-                        dateIndex < course?.start_dates?.length;
-                        dateIndex++
-                      ) {
-                        const date = course.start_dates[dateIndex];
-                        elements.push(
-                          <li
-                            key={dateIndex}
-                            className={`flex flex-col items-center justify-center gap-[4px] p-[4px] w-full `}
-                          >
-                            <div className="flex flex-col gap-[8px]">
+                    {course?.start_dates?.map((date, dateIndex) => (
+                      <li
+                        key={dateIndex}
+                        className="flex flex-col items-center justify-center gap-[4px] p-[4px] w-full"
+                      >
+                        <div className="flex flex-col gap-[8px]">
+                          <div>
+                            <label>Data incepere</label>
+                            <input
+                              value={formatDate(date)}
+                              className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
+                              disabled
+                            />
+                            {course.duration !== 1 && (
                               <div>
-                                <label>Data incepere</label>
+                                <label>Data Sfarsit</label>
                                 <input
                                   value={formatDate(
-                                    course?.start_dates[dateIndex]
+                                    new Date(
+                                      new Date(date).getTime() +
+                                        ( course?.duration - 1) *
+                                          24 *
+                                          60 *
+                                          60 *
+                                          1000
+                                    )
                                   )}
                                   className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
                                   disabled
                                 />
-                                {course.duration !== 1 && (
-                                  <div>
-                                    <label>Data Sfarsit</label>
-                                    <input
-                                      value={formatDate(
-                                        new Date(
-                                          new Date(
-                                            course?.start_dates[dateIndex]
-                                          ).getTime() +
-                                            (course?.duration - 1) *
-                                              24 *
-                                              60 *
-                                              60 *
-                                              1000
-                                        )
-                                      )}
-                                      className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
-                                      disabled
-                                    />
-
-                                    {/*
-                                  <button
-                                    className="bg-blue-500 p-2 w-full"
-                                    onClick={() =>
-                                      setChangeInput({
-                                        courseName: course.name,
-                                        dateIndex,
-                                        dateType: "dateEnd",
-                                      })
-                                    }
-                                  >
-                                    Schimba
-                                  </button>
-                                  */}
-                                  </div>
-                                )}
-                                <button
-                                  className="bg-red-500 p-2 w-full mt-1"
-                                  onClick={() =>
-                                    handleDeleteDate(course.id, dateIndex)
-                                  }
-                                >
-                                  Sterge Data
-                                </button>
-                                <button
-                                  className="bg-blue-500 p-2 w-full"
-                                  onClick={() => {
-                                    console.log(course);
-                                    setChangeInput({
-                                      courseName: course.name,
-                                      dateIndex,
-                                    });
-                                  }}
-                                >
-                                  Schimba
-                                </button>
                               </div>
+                            )}
+                            <button
+                              className="bg-red-500 p-2 w-full mt-1"
+                              onClick={() =>
+                                handleDeleteDate(course.id, dateIndex)
+                              }
+                            >
+                              Sterge Data
+                            </button>
+                            <button
+                              className="bg-blue-500 p-2 w-full"
+                              onClick={() =>
+                                setChangeInput({
+                                  courseName: course.name,
+                                  dateIndex,
+                                })
+                              }
+                            >
+                              Schimba
+                            </button>
+                          </div>
 
-                              <div className="flex justify-center  w-full">
-                                <label>Durata curs</label>
-                                <input
-                                  type="number"
-                                  defaultValue={course.duration}
-                                  onChange={(e) =>
-                                    handleDurationChange(e, course.id)
-                                  }
-                                  className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
-                                />{" "}
-                                zile
-                              </div>
-                            </div>
-                          </li>
-                        );
-                      }
-                      return elements;
-                    })()}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
 
+                  <div className="flex justify-center w-full">
+                            <label>Durata curs</label>
+                            <input
+                              type="number"
+                              defaultValue={course.duration}
+                              onChange={(e) =>
+                                handleDurationChange(e, course.id)
+                              }
+                              className="bg-transparent w-[150px] text-center p-0 font-bold text-[16px] lg:text-[20px]"
+                            />
+                            zile
+                          </div>
                   <button
                     className="bg-blue-500 mt-2 p-2 text-[13px] lg:text-[16px]"
                     onClick={() => setAddDateInput(courseIndex)}
