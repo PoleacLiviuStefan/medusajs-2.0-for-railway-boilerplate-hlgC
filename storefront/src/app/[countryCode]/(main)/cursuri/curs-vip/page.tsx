@@ -70,7 +70,7 @@ const CursVipDeBaza = () => {
             </div>
             <div className='relative lg:ml-[4rem] mt-[2rem] lg:mt-0  flex flex-col items-center w-[90%] lg:w-[40rem]'>
                     <h2 className='text-[28px] font-norican'>Doar tu si trainerul</h2>
-                    <h1 className='text-[42px] font-oswald font-bold text-center'>Curs VIP de baza </h1>
+                    <h1 className="text-[28px] lg:text-[42px] font-oswald font-bold text-center leading-[24px] lg:leading-[40px]">Curs VIP de baza </h1>
                     <div className='w-[90%]  text-justify mt-[2rem] font-montSerrat'>
                         <h4 className='font-bold text-center text-[20px] py-[1rem]'>*Posibilitate cu translator & alegerea datelor </h4> 
                      <p>

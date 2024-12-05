@@ -91,8 +91,8 @@ const CursDeBazaPremium = () => {
           */}
         </div>
         <div className="relative  lg:ml-[4rem] mt-[2rem] lg:mt-0 flex flex-col items-center w-[90%] lg:w-[40rem]">
-          <h2 className="text-[28px] font-norican">Curs de baza PREMIUM</h2>
-          <h1 className="text-[42px] font-oswald font-bold text-center">
+          <h2 className="text-[18px] lg:text-[28px] font-norican">Curs de baza PREMIUM</h2>
+          <h1 className="text-[28px] lg:text-[42px] font-oswald font-bold text-center leading-[24px] lg:leading-[40px]">
           Curs de baza PREMIUM - 3 Zile
           </h1>
           

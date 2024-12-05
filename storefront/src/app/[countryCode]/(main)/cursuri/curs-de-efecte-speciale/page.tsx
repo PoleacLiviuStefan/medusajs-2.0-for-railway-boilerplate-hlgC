@@ -59,7 +59,7 @@ const Page = () => {
         </div>
 
         <div className='relative lg:ml-[4rem] mt-[2rem] lg:mt-0 flex flex-col items-center w-[90%] lg:w-[40rem]'>
-          <h1 className='text-[42px] font-oswald font-bold text-center'>Curs De Efecte Speciale</h1>
+          <h1 className="text-[28px] lg:text-[42px] font-oswald font-bold text-center leading-[24px] lg:leading-[40px]">Curs De Efecte Speciale</h1>
           <div className='w-[90%] text-justify mt-[2rem] font-montSerrat'>
             <p>
               Acest curs inovator își propune să îți dezvăluie secretele aplicării efectelor speciale în extensiile de gene, transformându-ți abilitățile de tehnician în adevărate opere de artă. Fie că dorești să adaugi un strop de originalitate serviciilor tale sau să te diferențiezi pe piață, acest curs este perfect pentru tine. Este dedicat tehnicienilor cu experiența de minim 2 luni. Efecte pe care le vom aborda: Foxy, Feline, Eyeliner, Wispy, Kim K, Wet Look, s.a. Acest curs este potrivit atât tehnicienilor ce lucrează în tehnica one by one, cât și în tehnica de volum.
