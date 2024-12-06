@@ -125,6 +125,7 @@ const AddAddress = ({ region }: { region: HttpTypes.StoreRegion }) => {
               <Input
                 label="Telefon"
                 name="phone"
+                required
                 autoComplete="phone"
                 data-testid="phone-input"
               />

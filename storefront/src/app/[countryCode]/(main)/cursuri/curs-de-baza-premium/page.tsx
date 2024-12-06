@@ -187,7 +187,7 @@ const CursDeBazaPremium = () => {
                 Ai finalizat deja un curs de baza? Avem si un curs de
                 perfectionare pregatit pentru tine.{" "}
               </p>
-              <LocalizedClientLink href="/cursuri/curs-de-efecte-speciale">
+              <LocalizedClientLink href="/curs-de-efecte-speciale">
                 <button
                   onClick={() => {
                     window.scrollTo({ top: 0, left: 0 })

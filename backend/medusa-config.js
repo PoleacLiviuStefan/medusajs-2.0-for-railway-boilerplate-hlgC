@@ -1,5 +1,4 @@
 import { loadEnv, Modules, defineConfig } from '@medusajs/utils';
-import corsMiddleware from "./src/plugins/cors-middleware";
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -8,9 +7,11 @@ loadEnv(process.env.NODE_ENV, process.cwd());
 const backendUrl = process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'http://localhost:9000';
 
 const plugins = [
-//medusa-manual-fullfillement
+  // 'medusa-fulfillment-manual'
 ];
-
+const stripeApiKey = process.env.STRIPE_API_KEY;
+const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const stripeConfigured = stripeApiKey && stripeWebhookSecret;
 const modules = {
   [Modules.AUTH]: {
     resolve: '@medusajs/auth',
@@ -39,8 +40,6 @@ const modules = {
       ]
     }
   },
-
-  /*
   [Modules.PAYMENT]: {
     resolve: '@medusajs/payment',
     options: {
@@ -49,16 +48,16 @@ const modules = {
           resolve: '@medusajs/payment-stripe',
           id: 'stripe',
           options: {
-            apiKey: process.env.STRIPE_API_KEY
+            apiKey: stripeApiKey,
+            webhookSecret: stripeWebhookSecret
           }
         }
       ]
     }
-  },
-  */
+  }
 };
 
- //Redis configuration
+// Redis configuration
 
  if (process.env.REDIS_URL) {
   console.log('Redis url found, enabling event bus with redis');
@@ -70,12 +69,9 @@ const modules = {
   };
 } 
   
-  
 
 // Stripe payment provider
-const stripeApiKey = process.env.STRIPE_API_KEY;
-const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-const stripeConfigured = stripeApiKey && stripeWebhookSecret;
+
 if (stripeConfigured) {
   console.log('Stripe api key and webhook secret found, enabling stripe payment provider');
   modules[Modules.PAYMENT] = {
@@ -122,15 +118,14 @@ if (sendgridConfigured) {
 /** @type {import('@medusajs/medusa').ConfigModule['projectConfig']} */
 const projectConfig = {
   http: {
-    storeCors: process.env.STORE_CORS,
     adminCors: process.env.ADMIN_CORS,
     authCors: process.env.AUTH_CORS,
+    storeCors: process.env.STORE_CORS,
     jwtSecret: process.env.JWT_SECRET,
-    cookieSecret: process.env.COOKIE_SECRET,
+    cookieSecret: process.env.COOKIE_SECRET
   },
   database_url: process.env.DATABASE_URL,
   database_type: 'postgres',
-
    ...(process.env.REDIS_URL && { redisUrl: process.env.REDIS_URL }) 
 };
 
@@ -140,21 +135,7 @@ const completeConfig = {
   modules,
   admin: {
     ...!isDev && { backendUrl }
-  },
-  middlewares: [
-    corsMiddleware,
-    
-  ],
-  server: {
-    proxy: {
-      '/external': {
-        target: 'http://localhost:9000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/external/, ''), // elimină prefixul /external
-      },
-    },
-  },
-  
+  }
 };
 
 export default defineConfig(completeConfig);

@@ -167,7 +167,7 @@ const Payment = ({
               {isStripe && stripeReady && (
                 <div className="mt-5 transition-all duration-150 ease-in-out">
                   <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                    Enter your card details:
+                    Introdu datele cardului:
                   </Text>
 
                   <CardElement
@@ -217,8 +217,8 @@ const Payment = ({
             data-testid="submit-payment-button"
           >
             {!activeSession && isStripeFunc(selectedPaymentMethod)
-              ? " Enter card details"
-              : "Continue to review"}
+              ? " Introdu Datele Cardului"
+              : "Continua catre Revizuire"}
           </Button>
         </div>
 
