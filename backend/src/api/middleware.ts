@@ -1,14 +1,10 @@
-import type {
-    MiddlewaresConfig,
-    MedusaRequest,
-    MedusaResponse,
-    MedusaNextFunction,
-  } from "@medusajs/medusa";
+import type { MiddlewaresConfig } from "@medusajs/medusa";
+import type { Request, Response, NextFunction } from "express";
   
   async function verifyFanCourierToken(
-    req: MedusaRequest,
-    res: MedusaResponse,
-    next: MedusaNextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
   ) {
     const token = req.headers.authorization?.replace("Bearer ", "");
   

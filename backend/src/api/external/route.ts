@@ -1,4 +1,4 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { Request, Response } from "express";
 import { Pool } from "pg";
 
 // Inițializează conexiunea cu PostgreSQL folosind `DATABASE_URL`
@@ -10,7 +10,7 @@ const pool = new Pool({
 });
 
 // Endpoint pentru a obține toate cursurile
-export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+export const GET = async (req: Request, res: Response) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
   res.setHeader('Access-Control-Allow-Credentials', 'true'); // dacă trimiți cookie-uri/sesiuni
   try {
@@ -25,7 +25,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 };
 
 // Endpoint pentru a actualiza datele de start și durata unui curs
-export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+export const POST = async (req: Request, res: Response) => {
   const { id, start_dates, duration } = req.body;
   try {
     await pool.query(

@@ -1,4 +1,4 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { Request, Response } from "express";
 import { Pool } from "pg";
 
 // Inițializează conexiunea cu PostgreSQL folosind `DATABASE_URL`
@@ -10,20 +10,20 @@ const pool = new Pool({
 });
 
 // Middleware pentru setările CORS
-const setCorsHeaders = (res: MedusaResponse) => {
+const setCorsHeaders = (res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Allow-Credentials", "true");
 };
 
-export const OPTIONS = async (req: MedusaRequest, res: MedusaResponse) => {
+export const OPTIONS = async (req: Request, res: Response) => {
     setCorsHeaders(res);
     res.status(200).end();
   };
   
 
-export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
+export const PATCH = async (req: Request, res: Response) => {
     setCorsHeaders(res);
   
     const { courseId, duration } = req.body;

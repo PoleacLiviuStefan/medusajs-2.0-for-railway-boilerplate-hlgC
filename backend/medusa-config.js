@@ -72,24 +72,24 @@ const modules = {
 
 // Stripe payment provider
 
-if (stripeConfigured) {
-  console.log('Stripe api key and webhook secret found, enabling stripe payment provider');
-  modules[Modules.PAYMENT] = {
-    resolve: '@medusajs/payment',
-    options: {
-      providers: [
-        {
-          resolve: '@medusajs/payment-stripe',
-          id: 'stripe',
-          options: {
-            apiKey: stripeApiKey,
-            webhookSecret: stripeWebhookSecret
-          }
-        }
-      ]
-    }
-  };
-}
+// if (stripeConfigured) {
+//   console.log('Stripe api key and webhook secret found, enabling stripe payment provider');
+//   modules[Modules.PAYMENT] = {
+//     resolve: '@medusajs/payment',
+//     options: {
+//       providers: [
+//         {
+//           resolve: '@medusajs/payment-stripe',
+//           id: 'stripe',
+//           options: {
+//             apiKey: stripeApiKey,
+//             webhookSecret: stripeWebhookSecret
+//           }
+//         }
+//       ]
+//     }
+//   };
+// }
 
 // SendGrid notification provider
 const sendgridApiKey = process.env.SENDGRID_API_KEY;

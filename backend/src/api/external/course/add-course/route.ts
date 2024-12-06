@@ -1,4 +1,4 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { Request, Response } from "express";
 import { Pool } from "pg";
 
 // Inițializează conexiunea cu PostgreSQL folosind `DATABASE_URL`
@@ -7,7 +7,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+export const POST = async (req: Request, res: Response) => {
   const { name, duration } = req.body;
 
   if (!name) {

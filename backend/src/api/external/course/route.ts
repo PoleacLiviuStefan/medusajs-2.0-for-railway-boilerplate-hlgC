@@ -1,4 +1,4 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { Request, Response } from "express";
 import { Pool } from "pg";
 
 const pool = new Pool({
@@ -9,7 +9,7 @@ const pool = new Pool({
 });
 
 // Middleware pentru setările CORS
-const setCorsHeaders = (res: MedusaResponse) => {
+const setCorsHeaders = (res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -17,13 +17,13 @@ const setCorsHeaders = (res: MedusaResponse) => {
 
 
 // Funcție pentru a răspunde la cererile OPTIONS (preflight)
-export const OPTIONS = async (req: MedusaRequest, res: MedusaResponse) => {
+export const OPTIONS = async (req: Request, res: Response) => {
   setCorsHeaders(res);
   res.status(200).end();
 };
 
 // Endpoint DELETE - Șterge un curs
-export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
+export const DELETE = async (req: Request, res: Response) => {
   setCorsHeaders(res);
 
   const { courseId } = req.body;
@@ -36,7 +36,7 @@ export const DELETE = async (req: MedusaRequest, res: MedusaResponse) => {
 };
 
 // Endpoint POST - Adaugă o dată de start și durata unui curs
-export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+export const POST = async (req: Request, res: Response) => {
   setCorsHeaders(res);
 
   const { courseId, newDate} = req.body;
@@ -55,7 +55,7 @@ WHERE id = $2;
 };
 
 // Endpoint PATCH - Actualizează numele unui curs
-export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
+export const PATCH = async (req:Request, res:Response) => {
   setCorsHeaders(res);
 
   const { courseId, newName } = req.body;
@@ -69,7 +69,7 @@ export const PATCH = async (req: MedusaRequest, res: MedusaResponse) => {
 };
 
 // Endpoint GET - Obține toate cursurile cu datele de start și durata
-export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+export const GET = async (req:Request, res:Response) => {
   setCorsHeaders(res);
 
   try {

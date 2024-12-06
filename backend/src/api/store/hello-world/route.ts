@@ -1,6 +1,6 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import type { Request, Response } from "express";
 
-export async function GET(req: MedusaRequest, res: MedusaResponse) {
+export async function GET(req: Request, res: Response) {
   res.json({
     message: "Hello world!",
   });

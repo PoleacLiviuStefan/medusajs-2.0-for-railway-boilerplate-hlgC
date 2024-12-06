@@ -1,7 +1,7 @@
-import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
+import { Request, Response } from "express";
 import axios from "axios";
 
-export async function POST(req: MedusaRequest, res: MedusaResponse) {
+export async function POST(req: Request, res: Response) {
   try {
     const { token, tariffDetails } = req.body;
 
