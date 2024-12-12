@@ -34,13 +34,21 @@ const CursVipDeBaza = () => {
                 <h2 className='text-[24px] font-bold mt-[2rem] w-full text-center' >BAZA</h2>
 
                 <div className="flex    justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
-                <span className='whitespace-nowrap'>2 ZILE:</span>
-              <div className="flex flex-col items-center ">
-                <h3 className="relative w-full flex justify-end text-right text-[24px] font-extrabold text-[#DAA520]">
-                  {" "}
-                  3000 lei
-                </h3>{" "}
       
+              <div className="flex flex-col items-center ">
+              <div className="flex  items-center  justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
+              2 ZILE{" "}
+              <div className="flex  flex-col items-center ">
+                <span className="relative  text-[24px] font-extrabold text-[#DAA520]">
+                  {" "}
+                  3150 lei{" "}
+                </span>{" "}
+                <p className="relative flex flex-col justify-center items-center text-[18px] font-extrabold text-gray-300">
+                  {" "}
+                  <span>(10% Reducere)</span> <div> De la <span>3500</span> lei </div>{" "}
+                </p>{" "}
+              </div>{" "}
+            </div>
                 <div className="flex  flex-col items-center w-full font-thin mt-[1rem]">
               <h4 className="font-bold text-[18px] lg:text-[20px] ">Kit-ul Inclus contine:</h4>
               <p>{KitBaza}</p>
@@ -49,7 +57,19 @@ const CursVipDeBaza = () => {
             </div>
                 <h2 className='text-[24px] font-bold mt-[2rem] w-full text-center' >EFECTE SPECIALE</h2>
         
-                <h3 className='text-[24px] font-thin mt-[1rem]'>2 ZILE :<span className='absolute right-2  font-extrabold text-[#DAA520]'> 3000 lei </span></h3>
+                <div className="flex  items-center  justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
+              2 ZILE{" "}
+              <div className="flex flex-col items-center ">
+                <h3 className="relative  text-[24px] font-extrabold text-[#DAA520]">
+                  {" "}
+                  3600 lei{" "}
+                </h3>{" "}
+                <h3 className="relative flex flex-col justify-center items-center text-[18px] font-extrabold text-gray-300">
+                  {" "}
+                  <span>(10% Reducere)</span> <div> De la <span>4000</span> lei </div>{" "}
+                </h3>{" "}
+              </div>{" "}
+            </div>
                 {/*<div className='h-[40rem] mt-[5rem]'>
                             <video
                                 style={{ maxWidth: "100%", width: "100%",height:"100%", margin: "100 auto",objectFit:"cover"}}

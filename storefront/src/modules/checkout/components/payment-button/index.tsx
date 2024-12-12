@@ -36,7 +36,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   // }
 
   const paymentSession = cart.payment_collection?.payment_sessions?.[0]
-
+  console.log("este plata manuala: ",isManual(paymentSession?.provider_id))
   switch (true) {
     case isStripe(paymentSession?.provider_id):
       return (
@@ -116,7 +116,7 @@ const StripePaymentButton = ({
 
   const handlePayment = async () => {
     setSubmitting(true)
-
+    console.log("stripe este")
     if (!stripe || !elements || !card || !cart) {
       setSubmitting(false)
       return

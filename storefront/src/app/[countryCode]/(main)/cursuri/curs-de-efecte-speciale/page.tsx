@@ -44,9 +44,20 @@ const Page = () => {
                   {" "}
                   KIT pentru acasa inclus in pret(690 lei)
                 </p>{" "}
-            <span className='text-[24px] font-thin mt-[1rem]'>
-              1 ZI<span className='absolute right-2 font-extrabold text-[#DAA520]'>2500 lei</span>
-            </span>
+                <div className="flex  items-center  justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
+              1 ZI{" "}
+              <div className="flex flex-col items-center ">
+                <span className="relative  text-[24px] font-extrabold text-[#DAA520]">
+                  {" "}
+                  2250 lei{" "}
+                </span>{" "}
+                <p className="relative flex flex-col justify-center items-center text-[18px] font-extrabold text-gray-300">
+                  {" "}
+                  <span>(10% Reducere)</span> <div> De la <span>2500</span> lei </div>{" "}
+                </p>{" "}
+              </div>{" "}
+            </div>
+            
             <div>
             <p className=' lg:text-[18px] text-justify'><span className='font-bold '>Atestare în domeniu</span>: <span className='font-bold'>700 lei</span> taxa organizare examen(optional)</p>
             <p className=' lg:text-[18px] text-justify'>Avansul nu este retunabil, dar se poate modifica perioada cursului cu minim 2 saptamani înainte.</p>

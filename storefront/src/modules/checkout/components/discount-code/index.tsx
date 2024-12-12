@@ -62,6 +62,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
     <div className="w-full bg-white flex flex-col">
       <div className="txt-medium">
         <form action={(a) => addPromotionCode(a)} className="w-full mb-5">
+         {/*
           <Label className="flex gap-x-1 my-2 items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -74,9 +75,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
             {/* <Tooltip content="You can add multiple promotion codes">
               <InformationCircleSolid color="var(--fg-muted)" />
-            </Tooltip> */}
+            </Tooltip> 
           </Label>
-
+              */}
           {isOpen && (
             <>
               <div className="flex w-full gap-x-2">

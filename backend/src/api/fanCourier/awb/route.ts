@@ -7,10 +7,12 @@ export async function POST(req: Request, res: Response) {
 
     const response = await axios.post(
       "https://api.fancourier.ro/intern-awb",
-      shipmentDetails,
+      {shipmentDetails,
+        clientId:process.env.FAN_COURIER_CLIENT_ID
+      },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${process.env.FAN_COURIER_TOKEN}`,
         },
       }
     );

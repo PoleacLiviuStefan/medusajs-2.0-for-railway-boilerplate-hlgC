@@ -11,7 +11,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-mode="light">
       <body>
-        <Modal />
+        {/* <Modal /> */}
         <main className="relative min-w-screen min-h-screen overflow-hidden">{props.children}</main>
       </body>
     </html>

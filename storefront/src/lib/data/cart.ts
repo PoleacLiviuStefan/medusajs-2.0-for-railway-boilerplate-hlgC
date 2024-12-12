@@ -9,6 +9,54 @@ import { redirect } from "next/navigation"
 import { getAuthHeaders, getCartId, removeCartId, setCartId } from "./cookies"
 import { getProductsById } from "./products"
 import { getRegion } from "./regions"
+import { getCustomer } from "@lib/data/customer"
+
+
+async function getCustomShippingCost(cart: HttpTypes.StoreCart) {
+  if (!cart.shipping_address?.city || !cart.shipping_address?.province) {
+    throw new Error("Shipping address is incomplete.");
+  }
+
+  const apiUrl = `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/fanCourier/tariff`;
+  console.log("API URL pentru tarif: ", apiUrl);
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tariffDetails: {
+          "recipient[locality]": cart.shipping_address.city,
+          "recipient[county]": cart.shipping_address.province,
+        },
+      }),
+    });
+
+    // Verifică răspunsul API
+    const data = await response.json();
+    console.log("Răspuns API: ", data);
+
+    if (!response.ok) {
+      console.error("API a răspuns cu o eroare: ", data);
+      throw new Error("Failed to fetch shipping cost from custom API");
+    }
+
+    
+
+    if (!data.tariff || typeof data.tariff.total !== "number") {
+      console.error("Răspuns invalid de la API: ", data);
+      throw new Error("Răspuns invalid de la API-ul personalizat.");
+    }
+
+    return data.tariff.total; // Returnează costul livrării
+  } catch (error) {
+    console.error("Eroare la apelarea API-ului pentru costul livrării: ", error);
+    throw new Error("Eroare la calcularea costului de livrare.");
+  }
+}
+
 
 export async function retrieveCart() {
   const cartId = getCartId();
@@ -23,6 +71,9 @@ export async function retrieveCart() {
       {},
       { next: { tags: ["cart"] }, ...getAuthHeaders() }
     );
+
+
+    
     return cart;
   } catch (error) {
     return null;
@@ -103,11 +154,21 @@ export async function addToCart({
     .catch(medusaError)
 
   // Reobține coșul actualizat după adăugarea produsului
+  const customer = await getCustomer().catch(() => null);
   const updatedCart = await retrieveCart()
+  // if (updatedCart?.discount_total === 0) {
+  //   const customer = await getCustomer().catch(() => null);
+  //   if (customer?.metadata?.discount_code) {
+  //     const discountCode = customer.metadata.discount_code; // Codul discountului
+  //     await applyPromotions([discountCode]); // Aplică automat discountul
+  //   }
+  // }
 
   if (!updatedCart) {
     throw new Error("Error retrieving updated cart after adding product")
   }
+
+  
 
   // Calculează valoarea totală a coșului actualizat
   const totalCartValue = updatedCart?.items?.reduce(
@@ -115,13 +176,23 @@ export async function addToCart({
     0
   )
 
-  console.log("totalCartValue", totalCartValue)
-
-  // Dacă valoarea totală depășește 1000 RON, aplică reducerea automat
-  if ((totalCartValue ?? 0) > 100) { // 1000 RON în subunități
+  if ((totalCartValue ?? 0) > 100  && ( customer ? !customer?.metadata.discount_code : true)) { // 1000 RON în subunități
     const discountCode = "Lorena12"; // Codul discountului
     await applyPromotions([discountCode]); // Aplică automat discountul
   }
+  else if(customer?.metadata.discount_code)
+  {
+    const discountCode = 'Lorena50'; // Codul discountului
+    await applyPromotions([discountCode]); // Aplică automat discountul
+  }
+  
+
+  console.log("totalCartValue", totalCartValue)
+
+  // Dacă valoarea totală depășește 1000 RON, aplică reducerea automat
+  
+ 
+
 }
 
 
@@ -215,25 +286,54 @@ export async function enrichLineItems(
   return enrichedItems
 }
 
-export async function setShippingMethod({
-  cartId,
-  shippingMethodId,
-}: {
-  cartId: string
-  shippingMethodId: string
-}) {
-  return sdk.store.cart
-    .addShippingMethod(
+export async function setShippingMethod({ cartId }: { cartId: string }) {
+  try {
+    const cart = await retrieveCart();
+
+    if (!cart) {
+      throw new Error("Cart not found");
+    }
+
+    if (!cart.shipping_address) {
+      throw new Error("Shipping address is missing in the cart.");
+    }
+
+    // Obține costul calculat al livrării
+    const customShippingCost = await getCustomShippingCost(cart);
+
+    // Verifică dacă metoda de livrare există
+    const existingShippingMethod = cart.shipping_methods[0];
+    console.log("existingShippingMethod: ",existingShippingMethod)
+    if (!existingShippingMethod) {
+      throw new Error("No existing shipping method to update.");
+    }
+
+    console.log("Metoda curentă de livrare: ", existingShippingMethod);
+
+    // Trimite cererea către backend pentru a adăuga metoda de livrare
+    const response = await sdk.store.cart.addShippingMethod(
       cartId,
-      { option_id: shippingMethodId },
+      {
+        option_id: existingShippingMethod.shipping_option_id, // Asigură-te că `option_id` este valid
+      },
       {},
       getAuthHeaders()
-    )
-    .then(() => {
-      revalidateTag("cart")
-    })
-    .catch(medusaError)
+    );
+
+    console.log("Metoda de livrare setată cu succes:", response.cart);
+
+    // Revalidează coșul
+    revalidateTag("cart");
+
+    return response.cart;
+  } catch (error) {
+    console.error("Error setting custom shipping method:", error);
+    throw new Error("Eroare la actualizarea metodei de livrare existente.");
+  }
 }
+
+
+
 
 export async function initiatePaymentSession(
   cart: HttpTypes.StoreCart,

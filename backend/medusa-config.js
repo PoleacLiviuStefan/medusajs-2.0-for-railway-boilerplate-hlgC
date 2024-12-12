@@ -8,6 +8,7 @@ const backendUrl = process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'http://localhost:
 
 const plugins = [
   // 'medusa-fulfillment-manual'
+
 ];
 const stripeApiKey = process.env.STRIPE_API_KEY;
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -107,7 +108,8 @@ if (sendgridConfigured) {
           options: {
             channels: ['email'],
             api_key: sendgridApiKey,
-            from: sendgridFrom
+            from: sendgridFrom,
+            template: "d-a0210e5cca594f57bfe19c78b1cae85a"
           }
         }
       ]

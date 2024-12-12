@@ -10,9 +10,8 @@ const CursMainPreview = ({ imagine, subTitlu, titlu, descriere, redirectionare, 
       <Image
         src={imagine} // Imagini importate
         alt={titlu}
-        width={400} // Specifică lățimea și înălțimea pentru optimizare
-        height={300}
-        className="top-0  shadow-lg bg-black"
+
+        className="top-0 w-full h-auto shadow-lg bg-black"
       />
       <div className="relative top-0 py-[4rem]  w-[90%]  flex flex-col items-center">
         <h3 className=" font-norican text-[#DAA520]">{subTitlu}</h3>

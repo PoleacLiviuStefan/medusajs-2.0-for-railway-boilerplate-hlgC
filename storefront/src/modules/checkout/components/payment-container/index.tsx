@@ -22,7 +22,11 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
   disabled = false,
 }) => {
   const isDevelopment = process.env.NODE_ENV === "development"
-
+  console.log("PaymentProviderId:", paymentProviderId);
+  console.log("Is Manual Payment:", isManual(paymentProviderId));
+  
+  console.log("selectedPaymentOptionId ",selectedPaymentOptionId)
+  console.log("paymentProviderId ",paymentProviderId)
   return (
     <>
       <RadioGroup.Option

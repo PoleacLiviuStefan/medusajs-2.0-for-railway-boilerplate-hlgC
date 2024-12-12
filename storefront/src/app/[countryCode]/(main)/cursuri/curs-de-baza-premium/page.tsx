@@ -50,14 +50,17 @@ const CursDeBazaPremium = () => {
                   {" "}
                   KIT pentru acasa inclus in pret(690 lei)
                 </p>{" "}
-            <div className="flex    justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
+            <div className="flex  items-center  justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
               PRET TOTAL{" "}
               <div className="flex flex-col items-center ">
-                <h3 className="relative  text-[24px] font-extrabold text-[#DAA520]">
+                <span className="relative  text-[24px] font-extrabold text-[#DAA520]">
                   {" "}
-                  3190 lei{" "}
-                </h3>{" "}
-  
+                  2870 lei{" "}
+                </span>{" "}
+                <p className="relative flex flex-col justify-center items-center text-[18px] font-extrabold text-gray-300">
+                  {" "}
+                  <span>(10% Reducere)</span> <div> De la <span>3190</span> lei </div>{" "}
+                </p>{" "}
               </div>{" "}
             </div>
             <div>
@@ -147,7 +150,7 @@ const CursDeBazaPremium = () => {
             </h3>
             <h4 className="mt-[.5rem]">Ziua 1 :</h4>
             <ul className="">
-              <li className="py-2">09.00 &ndash; Coffe Break</li>
+              <li className="py-2">09.00 &ndash; Coffee Break</li>
               <li className="py-2">09.30&ndash;11.30 &ndash; Teorie</li>
               <li className="py-2">
                 11.30&ndash;12.00 &ndash; Pauza de masa(Masa suportata de academie)
@@ -159,21 +162,21 @@ const CursDeBazaPremium = () => {
             Ziua 2 :
             </h4>
             <ul>
-              <li>09:00 &ndash; Coffee Break</li>
-              <li>09:30&ndash;11:30 &ndash; Practica pe patch</li>
-              <li>11:30&ndash;12:00 &ndash; Pauza de masa(Masa suportata de academie)</li>
-              <li>12:00&ndash;16:00 &ndash; Practica Foxy pe model</li>
-              <li>16:00&ndash; 17:00 &ndash; Cum facem poze/video, Diplome, Poze </li>
+              <li className="py-2">09:00 &ndash; Coffee Break</li>
+              <li className="py-2">09:30&ndash;11:30 &ndash; Practica pe patch</li>
+              <li className="py-2">11:30&ndash;12:00 &ndash; Pauza de masa(Masa suportata de academie)</li>
+              <li className="py-2">12:00&ndash;16:00 &ndash; Practica Foxy pe model</li>
+              <li className="py-2">16:00&ndash; 17:00 &ndash; Cum facem poze/video, Diplome, Poze </li>
             </ul>
             <h4 className="mt-[.5rem]">
             Ziua 3 :
             </h4>
             <ul>
-              <li>09:00 &ndash; Coffee Break</li>
-              <li>09:30&ndash;10:30 &ndash; Introducere în lumea efectelor speciale</li>
-              <li>10:30&ndash;11:30 &ndash; Demonstrație trainer</li>
-              <li>11:30&ndash;12:00 &ndash; Pauza de masa(Masa suportata de academie)</li>
-              <li>12:00&ndash; 16:00 &ndash; Practica Efect Special la alegere </li>
+              <li className="py-2">09:00 &ndash; Coffee Break</li>
+              <li className="py-2">09:30&ndash;10:30 &ndash; Introducere în lumea efectelor speciale</li>
+              <li className="py-2">10:30&ndash;11:30 &ndash; Demonstrație trainer</li>
+              <li className="py-2">11:30&ndash;12:00 &ndash; Pauza de masa(Masa suportata de academie)</li>
+              <li className="py-2">12:00&ndash; 16:00 &ndash; Practica Efect Special la alegere </li>
             </ul>
             <h3 className="py-[1rem] text-[20px] font-bold text-center">Informatii curs</h3>
             <ul>

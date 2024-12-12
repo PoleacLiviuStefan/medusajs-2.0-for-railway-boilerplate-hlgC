@@ -6,7 +6,9 @@ import { mapKeys } from "lodash"
 import React, { useEffect, useMemo, useState } from "react"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
-
+import CountySelect from "../county-select"
+import LocalitySelect from "../locality-select"
+import { setShippingMethod } from "@lib/data/cart"
 const ShippingAddress = ({
   customer,
   cart,
@@ -57,6 +59,25 @@ const ShippingAddress = ({
         ...prevState,
         email: email,
       }))
+  }
+
+  const handleLocalityChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedCity = e.target.value
+    setFormData({
+      ...formData,
+      "shipping_address.city": selectedCity,
+    })
+
+    // Actualizează metoda de livrare
+    if (formData["shipping_address.province"]) {
+      try {
+        await setShippingMethod({ cartId: cart?.id })
+      } catch (error) {
+        console.error("Error updating shipping cost:", error)
+      }
+    }
   }
 
   useEffect(() => {
@@ -144,7 +165,15 @@ const ShippingAddress = ({
           required
           data-testid="shipping-postal-code-input"
         />
-        <Input
+        <LocalitySelect
+          name="shipping_address.city"
+          autoComplete="address-level2"
+          placeholder="Selectează localitatea"
+          value={formData["shipping_address.city"]}
+          county={formData["shipping_address.province"]}
+          onChange={handleLocalityChange}
+        />
+        {/* <Input
           label="Oras"
           name="shipping_address.city"
           autoComplete="address-level2"
@@ -152,7 +181,7 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-city-input"
-        />
+        /> */}
         <CountrySelect
           name="shipping_address.country_code"
           autoComplete="Tara"
@@ -162,7 +191,17 @@ const ShippingAddress = ({
           required
           data-testid="shipping-country-select"
         />
-        <Input
+        <CountySelect
+          name="shipping_address.province"
+          autoComplete="Judet"
+          region={cart?.region}
+          value={formData["shipping_address.province"]}
+          placeholder="Alege județ"
+          required
+          onChange={handleChange}
+        />
+
+        {/* <Input
           label="Judet / Sector"
           name="shipping_address.province"
           autoComplete="address-level1"
@@ -170,7 +209,7 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-province-input"
-        />
+        /> */}
       </div>
       <div className="my-8">
         <Checkbox

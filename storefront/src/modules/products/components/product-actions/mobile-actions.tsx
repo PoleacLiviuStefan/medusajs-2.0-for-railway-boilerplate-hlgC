@@ -95,14 +95,14 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 <div></div>
               )}
             </div>
-            <div className="grid grid-cols-2 w-full gap-x-4 z-50">
-              <Button
+            <div className="grid  w-full gap-x-4 z-50">
+              {/* <Button
                 onClick={open}
                 variant="secondary"
                 className="w-full"
                 data-testid="mobile-actions-button"
               >
-                {/*
+                
                 <div className="flex items-center justify-between w-full">
                   <span>
                     {variant
@@ -111,8 +111,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   </span>
                   <ChevronDown />
                 </div>
-                */}
-              </Button>
+                
+              </Button> */}
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}

@@ -1,7 +1,8 @@
 import React from "react"
-import cursDeBaza from "../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg"
-import cursDePerfectionare from "../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg"
-import cursVip from "../../../../../public/Imagini/cursuri/cursDeBaza_preview.jpg"
+import cursDeBaza from "../../../../../public/Imagini/cursuri/curs_de_baza_preview.jpg"
+import cursDeBazaPremium from "../../../../../public/Imagini/cursuri/curs_de_baza_premium_preview.jpg"
+import cursDePerfectionare from "../../../../../public/Imagini/cursuri/curs_de_efecte_speciale_preview.jpg"
+import cursVip from "../../../../../public/Imagini/cursuri/cursVip_preview.jpg"
 import CursMainPreview from "../../../(components)/Courses/CursMainPreview"
 import LorenaHero from '../../../../../public/Imagini/stiliste/lorena_3.png'
 import Hero from "app/(components)/Hero/Hero"
@@ -51,7 +52,7 @@ const page = () => {
           baza={true}
         />
               <CursMainPreview
-          imagine={cursDeBaza}
+          imagine={cursDeBazaPremium}
           titlu="Curs de baza PREMIUM (Baza&Efecte)"
           subTitlu="Curs de baza"
           descriere="Iti doresti sa ai propria ta AFACERE si sa-ti urmezi visul in domeniul BEAUTY? Acum este momentul sa CREZI in tine si sa FACI primul pas catre o noua CARIERA! Ne vom asigura ca drumul tau in lumea extensiilor de gene va duce catre SUCCES"
@@ -79,7 +80,7 @@ Vom rezolva problemele fiecarui cursant si vom adapta totul in functie de acesti
           descriere="Te-ai gandit vreodata ca iti doresti sa participi la un curs de baza unde toata atentia trainerului sa fie indreptata asupra ta? Atunci cursul VIP este alegerea perfcta pentru tine! 
 
 Iti doresti sa ai propria ta AFACERE si sa-ti urmezi visul in domeniul BEAUTY? Acum este momentul sa CREZI in tine si sa FACI primul pas catre o noua CARIERA! Ne vom asigura ca drumul tau in lumea extensiilor de gene va duce catre SUCCES"
-          redirectionare="curs-vip-de-baza"
+          redirectionare="curs-vip"
           baza={false}
         />
       </div>

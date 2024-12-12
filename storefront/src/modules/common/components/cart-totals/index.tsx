@@ -70,7 +70,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             Subtotal (excl. livrare)
           </span>
           <span data-testid="cart-subtotal" data-value={subtotal || 0}>
-            {convertToLocale({ amount: subtotal ?? 0, currency_code })}
+            {convertToLocale({ amount: totals.subtotal ?? 0, currency_code })}
           </span>
         </div>
         {!!discount_total && (
@@ -86,12 +86,14 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             </span>
           </div>
         )}
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
+          
           <span>Livrare</span>
           <span data-testid="cart-shipping" data-value={shipping_total || 0}>
             {convertToLocale({ amount: shipping_total ?? 0, currency_code })}
           </span>
-        </div>
+         
+        </div> */}
         {!!gift_card_total && (
           <div className="flex items-center justify-between">
             <span>Card Cadou</span>
@@ -124,7 +126,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             data-value={tax_total || 0}
             className="text-right"
           >
-            (include {convertToLocale({ amount: tax_total ?? 0, currency_code })} <br />  19% TVA)
+            (include {convertToLocale({ amount: total*0.19 , currency_code })} <br />  19% TVA)
           </span>
         </div>
       </div>
