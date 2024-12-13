@@ -8,7 +8,7 @@ const FullImg = ({imagini}) => {
         <span onClick={()=>{if(showImg>0) setShowImg(prev=>prev-=1); else setShowImg(imagini.length-1)}} className='text-[64px] lg:text-[200px] text-white cursor-pointer'><AiFillCaretLeft /></span>
         {
             imagini.map((imag,key)=>{
-                console.log(key)
+                
                 return <><img  className={`w-[50%] lg:w-[600px] ${key!==showImg && "hidden"}`} src={imag}  /></>
             })
       
