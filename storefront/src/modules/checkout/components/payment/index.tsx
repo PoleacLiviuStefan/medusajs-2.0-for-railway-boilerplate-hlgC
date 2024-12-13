@@ -84,11 +84,14 @@ const Payment = ({
 
   const handleSubmit = async () => {
     setIsLoading(true)
+    console.log("selectedPaymentMethod in submit: ",selectedPaymentMethod)
+    console.log("selectedPaymentMethod in submit verificare: ",isStripeFunc(selectedPaymentMethod))
+    console.log("active session ",isStripeFunc(selectedPaymentMethod))
     try {
       const shouldInputCard =
         isStripeFunc(selectedPaymentMethod) && !activeSession
 
-      if (!activeSession) {
+      if (!activeSession || selectedPaymentMethod==="pp_system_default") {
         await initiatePaymentSession(cart, {
           provider_id: selectedPaymentMethod,
         })
@@ -147,7 +150,7 @@ const Payment = ({
             <>
               <RadioGroup
                 value={selectedPaymentMethod}
-                onChange={(value: string) => setSelectedPaymentMethod(value)}
+                onChange={(value: string) => {setSelectedPaymentMethod(value); console.log("metoda selectata ",value)}}
               >
                 {availablePaymentMethods
                   .sort((a, b) => {
@@ -168,7 +171,7 @@ const Payment = ({
                     )
                   }})}
               </RadioGroup>
-              {isStripe && stripeReady && (
+              {selectedPaymentMethod!=="pp_system_default" && isStripe && stripeReady && (
                 <div className="mt-5 transition-all duration-150 ease-in-out">
                   <Text className="txt-medium-plus text-ui-fg-base mb-1">
                     Introdu datele cardului:
@@ -215,8 +218,9 @@ const Payment = ({
             onClick={handleSubmit}
             isLoading={isLoading}
             disabled={
-              (isStripe && !cardComplete) ||
-              (!selectedPaymentMethod && !paidByGiftcard)
+              selectedPaymentMethod!=="pp_system_default" &&
+              ((isStripe && !cardComplete) ||
+              (!selectedPaymentMethod && !paidByGiftcard))
             }
             data-testid="submit-payment-button"
           >

@@ -366,7 +366,7 @@ export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
     console.log("AWB generat cu succes:", awbData)
 
     // Finalizează comanda (dacă este necesar)
-    await placeOrder()
+    // await placeOrder()
   } catch (err: any) {
     console.error("Eroare la generarea AWB:", err)
    
