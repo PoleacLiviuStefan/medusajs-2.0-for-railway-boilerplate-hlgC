@@ -333,7 +333,7 @@ export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
         recipient: {
           name: `${cart.shipping_address.first_name} ${cart.shipping_address.last_name}`,
           phone: cart.shipping_address.phone,
-          email: cart.customer?.email ?? "N/A", // Email fallback //de modifica
+          email:  "N/A", // Email fallback //de modifica
           address: {
             county: cart.shipping_address.province, // Județul
             locality: cart.shipping_address.city, // Localitate
