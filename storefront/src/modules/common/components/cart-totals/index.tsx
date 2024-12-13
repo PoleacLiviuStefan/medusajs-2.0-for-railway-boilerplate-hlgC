@@ -3,6 +3,7 @@
 import { convertToLocale } from "@lib/util/money"
 import ItemsPreviewTemplate from "@modules/cart/templates/preview"
 import { HttpTypes } from "@medusajs/types"
+import { getCustomer } from "@lib/data/customer"
 
 type CartTotalsProps = {
   totals: {
@@ -17,7 +18,7 @@ type CartTotalsProps = {
   }
 }
 
-const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
+const CartTotals: React.FC<CartTotalsProps> = async ({ totals }) => {
   const {
     currency_code,
     total,
@@ -61,6 +62,9 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     unit_price: item.unit_price || 0,
   }))
 
+  const customer =  await getCustomer().catch(() => null);
+
+  console.log("eqwert: ",customer)
   return (
     <div>
       <div className="flex flex-col gap-y-2 txt-medium text-ui-fg-subtle ">
@@ -94,6 +98,13 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
               currency_code,
             })}
           </span>
+        </div>
+        <div className="flex items-center justify-center">
+        <span>
+  {customer.metadata?.adeziv && "Felicitari! O sa primesti un Adeziv Flawless Gratuit"}
+</span>
+
+        
         </div>
         {!!gift_card_total && (
           <div className="flex items-center justify-between">

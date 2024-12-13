@@ -98,67 +98,10 @@ const Buy = () => {
   )
 
   const perioadeCurs = [
-    coursesInfo[0]?.start_dates && coursesInfo[0].start_dates.length > 0
-      ? coursesInfo[0].start_dates.map((startDate, i) => {
-          const duration = coursesInfo[0].duration
-          const endDate = new Date(
-            new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000
-          )
-          const startDay = new Date(startDate).getDate()
-          const endDay = endDate.getDate()
-          const month = endDate.toLocaleString("ro-RO", { month: "long" })
-
-          // Dacă durata este 1, afișăm doar data de început
-          return duration === 1
-            ? `${startDay} ${month}`
-            : `${startDay}-${endDay} ${month}`
-        })
-      : [],
-    coursesInfo[1]?.start_dates && coursesInfo[1].start_dates.length > 0
-      ? coursesInfo[1].start_dates.map((startDate, i) => {
-          const duration = coursesInfo[1].duration
-          const endDate = new Date(
-            new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000
-          )
-          const startDay = new Date(startDate).getDate()
-          const endDay = endDate.getDate()
-          const month = endDate.toLocaleString("ro-RO", { month: "long" })
-
-          return duration === 1
-            ? `${startDay} ${month}`
-            : `${startDay}-${endDay} ${month}`
-        })
-      : [],
-    coursesInfo[2]?.start_dates && coursesInfo[2].start_dates.length > 0
-      ? coursesInfo[2].start_dates.map((startDate, i) => {
-          const duration = coursesInfo[2].duration
-          const endDate = new Date(
-            new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000
-          )
-          const startDay = new Date(startDate).getDate()
-          const endDay = endDate.getDate()
-          const month = endDate.toLocaleString("ro-RO", { month: "long" })
-
-          return duration === 1
-            ? `${startDay} ${month}`
-            : `${startDay}-${endDay} ${month}`
-        })
-      : [],
-      coursesInfo[3]?.start_dates && coursesInfo[3].start_dates.length > 0
-      ? coursesInfo[3].start_dates.map((startDate, i) => {
-          const duration = coursesInfo[3].duration
-          const endDate = new Date(
-            new Date(startDate).getTime() + (duration - 1) * 24 * 60 * 60 * 1000
-          )
-          const startDay = new Date(startDate).getDate()
-          const endDay = endDate.getDate()
-          const month = endDate.toLocaleString("ro-RO", { month: "long" })
-
-          return duration === 1
-            ? `${startDay} ${month}`
-            : `${startDay}-${endDay} ${month}`
-        })
-      : []
+   ["13-14 Ianuarie", "17-18 Februare", "24-25 Martie"],
+   ["15-16 Ianuare", "19-20 Februarie",'25-26 Martie'],
+   [],
+   ["13-14-15 Ianuarie","17-18-19 Februarie","24-25-26 Martie"]
   ]
 
   const fetchAvailableDates = async () => {

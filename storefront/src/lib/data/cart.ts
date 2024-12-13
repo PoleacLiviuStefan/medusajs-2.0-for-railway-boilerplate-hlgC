@@ -177,11 +177,12 @@ export async function addToCart({
     0
   )
 
-  if ((totalCartValue ?? 0) > 100  && ( customer ? !customer?.metadata.discount_code : true)) { // 1000 RON în subunități
-    const discountCode = "Lorena12"; // Codul discountului
-    await applyPromotions([discountCode]); // Aplică automat discountul
-  }
-  else if(customer?.metadata.discount_code)
+  // if ((totalCartValue ?? 0) > 100  && ( customer ? !customer?.metadata.discount_code : true)) { // 1000 RON în subunități
+  //   const discountCode = "Lorena12"; // Codul discountului
+  //   await applyPromotions([discountCode]); // Aplică automat discountul
+  // }
+  // else 
+  if(customer?.metadata.discount_code)
   {
     const discountCode = 'Lorena50'; // Codul discountului
     await applyPromotions([discountCode]); // Aplică automat discountul

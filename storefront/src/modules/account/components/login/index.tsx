@@ -59,7 +59,7 @@ const Login = ({ setCurrentView }: Props) => {
         </button>
         .
       </span>
-      <span className="text-center text-ui-fg-base text-medium-regular mt-6">
+      {/* <span className="text-center text-ui-fg-base text-medium-regular mt-6">
         Ai uitat parola?{" "}
         <LocalizedClientLink
           href="/reset-password"
@@ -69,7 +69,7 @@ const Login = ({ setCurrentView }: Props) => {
           Reseteaza Parola
         </LocalizedClientLink>
         .
-      </span>
+      </span> */}
     </div>
   )
 }

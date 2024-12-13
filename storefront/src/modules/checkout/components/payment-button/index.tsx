@@ -145,6 +145,7 @@ const StripePaymentButton = ({
       if (!stripe || !elements || !card || !cart) {
         throw new Error("Stripe sau detaliile necesare lipsesc.")
       }
+    
   
       // Generează AWB
       await getAwb({cart})
