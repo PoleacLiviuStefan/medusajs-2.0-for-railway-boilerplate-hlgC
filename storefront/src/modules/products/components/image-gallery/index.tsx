@@ -69,15 +69,15 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
 
       {/* Thumbnail images */}
       <div className="flex gap-x-4">
-        {images.map((image) => (
+        {images.map((image,index) => (
           <div
-            key={image.id}
+            key={index}
             onClick={() => setMainImage(image.url)}
             className="cursor-pointer relative aspect-[29/34] w-20 h-20 overflow-hidden bg-ui-bg-subtle"
           >
             <Image
               src={image.url}
-              alt={`Thumbnail image ${image.id}`}
+              alt={`Thumbnail image ${image?.id}`}
               width={80}
               height={100}
               className="absolute inset-0 rounded"

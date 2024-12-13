@@ -17,8 +17,8 @@ async function getCustomShippingCost(cart: HttpTypes.StoreCart) {
   if (!cart.shipping_address?.city || !cart.shipping_address?.province) {
     throw new Error("Shipping address is incomplete.");
   }
-
-  const apiUrl = `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/fanCourier/tariff`;
+  console.log("process este: ",process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL)
+  const apiUrl = `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL==undefined ? "http://localhost:9000" :process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL==undefined}/fanCourier/tariff`;
   console.log("API URL pentru tarif: ", apiUrl);
 
   try {
@@ -319,7 +319,7 @@ export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
           },
           weight: 2, // Greutatea pachetului
           payment: "recipient", // Plata la livrare
-          returnPayment: "cash", // Modalitatea de plată la retur
+          returnPayment: null, // Modalitatea de plată la retur
           observation: "Observatie", // Observații
           content: `Comanda ${cart.id}`, // Conținutul: ID-ul comenzii
           dimensions: {
@@ -333,7 +333,7 @@ export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
         recipient: {
           name: `${cart.shipping_address.first_name} ${cart.shipping_address.last_name}`,
           phone: cart.shipping_address.phone,
-          email:  "N/A", // Email fallback //de modifica
+          email:  "test@gmail.com", // Email fallback //de modifica
           address: {
             county: cart.shipping_address.province, // Județul
             locality: cart.shipping_address.city, // Localitate
@@ -345,8 +345,11 @@ export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
       },
     ],
   }
+
+  console.log("awb details sunt: ", awbDetails.shipments);
+  console.log("awb details address sunt: ", awbDetails.shipments[0].recipient.address);
   try {
-    const awbResponse = await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND}/external/fanCourier/awb`, {
+    const awbResponse = await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/fanCourier/awb`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

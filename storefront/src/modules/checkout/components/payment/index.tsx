@@ -11,7 +11,7 @@ import { StripeCardElementOptions } from "@stripe/stripe-js"
 
 import Divider from "@modules/common/components/divider"
 import PaymentContainer from "@modules/checkout/components/payment-container"
-import { isManual, isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper"
 import { initiatePaymentSession } from "@lib/data/cart"
 
@@ -39,8 +39,8 @@ const Payment = ({
   const pathname = usePathname()
 
   const isOpen = searchParams.get("step") === "payment"
-  console.log("este stripe: ",isStripeFunc(selectedPaymentMethod))
-  const isStripe = isStripeFunc(selectedPaymentMethod)
+
+  const isStripe = isStripeFunc(activeSession?.provider_id)
   const stripeReady = useContext(StripeContext)
 
   const paidByGiftcard =
@@ -94,13 +94,7 @@ const Payment = ({
         })
       }
 
-      if (isStripeFunc(selectedPaymentMethod) && !cardComplete) {
-        setError("Completează datele cardului.")
-        setIsLoading(false)
-        return
-      }
-
-      if (selectedPaymentMethod !== "pp_stripe_stripe") {
+      if (!shouldInputCard) {
         return router.push(
           pathname + "?" + createQueryString("step", "review"),
           {
@@ -118,20 +112,6 @@ const Payment = ({
   useEffect(() => {
     setError(null)
   }, [isOpen])
-
-  console.log("Selected Payment Method:", selectedPaymentMethod);
-console.log("Is Manual Payment (from selected):", isManual(selectedPaymentMethod));
-
-const handlePaymentMethodChange = async (value: string) => {
-  setSelectedPaymentMethod(value);
-
-  if (activeSession?.provider_id !== value) {
-    await initiatePaymentSession(cart, { provider_id: value });
-    router.refresh(); // Actualizează datele din coș pentru a reflecta noua sesiune
-  }
-};
-
-
 
   return (
     <div className="bg-white">
@@ -167,7 +147,7 @@ const handlePaymentMethodChange = async (value: string) => {
             <>
               <RadioGroup
                 value={selectedPaymentMethod}
-                onChange={(value: string) => handlePaymentMethodChange(value)}
+                onChange={(value: string) => setSelectedPaymentMethod(value)}
               >
                 {availablePaymentMethods
                   .sort((a, b) => {
@@ -178,40 +158,35 @@ const handlePaymentMethodChange = async (value: string) => {
                       (cart.total < 150 && paymentMethod.id === "pp_system_default") || 
                       paymentMethod.id !== "pp_system_default"
                     ) {
-                      return (
-                        <PaymentContainer
-                          paymentInfoMap={paymentInfoMap}
-                          paymentProviderId={paymentMethod.id}
-                          key={paymentMethod.id}
-                          selectedPaymentOptionId={selectedPaymentMethod}
-                        />
-                      );
-                    }
-                    return null; // Returnează null dacă condiția nu este îndeplinită
-                  })
-                  }
+                    return (
+                      <PaymentContainer
+                        paymentInfoMap={paymentInfoMap}
+                        paymentProviderId={paymentMethod.id}
+                        key={paymentMethod.id}
+                        selectedPaymentOptionId={selectedPaymentMethod}
+                      />
+                    )
+                  }})}
               </RadioGroup>
-              {isStripe &&
-                stripeReady &&
-                selectedPaymentMethod === "pp_stripe_stripe" && (
-                  <div className="mt-5 transition-all duration-150 ease-in-out">
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Introdu datele cardului:
-                    </Text>
+              {isStripe && stripeReady && (
+                <div className="mt-5 transition-all duration-150 ease-in-out">
+                  <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    Introdu datele cardului:
+                  </Text>
 
-                    <CardElement
-                      options={useOptions as StripeCardElementOptions}
-                      onChange={(e) => {
-                        setCardBrand(
-                          e.brand &&
-                            e.brand.charAt(0).toUpperCase() + e.brand.slice(1)
-                        )
-                        setError(e.error?.message || null)
-                        setCardComplete(e.complete)
-                      }}
-                    />
-                  </div>
-                )}
+                  <CardElement
+                    options={useOptions as StripeCardElementOptions}
+                    onChange={(e) => {
+                      setCardBrand(
+                        e.brand &&
+                          e.brand.charAt(0).toUpperCase() + e.brand.slice(1)
+                      )
+                      setError(e.error?.message || null)
+                      setCardComplete(e.complete)
+                    }}
+                  />
+                </div>
+              )}
             </>
           )}
 
@@ -234,22 +209,21 @@ const handlePaymentMethodChange = async (value: string) => {
             data-testid="payment-method-error-message"
           />
 
-<Button
-  size="large"
-  className="mt-6"
-  onClick={handleSubmit}
-  isLoading={isLoading}
-  disabled={
-    !selectedPaymentMethod || // Nicio metodă de plată nu este selectată
-    (isStripeFunc(selectedPaymentMethod) && !cardComplete) // Stripe necesită card complet
-  }
-  data-testid="submit-payment-button"
->
-  {!activeSession && isStripeFunc(selectedPaymentMethod)
-    ? " Introdu Datele Cardului"
-    : "Continua catre Revizuire"}
-</Button>
-
+          <Button
+            size="large"
+            className="mt-6"
+            onClick={handleSubmit}
+            isLoading={isLoading}
+            disabled={
+              (isStripe && !cardComplete) ||
+              (!selectedPaymentMethod && !paidByGiftcard)
+            }
+            data-testid="submit-payment-button"
+          >
+            {!activeSession && isStripeFunc(selectedPaymentMethod)
+              ? " Introdu Datele Cardului"
+              : "Continua catre Revizuire"}
+          </Button>
         </div>
 
         <div className={isOpen ? "hidden" : "block"}>
