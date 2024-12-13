@@ -20,7 +20,7 @@ const SearchResultsTemplate = ({
 }: SearchResultsTemplateProps) => {
   const pageNumber = page || 1
 
-console.log('Ceva')
+
   return (
     <div className="content-container">
       <div className="flex justify-between border-b w-full py-6 px-8 small:px-14 items-center">
