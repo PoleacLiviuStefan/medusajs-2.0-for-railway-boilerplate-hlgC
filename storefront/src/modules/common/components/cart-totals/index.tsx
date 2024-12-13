@@ -60,7 +60,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     },
     unit_price: item.unit_price || 0,
   }))
-  
 
   return (
     <div>
@@ -87,12 +86,14 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
           </div>
         )}
         <div className="flex items-center justify-between">
-          
           <span>Livrare</span>
           <span data-testid="cart-shipping" data-value={shipping_total || 0}>
-            {convertToLocale({ amount: shipping_total ?? 0, currency_code })}
+            {convertToLocale({
+              amount:
+                shipping_total !== 0 ? shipping_total : "Selecteaza o metoda",
+              currency_code,
+            })}
           </span>
-         
         </div>
         {!!gift_card_total && (
           <div className="flex items-center justify-between">
@@ -126,7 +127,8 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             data-value={tax_total || 0}
             className="text-right"
           >
-            (include {convertToLocale({ amount: total*0.19 , currency_code })} <br />  19% TVA)
+            (include {convertToLocale({ amount: total * 0.19, currency_code })}{" "}
+            <br /> 19% TVA)
           </span>
         </div>
       </div>

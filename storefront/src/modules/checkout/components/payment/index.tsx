@@ -174,15 +174,22 @@ const handlePaymentMethodChange = async (value: string) => {
                     return a.provider_id > b.provider_id ? 1 : -1
                   })
                   .map((paymentMethod) => {
-                    return (
-                      <PaymentContainer
-                        paymentInfoMap={paymentInfoMap}
-                        paymentProviderId={paymentMethod.id}
-                        key={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
-                      />
-                    )
-                  })}
+                    if (
+                      (cart.total < 150 && paymentMethod.id === "pp_system_default") || 
+                      paymentMethod.id !== "pp_system_default"
+                    ) {
+                      return (
+                        <PaymentContainer
+                          paymentInfoMap={paymentInfoMap}
+                          paymentProviderId={paymentMethod.id}
+                          key={paymentMethod.id}
+                          selectedPaymentOptionId={selectedPaymentMethod}
+                        />
+                      );
+                    }
+                    return null; // Returnează null dacă condiția nu este îndeplinită
+                  })
+                  }
               </RadioGroup>
               {isStripe &&
                 stripeReady &&

@@ -287,7 +287,25 @@ export async function enrichLineItems(
   return enrichedItems
 }
 
-
+export async function setShippingMethod({
+  cartId,
+  shippingMethodId,
+}: {
+  cartId: string
+  shippingMethodId: string
+}) {
+  return sdk.store.cart
+    .addShippingMethod(
+      cartId,
+      { option_id: shippingMethodId },
+      {},
+      getAuthHeaders()
+    )
+    .then(() => {
+      revalidateTag("cart")
+    })
+    .catch(medusaError)
+}
 
 export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
   const awbDetails = {
@@ -315,7 +333,7 @@ export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
         recipient: {
           name: `${cart.shipping_address.first_name} ${cart.shipping_address.last_name}`,
           phone: cart.shipping_address.phone,
-          email: cart.customer.email, // Email fallback //de modifica
+          email: cart.customer?.email ?? "N/A", // Email fallback //de modifica
           address: {
             county: cart.shipping_address.province, // Județul
             locality: cart.shipping_address.city, // Localitate
