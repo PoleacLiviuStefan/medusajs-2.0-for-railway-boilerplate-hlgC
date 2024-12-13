@@ -10,6 +10,7 @@ import { getAuthHeaders, getCartId, removeCartId, setCartId } from "./cookies"
 import { getProductsById } from "./products"
 import { getRegion } from "./regions"
 import { getCustomer } from "@lib/data/customer"
+import { listCartShippingMethods } from "./fulfillment"
 
 
 async function getCustomShippingCost(cart: HttpTypes.StoreCart) {
@@ -286,9 +287,75 @@ export async function enrichLineItems(
   return enrichedItems
 }
 
-export async function setShippingMethod({ cartId }: { cartId: string }) {
+
+
+export const getAwb = async ({cart} : {cart :HttpTypes.StoreCart}) => {
+  const awbDetails = {
+    shipments: [
+      {
+        info: {
+          service: "Standard",
+          packages: {
+            parcel: 1,
+            envelopes: 0,
+          },
+          weight: 2, // Greutatea pachetului
+          payment: "recipient", // Plata la livrare
+          returnPayment: "cash", // Modalitatea de plată la retur
+          observation: "Observatie", // Observații
+          content: `Comanda ${cart.id}`, // Conținutul: ID-ul comenzii
+          dimensions: {
+            length: 10,
+            height: 20,
+            width: 30,
+          },
+          costCenter: "DEP LOGISTICS",
+          options: ["X"],
+        },
+        recipient: {
+          name: `${cart.shipping_address.first_name} ${cart.shipping_address.last_name}`,
+          phone: cart.shipping_address.phone,
+          email: cart.customer.email, // Email fallback //de modifica
+          address: {
+            county: cart.shipping_address.province, // Județul
+            locality: cart.shipping_address.city, // Localitate
+            street: cart.shipping_address.address_1, // Stradă
+            streetNo: cart.shipping_address.address_2 ?? "", // Număr stradă
+            zipCode: cart.shipping_address.postal_code, // Cod poștal
+          },
+        },
+      },
+    ],
+  }
   try {
+    const awbResponse = await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND}/external/fanCourier/awb`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(awbDetails),
+    })
+
+    const awbData = await awbResponse.json()
+
+    if (!awbResponse.ok) {
+      throw new Error(awbData.message || "Generare AWB eșuată.")
+    }
+
+    console.log("AWB generat cu succes:", awbData)
+
+    // Finalizează comanda (dacă este necesar)
+    await placeOrder()
+  } catch (err: any) {
+    console.error("Eroare la generarea AWB:", err)
+   
+  }
+}
+export async function setCustomShippingMethod({ cartId }: { cartId: string }) {
+  try {
+    // Obține coșul actual
     const cart = await retrieveCart();
+    console.log("Cart primit în setCustomShippingMethod: ", cart);
 
     if (!cart) {
       throw new Error("Cart not found");
@@ -298,29 +365,40 @@ export async function setShippingMethod({ cartId }: { cartId: string }) {
       throw new Error("Shipping address is missing in the cart.");
     }
 
-    // Obține costul calculat al livrării
-    const customShippingCost = await getCustomShippingCost(cart);
+    // Obține metodele de livrare disponibile
+    const shippingMethods = await listCartShippingMethods(cart.id);
 
-    // Verifică dacă metoda de livrare există
-    const existingShippingMethod = cart.shipping_methods[0];
-    console.log("existingShippingMethod: ",existingShippingMethod)
-    if (!existingShippingMethod) {
-      throw new Error("No existing shipping method to update.");
+    if (!shippingMethods || shippingMethods.length === 0) {
+      throw new Error("No available shipping methods for this cart.");
     }
 
-    console.log("Metoda curentă de livrare: ", existingShippingMethod);
+    const selectedShippingMethod = shippingMethods.find(
+      (method) => method.id === "so_01JA8YYS3AQCT2MZGVATADWS85"
+    );
+    console.log("Metoda găsită: ", selectedShippingMethod);
 
-    // Trimite cererea către backend pentru a adăuga metoda de livrare
+    if (!selectedShippingMethod) {
+      throw new Error("Selected shipping method not found.");
+    }
+
+    // Calculează costul livrării personalizate
+    const customShippingCost = await getCustomShippingCost(cart);
+    console.log("Costul calculat pentru livrare: ", customShippingCost);
+
+    // Actualizează metoda de livrare selectată cu cost personalizat
     const response = await sdk.store.cart.addShippingMethod(
       cartId,
       {
-        option_id: existingShippingMethod.shipping_option_id, // Asigură-te că `option_id` este valid
+        option_id: selectedShippingMethod.id, // ID-ul metodei selectate
+        data: {
+          custom_cost: customShippingCost, // Cost personalizat
+        },
       },
       {},
       getAuthHeaders()
     );
 
-    console.log("Metoda de livrare setată cu succes:", response.cart);
+    console.log("Metoda de livrare adăugată cu succes: ", response.cart);
 
     // Revalidează coșul
     revalidateTag("cart");
@@ -328,10 +406,9 @@ export async function setShippingMethod({ cartId }: { cartId: string }) {
     return response.cart;
   } catch (error) {
     console.error("Error setting custom shipping method:", error);
-    throw new Error("Eroare la actualizarea metodei de livrare existente.");
+    throw new Error("Eroare la setarea metodei de livrare personalizate.");
   }
 }
-
 
 
 

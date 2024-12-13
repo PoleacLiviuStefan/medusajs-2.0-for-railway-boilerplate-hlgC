@@ -28,7 +28,7 @@ export const paymentInfoMap: Record<
   },
   pp_system_default: {
     title: "Manual Payment",
-    icon: <CreditCard />,
+    icon: <Ideal />,
   },
   // Add more payment providers here
 }

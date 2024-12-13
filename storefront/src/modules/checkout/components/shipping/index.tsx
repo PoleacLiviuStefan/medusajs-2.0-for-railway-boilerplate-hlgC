@@ -9,7 +9,6 @@ import Radio from "@modules/common/components/radio"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { setShippingMethod } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 
@@ -47,20 +46,29 @@ const Shipping: React.FC<ShippingProps> = ({
   }
 
   const set = async (id: string) => {
-    setIsLoading(true)
-    await setShippingMethod({ cartId: cart.id })
-      .catch((err) => {
-        setError(err.message)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
-
+    if (!cart || !cart.id) {
+      setError("Cart not found or cart ID is missing");
+      return;
+    }
+  
+    setIsLoading(true);
+  
+    // try {
+    //   await setShippingMethod({ cartId: cart.id });
+    // } catch (err) {
+    //   setError(err.message);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+  };
+  
   useEffect(() => {
     setError(null)
   }, [isOpen])
 
+  useEffect(()=>{
+      set(cart.id)
+  },[cart])
   return (
     <div className="bg-white">
       <div className="flex flex-row items-center justify-between mb-6">

@@ -13,6 +13,8 @@ const plugins = [
 const stripeApiKey = process.env.STRIPE_API_KEY;
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const stripeConfigured = stripeApiKey && stripeWebhookSecret;
+const sendgridApiKey = process.env.SENDGRID_API_KEY;
+const sendgridFrom = process.env.SENDGRID_FROM_EMAIL;
 const modules = {
   [Modules.AUTH]: {
     resolve: '@medusajs/auth',
@@ -55,7 +57,24 @@ const modules = {
         }
       ]
     }
-  }
+  },
+[Modules.NOTIFICATION]: {
+    resolve: '@medusajs/notification',
+    options: {
+      providers: [
+        {
+          resolve: '@medusajs/notification-sendgrid',
+          id: 'sendgrid',
+          options: {
+            channels: ['email'],
+            api_key: sendgridApiKey,
+            from: sendgridFrom,
+            template: "d-a0210e5cca594f57bfe19c78b1cae85a"
+          }
+        }
+      ]
+    }
+  },
 };
 
 // Redis configuration
@@ -93,29 +112,28 @@ const modules = {
 // }
 
 // SendGrid notification provider
-const sendgridApiKey = process.env.SENDGRID_API_KEY;
-const sendgridFrom = process.env.SENDGRID_FROM_EMAIL;
-const sendgridConfigured = sendgridApiKey && sendgridFrom;
-if (sendgridConfigured) {
-  console.log('SendGrid api key and from address found, enabling SendGrid notification provider');
-  modules[Modules.NOTIFICATION] = {
-    resolve: '@medusajs/notification',
-    options: {
-      providers: [
-        {
-          resolve: '@medusajs/notification-sendgrid',
-          id: 'sendgrid',
-          options: {
-            channels: ['email'],
-            api_key: sendgridApiKey,
-            from: sendgridFrom,
-            template: "d-a0210e5cca594f57bfe19c78b1cae85a"
-          }
-        }
-      ]
-    }
-  };
-}
+
+// const sendgridConfigured = sendgridApiKey && sendgridFrom;
+// if (sendgridConfigured) {
+//   console.log('SendGrid api key and from address found, enabling SendGrid notification provider');
+//   modules[Modules.NOTIFICATION] = {
+//     resolve: '@medusajs/notification',
+//     options: {
+//       providers: [
+//         {
+//           resolve: '@medusajs/notification-sendgrid',
+//           id: 'sendgrid',
+//           options: {
+//             channels: ['email'],
+//             api_key: sendgridApiKey,
+//             from: sendgridFrom,
+//             template: "d-a0210e5cca594f57bfe19c78b1cae85a"
+//           }
+//         }
+//       ]
+//     }
+//   };
+// }
 
 /** @type {import('@medusajs/medusa').ConfigModule['projectConfig']} */
 const projectConfig = {

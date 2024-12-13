@@ -45,7 +45,7 @@ const Page = () => {
                   KIT pentru acasa inclus in pret(690 lei)
                 </p>{" "}
                 <div className="flex  items-center  justify-between w-full text-[18px] lg:text-[20px] font-thin mt-[1rem]">
-              1 ZI{" "}
+              2 ZILE{" "}
               <div className="flex flex-col items-center ">
                 <span className="relative  text-[24px] font-extrabold text-[#DAA520]">
                   {" "}
@@ -101,7 +101,7 @@ const Page = () => {
               <p className='mt-[1rem] font-bold text-[18px] leading-[17px] lg:leading-[23px] lg:text-[24px]'>
                 Nu te simți încă pregătită pentru acest curs? Îl poți urma mai întâi pe cel de bază.
               </p>
-              <LocalizedClientLink href={`/curs-de-baza`}>
+              <LocalizedClientLink href={`/cursuri/curs-de-baza`}>
                 <button 
                   onClick={() => { window.scrollTo({ top: 0, left: 0 }); }} 
                   className='border-[1px] border-yellow-400 font-bold px-[4rem] py-[.5rem] mt-[1rem] transition ease-in-out duration-300 hover:bg-yellow-400 hover:text-white'

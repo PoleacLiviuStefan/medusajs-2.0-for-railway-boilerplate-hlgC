@@ -28,7 +28,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                 className="txt-medium text-ui-fg-subtle"
                 data-testid="payment-method"
               >
-                {paymentInfoMap[payment.provider_id].title}
+                {paymentInfoMap[payment.provider_id].title==='Manual Payment' ? "Plata Cash": paymentInfoMap[payment.provider_id].title}
               </Text>
             </div>
             <div className="flex flex-col w-2/3">
@@ -45,7 +45,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                     : `${convertToLocale({
                         amount: payment.amount,
                         currency_code: order.currency_code,
-                      })} paid at ${new Date(
+                      })} platit la ora ${new Date(
                         payment.created_at ?? ""
                       ).toLocaleString()}`}
                 </Text>

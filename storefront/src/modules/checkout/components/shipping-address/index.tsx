@@ -8,7 +8,7 @@ import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
 import CountySelect from "../county-select"
 import LocalitySelect from "../locality-select"
-import { setShippingMethod } from "@lib/data/cart"
+import { setCustomShippingMethod } from "@lib/data/cart"
 const ShippingAddress = ({
   customer,
   cart,
@@ -71,13 +71,13 @@ const ShippingAddress = ({
     })
 
     // Actualizează metoda de livrare
-    if (formData["shipping_address.province"]) {
-      try {
-        await setShippingMethod({ cartId: cart?.id })
-      } catch (error) {
-        console.error("Error updating shipping cost:", error)
-      }
-    }
+    // if (formData["shipping_address.province"]) {
+    //   try {
+    //     await setCustomShippingMethod({ cartId: cart?.id })
+    //   } catch (error) {
+    //     console.error("Error updating shipping cost:", error)
+    //   }
+    // }
   }
 
   useEffect(() => {

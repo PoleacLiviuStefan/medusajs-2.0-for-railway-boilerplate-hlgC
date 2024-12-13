@@ -19,6 +19,7 @@ import { SubmitButton } from "../submit-button"
 const Addresses = ({
   cart,
   customer,
+
 }: {
   cart: HttpTypes.StoreCart | null
   customer: HttpTypes.StoreCustomer | null

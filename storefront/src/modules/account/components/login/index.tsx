@@ -5,6 +5,7 @@ import Input from "@modules/common/components/input"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { login } from "@lib/data/customer"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -56,6 +57,17 @@ const Login = ({ setCurrentView }: Props) => {
         >
           Inregistreaza-te!
         </button>
+        .
+      </span>
+      <span className="text-center text-ui-fg-base text-medium-regular mt-6">
+        Ai uitat parola?{" "}
+        <LocalizedClientLink
+          href="/reset-password"
+          className="underline"
+          data-testid="register-button"
+        >
+          Reseteaza Parola
+        </LocalizedClientLink>
         .
       </span>
     </div>

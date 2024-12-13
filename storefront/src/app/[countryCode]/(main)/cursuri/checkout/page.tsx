@@ -163,7 +163,7 @@ const Buy = () => {
 
   const fetchAvailableDates = async () => {
     try {
-      const response = await fetch(`http://localhost:9000/external/course`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/external/course`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

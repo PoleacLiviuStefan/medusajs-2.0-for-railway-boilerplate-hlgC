@@ -86,14 +86,14 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             </span>
           </div>
         )}
-        {/* <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           
           <span>Livrare</span>
           <span data-testid="cart-shipping" data-value={shipping_total || 0}>
             {convertToLocale({ amount: shipping_total ?? 0, currency_code })}
           </span>
          
-        </div> */}
+        </div>
         {!!gift_card_total && (
           <div className="flex items-center justify-between">
             <span>Card Cadou</span>
