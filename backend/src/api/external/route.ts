@@ -11,7 +11,7 @@ const pool = new Pool({
 
 // Endpoint pentru a obține toate cursurile
 export const GET = async (req: Request, res: Response) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+  res.setHeader('Access-Control-Allow-Origin', process.env.STORE_CORS);
   res.setHeader('Access-Control-Allow-Credentials', 'true'); // dacă trimiți cookie-uri/sesiuni
   try {
     const result = await pool.query(`SELECT id, name, start_dates, duration FROM course`);
