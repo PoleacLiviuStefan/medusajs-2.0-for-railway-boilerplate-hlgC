@@ -31,7 +31,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "backend-production-f021.up.railway.app", // Adaugă acest domeniu
+        hostname: "backend-production-3a4a.up.railway.app", // Adaugă acest domeniu
       },
     ],
   },
