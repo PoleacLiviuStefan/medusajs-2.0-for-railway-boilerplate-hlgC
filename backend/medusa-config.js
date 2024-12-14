@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
 
-const backendUrl = "www.api.lorenalash.ro";
+const backendUrl = "https://www.api.lorenalash.ro" 
 
 const plugins = [
   // 'medusa-fulfillment-manual'
